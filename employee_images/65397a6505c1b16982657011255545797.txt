@@ -1,0 +1,149 @@
+public interface ApiCalls {
+
+    @FormUrlEncoded
+    @POST("Login")
+    Call<Res_ModelLogin> Login(@Field("user_email") String userEmail,
+                               @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("Signup")
+    Call<Res_ModelSignUp> SignUp(@Field("user_email") String userEmail,
+                                 @Field("password") String password,
+                                 @Field("user_role") int role);
+
+    @GET("Cities")
+    Call<Res_ModelCities> GetCities();
+
+    @GET("Countries")
+    Call<Res_ModelCountries> GetCountries();
+
+    @GET("Categories")
+    Call<Res_ModelCatgories> GetCatgories();
+
+    //All Security Jobs
+    @GET("CatJobs/2")
+    Call<Res_ModelAllJobs> GetSecurityJobs();
+
+    //All Cleaner Jobs
+    @GET("CatJobs/1")
+    Call<Res_ModelAllJobs> GetCleanerJobs();
+
+    //All Cleaner Jobs
+    @GET("CatJobs/{cat_id}")
+    Call<Res_ModelAllJobs> GetSelectedCategoryJobs(@Path("cat_id") int catId);
+
+    @GET("AllJobs")
+    Call<Res_ModelAllJobs> GetAllJobs();
+
+    @GET("AppliedJobs/{user_id}")
+    Call<Res_ModelAllJobs> GetAppliedJobs(@Path("user_id") int id);
+
+    @FormUrlEncoded
+    @POST("ApplyJob")
+    Call<Res_General> ApplyJob(@Field("user_id") int userId,
+                               @Field("job_id") int jobId,
+                               @Field("short_list") int shortList);
+
+
+    @Multipart
+    @POST("UpdateEmpProfile")
+    Call<Res_General> UpdateCanProfile(@Part("user_id") RequestBody user_id,
+                                       @Part("category_id") RequestBody category_id,
+                                       @Part("first_name") RequestBody first_name,
+                                       @Part("last_name") RequestBody last_name,
+                                       @Part("gender") RequestBody gender,
+                                       @Part("birth_date") RequestBody birth_date,
+                                       @Part("address") RequestBody address,
+                                       @Part("town") RequestBody town,
+                                       @Part("country") RequestBody country,
+                                       @Part("email") RequestBody email,
+                                       @Part("phone") RequestBody phone,
+                                       @Part("birth_city") RequestBody birth_city,
+                                       @Part("nationality") RequestBody nationality,
+                                       @Part("insurance_no") RequestBody insurance_no,
+                                       @Part("e_contact_name") RequestBody e_contact_name,
+                                       @Part("e_contact_relation") RequestBody e_contact_relation,
+                                       @Part("e_contact_phone") RequestBody e_contact_phone,
+                                       @Part("badge_type") RequestBody badge_type,
+                                       @Part("badge_number") RequestBody badge_number,
+                                       @Part("bank_sort_code") RequestBody bank_sort_code,
+                                       @Part("badge_expiry") RequestBody badge_expiry,
+                                       @Part("account_number") RequestBody account_number,
+                                       @Part("name_of_account") RequestBody name_of_account,
+                                       @Part("visa_required") RequestBody visa_required,
+                                       @Part("uk_driving_licence") RequestBody uk_driving_licence,
+                                       @Part("post_code") RequestBody post_code,
+                                       @Part("utr_number") RequestBody utr_number,
+                                       @Part("status") RequestBody status,
+                                       @Part MultipartBody.Part profile_image,
+                                       @Part MultipartBody.Part passport_image,
+                                       @Part MultipartBody.Part utility_image,
+                                       @Part MultipartBody.Part resident_image,
+                                       @Part MultipartBody.Part badge_image
+    );
+
+
+    @GET("CanProfileStatus/{user_id}")
+    Call<Res_ModelCanProfileStatus> GetCanProfileStatus(@Path("user_id") int id);
+
+
+    @GET("ComProfileStatus/{user_id}")
+    Call<Res_ModelComProfileStatus> GetComProfileStatus(@Path("user_id") int id);
+
+
+    @GET("ComProfile/{user_id}")
+    Call<Res_ModelComProfile> GetComProfile(@Path("user_id") int id);
+
+
+    @GET("CanProfile/{user_id}")
+    Call<Res_ModelCanShowProfile> GetCanShowProfile(@Path("user_id") int id);
+
+
+    @GET("ComJobs/{user_id}")
+    Call<Res_ModelComJobList> GetComList(@Path("user_id") int id);
+
+
+    @Multipart
+//    @FormUrlEncoded
+    @POST("UpdateComProfile")
+    Call<Res_General> upDateProf(@Part("user_id") RequestBody user_id,
+                                 @Part("company_name") RequestBody company_name,
+                                 @Part("c_mail") RequestBody c_mail,
+                                 @Part("c_phone") RequestBody c_phone,
+                                 @Part("c_website") RequestBody c_website,
+                                 @Part("c_team_size") RequestBody c_team_size,
+                                 @Part("c_about_company") RequestBody c_about_company,
+                                 @Part("registration_no") RequestBody registrationNo,
+                                 @Part("c_country") RequestBody c_country,
+                                 @Part("c_city") RequestBody c_city,
+                                 @Part("c_address") RequestBody c_address,
+                                 @Part MultipartBody.Part company_logo,
+                                 @Part("status") RequestBody status);
+
+
+    @FormUrlEncoded
+    @POST("PostNewJob")
+    Call<Res_General> PostNewJob(@Field("title") String title,
+                                 @Field("no_of_postions") int no_of_postions,
+                                 @Field("experience") int experience,
+                                 @Field("address") String address,
+                                 @Field("category") int category,
+                                 @Field("city") int city,
+                                 @Field("start_time") String start_time,
+                                 @Field("end_time") String end_time,
+                                 @Field("date_time") String date_time,
+                                 @Field("company_id") int company_id,
+                                 @Field("approve") int approve,
+                                 @Field("career") int career,
+                                 @Field("type") int type,
+                                 @Field("description") String description,
+                                 @Field("apply_date") String apply_date,
+                                 @Field("country") int country,
+                                 @Field("job_price") String job_price
+                                 );
+
+
+    @GET("AllAssEmp/{job_id}")
+    Call<Res_ModelAllAssEmp> GetAllAssEmp(@Path("job_id") int id);
+
+}

@@ -1,0 +1,349 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+class Candidate_Model extends CI_Model
+{
+
+    public function getUserInfo($user_id)
+    {
+        $this->db->select('*');
+        $this->db->where("user_id", $user_id);
+        $query = $this->db->get('employee_profile');
+        return $query->row();
+
+    }
+    public function getjobsCategory($id)
+    {
+        $this->db->select('COUNT(id) as count');
+        $this->db->where("approve", 1);
+        $this->db->where("category", $id);
+        $this->db->where("deleted", NULL);
+        $query = $this->db->get('jobs');
+        $result = $query->row();
+        return $result->count;
+
+    }
+    
+    public function getalljobs()
+    {
+        $this->db->select('j.*,c.category_name,co.country_name');
+        if ($this->session->userdata['rolecode'] == 3) {
+            $this->db->where("j.company_id", $this->session->userdata['user_id']);
+            //$this->db->where("j.approve",1);
+            $this->db->join('job_category c', 'c.id=j.category', 'left');
+            $this->db->join('country co', 'co.id=j.city', 'left');
+        } else {
+            $this->db->where("j.approve", 0);
+            $this->db->join('job_category c', 'c.id=j.category', 'left');
+            $this->db->join('country co', 'co.id=j.city', 'left');
+        }
+        $query = $this->db->get('jobs j');
+        return $query->result();
+
+    }
+    public function getapprovedjobs()
+    {
+        $this->db->select('j.*,c.category_name,co.country_name');
+
+        if ($this->session->userdata['user_id'] != '') {
+            $this->db->where("e.user_id", $this->session->userdata['user_id']);
+        }
+        $this->db->where("j.approve", 1);
+        $this->db->join('job_category c', 'c.id=j.category', 'left');
+        $this->db->join('employee_profile e', 'e.category_id=j.category');
+        $this->db->join('country co', 'co.id=j.city', 'left');
+        $query = $this->db->get('jobs j');
+        return $query->result();
+
+    }
+
+    public function getallapprovedjobs($cat_id='')
+    {
+        $this->db->select('j.*,c.category_name,co.country_name,c.title,c.description');
+        if ($this->session->userdata('rolecode') == 2) {
+            if ($this->session->userdata('category_id') != 0) {
+                $this->db->where('j.category', $this->session->userdata('category_id'));
+                $this->db->where('j.deleted', NULL);
+            } else {
+                $this->db->where('j.category', 0);
+                $this->db->where('j.deleted', NULL);
+            }
+        }
+        if($cat_id!=''){
+            $this->db->where("j.category", $cat_id);
+        }
+        $this->db->where('j.deleted', NULL);
+        $this->db->where("j.approve", 1);
+        $this->db->join('job_category c', 'c.id=j.category', 'left');
+        $this->db->join('country co', 'co.id=j.city', 'left');
+        $query = $this->db->get('jobs j');
+        return $query->result();
+
+    }
+
+    public function applied_jobs()
+    {
+        $this->db->select('j.*,c.category_name,co.country_name,u.short_list');
+        $this->db->where("u.user_id", $this->session->userdata['user_id']);
+        $this->db->join('job_category c', 'c.id=j.category', 'left');
+        $this->db->join('country co', 'co.id=j.city', 'left');
+        $this->db->join('user_jobs u', 'j.id=u.job_id', 'left');
+        $query = $this->db->get('jobs j');
+        return $query->result();
+
+    }
+
+    public function getuseremail($rolecode)
+    {
+        $query = $this->db->select('user_email')
+            ->where('user_role', $rolecode)
+            ->get('users');
+        //$result=$query->row();
+        return $query->result();
+    }
+
+    public function get_cat_title_description($id)
+    {
+        $query = $this->db->select('title,description')
+            ->where('id', $id)
+            ->get('job_category');
+        //$result=$query->row();
+        return $query->row();
+    }
+    public function getuseremail1($job_id)
+    {
+        $this->db->select('u.user_email, e.user_id');
+        $this->db->where('j.id', $job_id);
+        $this->db->join('employer_profile e', 'e.id=j.company_id', 'left');
+        $this->db->join('users u', 'u.id=e.user_id', 'left');
+        $query = $this->db->get('jobs j');
+        // print_r($this->db->last_query());exit();
+        //$result=$query->row();
+        return $query->result();
+    }
+        public function getuseremail_approve($job_id)
+    {
+        $this->db->select('u.user_email, e.user_id');
+        $this->db->where('j.id', $job_id);
+        $this->db->join('employer_profile e', 'e.user_id=j.company_id', 'left');
+        $this->db->join('users u', 'u.id=e.user_id', 'left');
+        $query = $this->db->get('jobs j');
+        // print_r($this->db->last_query());exit();
+        //$result=$query->row();
+        return $query->result();
+    }
+     public function getuseremail_id($user_id)
+    {
+        $this->db->select('u.user_email');
+        $this->db->where('u.id', $user_id);
+        $query = $this->db->get('users u');
+        //$result=$query->row();
+        return $query->result();
+    }
+    public function getuseremail2($job_id)
+    {
+        $this->db->select('u.user_email');
+        $this->db->where('e.id', $job_id);
+        $this->db->join('users u', 'u.id=e.user_id', 'left');
+        $query = $this->db->get('employee_profile e');
+        //$result=$query->row();
+        return $query->result();
+    }
+
+    public function getuseremail3($job_id)
+    {
+        $this->db->select('u.user_email');
+        $this->db->where('e.id', $job_id);
+        $this->db->join('users u', 'u.id=e.user_id', 'left');
+        $query = $this->db->get('employer_profile e');
+        //$result=$query->row();
+        return $query->result();
+    }
+
+    public function getcity()
+    {
+        $query = $this->db->select('*')
+            ->get('city');
+        return $query->result();
+    }
+    public function getcountry()
+    {
+        $query = $this->db->select('*')
+            ->get('country');
+        return $query->result();
+    }
+
+    public function getAgency($uid)
+    {
+        $ret = $this->db->select('*')
+            ->where('id', $uid)
+            ->get('agency');
+        return $ret->row();
+    }
+
+    // Function for use deletion
+    public function deletecity($uid)
+    {
+        $sql_query = $this->db->where('id', $uid)
+            ->delete('agency');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+    public function update_Candidate($data)
+    {
+        $this->db->where('user_id', $this->session->userdata['user_id']);
+        $sql_query = $this->db->update('employee_profile', $data);
+        return true;
+
+    }
+    public function add_Candidate($data)
+    {
+        $sql_query = $this->db->insert('employee_profile', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+
+        } else {
+            return false;
+        }
+
+    }
+    public function edit_agency($userInfo, $cat_id)
+    {
+        $this->db->where('id', $cat_id);
+        $this->db->update('agency', $userInfo);
+
+        return true;
+    }
+
+    public function compress_image($source_file, $target_file, $nwidth, $nheight, $quality)
+    {
+
+        //Return an array consisting of image type, height, widh and mime type.
+
+        $image_info = getimagesize($source_file);
+
+        if (!($nwidth > 0)) {
+            $nwidth = $image_info[0];
+        }
+
+        if (!($nheight > 0)) {
+            $nheight = $image_info[1];
+        }
+
+        /*echo '<pre>';
+
+        print_r($image_info);*/
+
+        if (!empty($image_info)) {
+
+            switch ($image_info['mime']) {
+
+                case 'image/jpeg':
+
+                    if ($quality == '' || $quality < 0 || $quality > 100) {
+                        $quality = 75;
+                    }
+                    //Default quality
+
+                    // Create a new image from the file or the url.
+
+                    $image = imagecreatefromjpeg($source_file);
+
+                    $thumb = imagecreatetruecolor($nwidth, $nheight);
+
+                    //Resize the $thumb image
+
+                    imagecopyresized($thumb, $image, 0, 0, 0, 0, $nwidth, $nheight, $image_info[0], $image_info[1]);
+
+                    // Output image to the browser or file.
+
+                    return imagejpeg($thumb, $target_file, $quality);
+
+                    break;
+
+                case 'image/png':
+
+                    if ($quality == '' || $quality < 0 || $quality > 9) {
+                        $quality = 6;
+                    }
+                    //Default quality
+
+                    // Create a new image from the file or the url.
+
+                    $image = imagecreatefrompng($source_file);
+
+                    $thumb = imagecreatetruecolor($nwidth, $nheight);
+
+                    //Resize the $thumb image
+
+                    imagecopyresized($thumb, $image, 0, 0, 0, 0, $nwidth, $nheight, $image_info[0], $image_info[1]);
+
+                    // Output image to the browser or file.
+
+                    return imagepng($thumb, $target_file, $quality);
+
+                    break;
+
+                case 'image/gif':
+
+                    if ($quality == '' || $quality < 0 || $quality > 100) {
+                        $quality = 75;
+                    }
+                    //Default quality
+
+                    // Create a new image from the file or the url.
+
+                    $image = imagecreatefromgif($source_file);
+
+                    $thumb = imagecreatetruecolor($nwidth, $nheight);
+
+                    //Resize the $thumb image
+
+                    imagecopyresized($thumb, $image, 0, 0, 0, 0, $nwidth, $nheight, $image_info[0], $image_info[1]);
+
+                    // Output image to the browser or file.
+
+                    return imagegif($thumb, $target_file, $quality); //$success = true;
+
+                    break;
+
+                default:
+
+                    echo "<h4>Not supported file type!</h4>";
+
+                    break;
+
+            }
+
+        }
+
+    }
+    function fetch_city($region_id)
+    {
+        $this->db->where('region_id', $region_id);
+        $this->db->order_by('city_name', 'ASC');
+        $query = $this->db->get('city');
+        $output = '<option value="">Select Town/City</option>';
+        foreach($query->result() as $row)
+        {
+         $output .= '<option value="'.$row->id.'">'.$row->city_name.'</option>';
+        }
+        return $output;
+    }
+
+    function fetch_country()
+    {
+        $this->db->order_by('country_name', 'ASC');
+        $query = $this->db->get('country');
+        $output = '<option value="">Select Country</option>';
+        foreach($query->result() as $row)
+        {
+         $output .= '<option value="'.$row->id.'">'.$row->country_name.'</option>';
+        }
+        return $output;
+    }
+
+}
