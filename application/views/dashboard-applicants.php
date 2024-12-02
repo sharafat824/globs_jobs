@@ -1,9 +1,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
-
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <style>
 	.pagination {
 		display: flex;
@@ -44,10 +41,10 @@
 	</div>
 
 	<div class="all-applicants-box">
-		<h2>Applicants</h2>
+		<h2>Applicants </h2>
 		<br />
 		<div class="row">
-			<table id="example" class="display" style="width:100%">
+			<table id="example" class="display respons " style="width:100%">
 				<thead>
 					<tr>
 						<th>ProfilePic</th>
@@ -114,15 +111,15 @@
 									<?php } ?>
 								</td>
 								<td>
-									<?php echo anchor("Manage_applicant/getapllicant/{$encrypted_id}", '<button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="View Aplication" ><i class="ri-eye-line"></i></button>') ?>
+									<?php echo anchor("Manage_applicant/getapllicant/{$encrypted_id}", '<button class="option-btn  border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="View Aplication" ><i class="ri-eye-line mt-2"></i></button>') ?>
 
 									<?php if ($row->status == 0 || $row->status == 2) { ?>
-										<?php echo anchor("Manage_applicant/approvedapplicant/{$encrypted_id}", '<button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Approve Aplication" type="button"><i class="ri-check-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog1();")) ?>
+										<?php echo anchor("Manage_applicant/approvedapplicant/{$encrypted_id}", '<button class="option-btn border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Approve Aplication" type="button"><i class="ri-check-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog1();")) ?>
 									<?php } ?>
 									<?php if ($row->status == 0) { ?>
-										<?php echo anchor("Manage_applicant/rejectapplicant/{$encrypted_id}", '<button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject Aplication" type="button"><i class="ri-close-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog2();")) ?>
+										<?php echo anchor("Manage_applicant/rejectapplicant/{$encrypted_id}", '<button class="option-btn border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject Aplication" type="button"><i class="ri-close-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog2();")) ?>
 									<?php } ?>
-									<?php echo anchor("Manage_applicant/deleteapplicant/{$encrypted_id}", '<button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Aplication" type="button"><i class="ri-delete-bin-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog3();")) ?>
+									<?php echo anchor("Manage_applicant/deleteapplicant/{$encrypted_id}", '<button class="option-btn border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Aplication" type="button"><i class="ri-delete-bin-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog3();")) ?>
 								</td>
 
 							</tr>
@@ -132,7 +129,6 @@
 						endforeach;
 					else:
 						?>
-
 						<tr>
 							<td colspan="6">No Record found</td>
 						</tr>

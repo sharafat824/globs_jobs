@@ -14,7 +14,19 @@
         <?php endif; ?>
 
         <!-- Page Numbers -->
-        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+        <?php 
+            $group_size = 10; // Number of page links per group
+            $start = max(1, floor(($current_page - 1) / $group_size) * $group_size + 1);
+            $end = min($start + $group_size - 1, $total_pages);
+        ?>
+        
+        <?php if ($start > 1): ?>
+            <li class="page-item">
+                <a class="page-link" href="<?php echo $base_url . '/' . ($start - 1); ?>">...</a>
+            </li>
+        <?php endif; ?>
+        
+        <?php for ($i = $start; $i <= $end; $i++): ?>
             <li class="page-item <?php echo ($i == $current_page) ? 'active' : ''; ?>">
                 <?php if ($i == $current_page): ?>
                     <span class="page-link"><?php echo $i; ?></span>
@@ -23,6 +35,12 @@
                 <?php endif; ?>
             </li>
         <?php endfor; ?>
+        
+        <?php if ($end < $total_pages): ?>
+            <li class="page-item">
+                <a class="page-link" href="<?php echo $base_url . '/' . ($end + 1); ?>">...</a>
+            </li>
+        <?php endif; ?>
 
         <!-- Next Button -->
         <?php if ($current_page < $total_pages): ?>

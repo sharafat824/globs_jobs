@@ -66,13 +66,13 @@ $file_portfolio_video = $userInfo->file_portfolio_video;
                            <div class="d-flex justify-content-between align-items-center">
                               <span><i class="flaticon-calendar"></i> Gender</span>
 							 <?php if($gender==1){
-                               echo Male; 
+                               echo "Male"; 
 							 }?>
 							 <?php if($gender==2){
-                               echo Female; 
+                               echo "Female"; 
 							 }?>
 							 <?php if($gender==3){
-                               echo Other; 
+                               echo "Other"; 
 							 }?>
                            </div>
                         </li>
@@ -341,10 +341,10 @@ $file_portfolio_video = $userInfo->file_portfolio_video;
                                     </td>
                                     <td class="product-total">
 									<?php if($visa_required==1){
-                                        echo Yes;
+                                        echo "Yes";
 									}?>
 									<?php if($visa_required==2){
-                                        echo No; 
+                                        echo "No"; 
 									}?>
                                     </td>
                                  </tr>
