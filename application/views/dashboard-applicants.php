@@ -16,10 +16,10 @@
 </div>
 
 <div class="all-applicants-box">
-<h2>Applicants</h2>
+<h2>Applicants </h2>
 <br/>
 <div class="row">
-<table id="example" class="display" style="width:100%">
+<table id="example" class="display respons " style="width:100%">
 		<thead>
             <tr>
                 <th>ProfilePic</th>
@@ -86,15 +86,15 @@ if (count($applicant)):
 				<?php }?>
 			</td>
 			<td>
-				<?php echo anchor("Manage_applicant/getapllicant/{$encrypted_id}", '<button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="View Aplication" ><i class="ri-eye-line"></i></button>') ?>
+				<?php echo anchor("Manage_applicant/getapllicant/{$encrypted_id}", '<button class="option-btn  border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="View Aplication" ><i class="ri-eye-line mt-2"></i></button>') ?>
 			
 				<?php if ($row->status == 0 || $row->status == 2) {?>
-					<?php echo anchor("Manage_applicant/approvedapplicant/{$encrypted_id}", '<button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Approve Aplication" type="button"><i class="ri-check-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog1();")) ?>
+					<?php echo anchor("Manage_applicant/approvedapplicant/{$encrypted_id}", '<button class="option-btn border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Approve Aplication" type="button"><i class="ri-check-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog1();")) ?>
 				<?php }?>
 				<?php if ($row->status == 0) {?>
-					<?php echo anchor("Manage_applicant/rejectapplicant/{$encrypted_id}", '<button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject Aplication" type="button"><i class="ri-close-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog2();")) ?>
+					<?php echo anchor("Manage_applicant/rejectapplicant/{$encrypted_id}", '<button class="option-btn border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject Aplication" type="button"><i class="ri-close-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog2();")) ?>
 				<?php }?>
-					<?php echo anchor("Manage_applicant/deleteapplicant/{$encrypted_id}", '<button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Aplication" type="button"><i class="ri-delete-bin-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog3();")) ?>
+					<?php echo anchor("Manage_applicant/deleteapplicant/{$encrypted_id}", '<button class="option-btn border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Aplication" type="button"><i class="ri-delete-bin-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog3();")) ?>
 			</td>
 		
 		</tr>
