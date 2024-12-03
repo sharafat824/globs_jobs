@@ -264,6 +264,15 @@ class Candidate extends CI_Controller
 
     }
 
+
+
+
+    public function clearFlashError()
+{
+    $this->session->unset_userdata('error');
+    echo json_encode(['status' => 'success']);
+}
+
     // visa information
 
     public function addingCandidateVisaInfo()

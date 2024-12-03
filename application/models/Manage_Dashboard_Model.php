@@ -400,13 +400,14 @@ class Manage_Dashboard_Model extends CI_Model
     }
     public function getuserjobs($id)
     {
-        $this->db->select('COUNT(id) as count,short_list');
+        $this->db->select('short_list, COUNT(id) as count');
         $this->db->where('job_id', $id);
         $this->db->where('user_id', $this->session->userdata['user_id']);
+        $this->db->group_by('short_list'); 
         $query = $this->db->get('user_jobs');
-        return $query->row();
-
+        return $query->result(); 
     }
+    
     public function getStatus()
     {
         $this->db->select('status');

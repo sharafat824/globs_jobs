@@ -102,13 +102,13 @@ if (count($jobInfo)):
                                 <td>
                                     <li><?php if ($row->career == 1) {
 
-            echo Basic;
+            echo "Basic";
         }
         if ($row->career == 2) {
-            echo Intermediate;
+            echo "Intermediate";
         }
         if ($row->career == 3) {
-            echo Advance;
+            echo "Advance";
         }
         ?></li>
                                 </td>

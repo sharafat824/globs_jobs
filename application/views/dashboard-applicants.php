@@ -53,6 +53,9 @@
 						<th>Country</th>
 						<th>Phone</th>
 						<th>Status</th>
+						<th>Job(Applied)</th>
+						<th>Job(SL)</th>
+						<th>Job(A)</th>
 						<th>Register Source</th>
 						<th>Action</th>
 					</tr>
@@ -100,6 +103,22 @@
 									<?php } ?>
 								</td>
 								<td>
+									<?php
+									echo $row->total_applied_jobs;
+									?>
+								</td>
+								<td>
+									<?php
+									echo $row->total_shortlisted_jobs;
+									?>
+								</td>
+								<td>
+									<?php
+									echo $row->total_assigned_jobs;
+									?>
+								</td>
+
+								<td>
 									<?php if ($row->user_source == 1) { ?>
 										<b style="color:green;">Aegseagles</b>
 									<?php } ?>
@@ -135,20 +154,35 @@
 					<?php
 					endif;
 					?>
+				</tbody>
 			</table>
 			<?php echo $pagination_links; ?>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('#example').DataTable({
-			"paging": false, // Enable pagination
-			"lengthChange": true, // Allow changing the number of entries per page
-			"searching": true, // Enable search functionality
-			"ordering": true, // Enable column ordering
-			"info": false, // Show info about the table
-			"autoWidth": false // Disable auto-width calculation for columns
-		});
-	});
+$(document).ready(function() {
+    $('#example').DataTable({
+        "processing": true, // Show processing indicator
+        "serverSide": true, // Enable server-side processing
+        "ajax": {
+            "url": "<?= base_url('Manage_applicant/getApplicantsData'); ?>", // Controller method to fetch data
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "profile_pic" },
+            { "data": "first_name" },
+            { "data": "category_name" },
+            { "data": "country" },
+            { "data": "phone" },
+            { "data": "status" },
+            { "data": "total_applied_jobs" },
+            { "data": "total_shortlisted_jobs" },
+            { "data": "total_assigned_jobs" },
+            { "data": "user_source" },
+            { "data": "action" }
+        ]
+    });
+});
+
 </script>

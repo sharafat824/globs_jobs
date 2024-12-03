@@ -6,14 +6,25 @@ class Applicant_Model extends CI_Model
 
         public function getapplicantDetails($limit, $offset)
         {
-                $this->db->select('e.*, category_name, co.country_name as cocountry_name, u.user_source');
+                $this->db->select('
+                e.*, 
+                c.category_name, 
+                co.country_name as cocountry_name, 
+                u.user_source,
+                COUNT(CASE WHEN uj.short_list = 1 THEN 1 END) as total_shortlisted_jobs,
+                COUNT(CASE WHEN uj.short_list = 11 THEN 1 END) as total_assigned_jobs,
+                COUNT(uj.id) as total_applied_jobs  -- Count all jobs the user applied for
+            ');
                 $this->db->join('job_category c', 'c.id = e.category_id', 'left');
                 $this->db->join('country co', 'co.id = e.country', 'left');
                 $this->db->join('users u', 'u.id = e.user_id', 'left');
+                $this->db->join('user_jobs uj', 'uj.user_id = u.id', 'left');
+                $this->db->group_by('e.id'); // Grouping to ensure aggregation works correctly
                 $this->db->limit($limit, $offset);
                 $query = $this->db->get('employee_profile e');
                 return $query->result();
         }
+
 
 
         public function countApplicantDetails()
@@ -31,6 +42,79 @@ class Applicant_Model extends CI_Model
                 $query = $this->db->get('employee_profile e');
                 // print_r($this->db->last_query());exit();
                 return $query->result();
+        }
+
+        public function fetchApplicants($limit, $offset, $searchValue, $orderColumn, $orderDirection)
+        {
+            // Select the necessary columns
+            $this->db->select('
+                e.*, 
+                c.category_name, 
+                co.country_name as cocountry_name, 
+                u.user_source,
+                COUNT(CASE WHEN uj.short_list = 1 THEN 1 END) as total_shortlisted_jobs,
+                COUNT(CASE WHEN uj.short_list = 11 THEN 1 END) as total_assigned_jobs,
+                COUNT(uj.id) as total_applied_jobs  -- Count all jobs the user applied for
+            ');
+        
+            // Joins to fetch related data
+            $this->db->join('job_category c', 'c.id = e.category_id', 'left');
+            $this->db->join('country co', 'co.id = e.country', 'left');
+            $this->db->join('users u', 'u.id = e.user_id', 'left');
+            $this->db->join('user_jobs uj', 'uj.user_id = u.id', 'left');
+        
+            // Apply filters if search value is provided
+            if (!empty($searchValue)) {
+                $this->db->group_start();
+                $this->db->like('e.first_name', $searchValue);
+                $this->db->or_like('c.category_name', $searchValue);
+                $this->db->or_like('co.country_name', $searchValue);
+                $this->db->group_end();
+            }
+        
+            // Group by `e.id` to ensure proper aggregation
+            $this->db->group_by('e.id');
+        
+            // Apply ordering
+        //     $this->db->order_by($orderColumn, $orderDirection);
+        
+            // Apply limit and offset for pagination
+            $this->db->limit($limit, $offset);
+        
+            // Execute the query
+            $query = $this->db->get('employee_profile e');
+        //     var_dump(json_encode($query->result_array()));
+        //     die('ddd');
+            return $query->result_array(); // Return the results as an array
+        }
+
+        public function countFilteredApplicants($searchValue)
+        {
+            // Join tables
+            $this->db->join('job_category c', 'c.id = e.category_id', 'left');
+            $this->db->join('country co', 'co.id = e.country', 'left');
+            $this->db->join('users u', 'u.id = e.user_id', 'left');
+            $this->db->join('user_jobs uj', 'uj.user_id = u.id', 'left');
+        
+            // Add all selected columns to GROUP BY
+            $this->db->group_by([
+                'e.id', // Assuming e.id is a unique identifier
+                'c.category_name',
+                'co.country_name',
+                'u.user_source', // Add any other columns you select here
+                'uj.id' // If you are selecting uj.id or applying aggregation to it
+            ]);
+        
+            // Apply search filter if necessary
+            if (!empty($searchValue)) {
+                $this->db->like('e.first_name', $searchValue);
+                $this->db->or_like('c.category_name', $searchValue);
+                $this->db->or_like('co.country_name', $searchValue);
+            }
+        
+            // Execute the query and return the number of rows
+            $query = $this->db->get('employee_profile e');
+            return $query->num_rows();
         }
         public function getIncompleteEmployeeProfiles()
         {
