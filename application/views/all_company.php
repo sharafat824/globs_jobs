@@ -25,7 +25,7 @@
 								<div class="single-applicants-card">
 									<div class="image">
 										<a href="">
-											<?php $image_url =  'employeereg_images/' . $row->company_logo; ?>
+											<?php $image_url =  'employee_images/' . $row->company_logo; ?>
 											<?php if (file_exists($image_url)) { ?>
 												<img src="<?php echo base_url() ?>employee_images/<?php echo htmlentities($row->company_logo) ?>" alt="image">
 											<?php } else { ?>
@@ -70,7 +70,7 @@
 										</ul>
 										<div class="applicants-footer">
 											<ul class="option-list">
-												<!-- <td><?php echo anchor("Company/getcompanydetail/{$row->id}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Company Detail" ><i class="ri-edit-box-line"></i></button></li>') ?></td> -->
+												<td><?php echo anchor("Company/editCompanyAdmin/{$row->id}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Company Detail" ><i class="ri-edit-box-line"></i></button></li>') ?></td>
 												<td><?php echo anchor("Company/getcompanydetail/{$row->id}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Company Detail" ><i class="ri-eye-line"></i></button></li>') ?></td>
 												<?php if ($row->status == 1) { ?>
 													<td>

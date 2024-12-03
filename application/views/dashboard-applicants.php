@@ -29,6 +29,16 @@
 	.pagination .page-item a {
 		padding: 0.5rem 1rem;
 	}
+	#example_filter input {
+        width: 17rem; 
+		border: 1px solid #dda63a;
+		outline: none;
+    }
+	.avatar{
+		object-fit: cover;
+		height: 80px;
+		width: 80px;
+	}
 </style>
 <div class="">
 

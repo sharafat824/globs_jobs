@@ -72,7 +72,7 @@ class Company_Model extends CI_Model
             return false;
         }
     }
-    public function update_company($name, $registration_number, $email, $phone, $website, $about, $country, $city, $address, $new_image_name11, $company_lat, $company_long)
+    public function update_company($name, $registration_number, $email, $phone, $website, $about, $country, $city, $address, $new_image_name11, $company_lat, $company_long, $fromAdmin=false,$id)
     {
         $data = array(
             'user_id' => $this->session->userdata['user_id'],
@@ -89,8 +89,16 @@ class Company_Model extends CI_Model
             'company_lat' => $company_lat,
             'company_long' => $company_long
         );
+
+        
+     
         //print_r($data);exit();
+        if ($fromAdmin) {
+            
+            $this->db->where('id', $id);
+        }else{
         $this->db->where('user_id', $this->session->userdata['user_id']);
+        }
         $sql_query = $this->db->update('employer_profile', $data);
         return true;
     }

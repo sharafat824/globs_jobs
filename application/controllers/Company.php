@@ -102,6 +102,58 @@ class Company extends CI_Controller
         $this->load->view('includes/d-footer.php');
     }
 
+    function editCompanyAdmin($uid)
+    {
+        // $uid = str_replace(array('_'), array('/'), $uid);
+        // $decrypted_id = $this->encrypt->decode($uid);
+        $data['userInfo'] = $this->Company_Model->getcompanydetail($uid);
+
+        $this->load->view('includes/d-header.php');
+        $this->load->view('edit_company', $data);
+        $this->load->view('includes/d-footer.php');
+    }
+
+    function UpdateCompanyAdmin()  {
+
+        $name = $this->input->post('company_name');
+        $registration_number = $this->input->post('registration_number');
+        $email = $this->input->post('email');
+        $companyId = $this->input->post('company_id');
+        $phone = $this->input->post('phone');
+        $website = $this->input->post('website');
+        $about = $this->input->post('about');
+        $country = $this->input->post('country');
+        $city = $this->input->post('city');
+        $address = $this->input->post('address');
+        $company_lat = $this->input->post('company_lat');
+        $company_long = $this->input->post('company_long');
+        $location = 'employee_images/';
+        $width = '';
+        $height = '';
+        $quality = 50;
+        $imageResult = $this->Company_Model->getcompanyDetailRow();
+      
+        if (!empty($_FILES['file11']["name"])) {
+            $temp_name2 = $_FILES['file11']["tmp_name"];
+            $new_image_name11 = uniqid() . str_replace(' ', '', $_FILES['file11']["name"]);
+            $target_file2 = $location . $new_image_name11;
+            $this->Company_Model->compress_image($temp_name2, $target_file2, $width, $height, $quality);
+        } else {
+            $new_image_name11 = $imageResult->company_logo;
+        }
+
+        $result = $this->Company_Model->update_company($name, $registration_number, $email, $phone, $website, $about, $country, $city, $address, $new_image_name11, $company_lat, $company_long,true,$companyId);
+
+        if ($result == true) {    
+            $this->session->set_flashdata('success', 'Company Profile Updated Successfully.');
+            return redirect('Company/allCompany');
+        } else {
+            $this->session->set_flashdata('error', 'Something went wrong. Please try again with valid format.');
+            redirect('Company/editCompanyAdmin');
+        }
+        
+    }
+
     public function updatecompany()
     {
 

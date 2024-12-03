@@ -91,7 +91,7 @@ class Manage_applicant extends CI_Controller
             // Prepare profile picture HTML
             $profilePicUrl = base_url('employee_images/' . $row['profile_pic']);
             $defaultPic = base_url('assets/images/dashboard/user1.jpg');
-            $profilePicHtml = '<img src="' . (file_exists('employee_images/' . $row['profile_pic']) ? $profilePicUrl : $defaultPic) . '" height="100"  alt="Profile Picture">';
+            $profilePicHtml = '<div class="image"><img src="' . (file_exists('employee_images/' . $row['profile_pic']) ? $profilePicUrl : $defaultPic) . '"   alt="Profile Picture" class="rounded-circle avatar"></div>';
 
             // Convert status to human-readable value
             switch ($row['status']) {
