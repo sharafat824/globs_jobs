@@ -80,7 +80,7 @@ $(document).ready(function() {
             { "data": "profile_pic" },
             { "data": "name" },
             { "data": "category_name" },
-            { "data": "country" },
+            { "data": "cocountry_name" },
             { "data": "phone" },
             { "data": "status" },
             { "data": "total_applied_jobs" },
