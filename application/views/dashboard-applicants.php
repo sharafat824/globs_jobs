@@ -66,30 +66,51 @@
 	</div>
 </div>
 <script type="text/javascript">
-$(document).ready(function() {
-    $('#example').DataTable({
-        "processing": true, 
-        "serverSide": true, 
-		"paging": true,
-		"info":false,
-        "ajax": {
-            "url": "<?= base_url('Manage_applicant/getApplicantsData'); ?>", // Controller method to fetch data
-            "type": "POST"
-        },
-        "columns": [
-            { "data": "profile_pic" },
-            { "data": "name" },
-            { "data": "category_name" },
-            { "data": "cocountry_name" },
-            { "data": "phone" },
-            { "data": "status" },
-            { "data": "total_applied_jobs" },
-            { "data": "total_shortlisted_jobs" },
-            { "data": "total_assigned_jobs" },
-            { "data": "user_source" },
-            { "data": "action" }
-        ]
-    });
-});
-
+	$(document).ready(function() {
+		$('#example').DataTable({
+			"processing": true,
+			"serverSide": true,
+			"paging": true,
+			"ordering": false,
+			"info": false,
+			"ajax": {
+				"url": "<?= base_url('Manage_applicant/getApplicantsData'); ?>", // Controller method to fetch data
+				"type": "POST"
+			},
+			"columns": [{
+					"data": "profile_pic"
+				},
+				{
+					"data": "name"
+				},
+				{
+					"data": "category_name"
+				},
+				{
+					"data": "cocountry_name"
+				},
+				{
+					"data": "phone"
+				},
+				{
+					"data": "status"
+				},
+				{
+					"data": "total_applied_jobs"
+				},
+				{
+					"data": "total_shortlisted_jobs"
+				},
+				{
+					"data": "total_assigned_jobs"
+				},
+				{
+					"data": "user_source"
+				},
+				{
+					"data": "action"
+				}
+			]
+		});
+	});
 </script>

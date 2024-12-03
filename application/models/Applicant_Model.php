@@ -92,8 +92,7 @@ class Applicant_Model extends CI_Model
 
     // Apply search filter if necessary
     if (!empty($searchValue)) {
-        var_dump($searchValue);
-        die();
+       
         $this->db->group_start();
         $this->db->like('e.first_name', $searchValue);
         $this->db->or_like('e.last_name', $searchValue);

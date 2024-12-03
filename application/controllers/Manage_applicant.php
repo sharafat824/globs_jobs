@@ -107,6 +107,21 @@ class Manage_applicant extends CI_Controller
                 default:
                     $row['status'] = 'Unknown'; // In case status has an unexpected value
             }
+		
+            // Convert status to human-readable value
+            switch ($row['user_source']) {
+                case 0:
+                    $row['user_source'] = 'JobsGlob';
+                    break;
+                case 1:
+                    $row['user_source'] = 'Aegseagles';
+                    break;
+                case 2:
+                    $row['user_source'] = 'MobileApp';
+                    break;
+                default:
+                    $row['user_source'] = 'Unknown'; // In case status has an unexpected value
+            }
 			$row['name'] = $row['first_name'].' '. $row['last_name'];
 
             // Prepare action buttons dynamically
