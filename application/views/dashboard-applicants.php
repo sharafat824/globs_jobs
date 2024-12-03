@@ -78,7 +78,7 @@ $(document).ready(function() {
         },
         "columns": [
             { "data": "profile_pic" },
-            { "data": "first_name" },
+            { "data": "name" },
             { "data": "category_name" },
             { "data": "country" },
             { "data": "phone" },

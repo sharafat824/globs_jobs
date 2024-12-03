@@ -26,12 +26,6 @@ class Applicant_Model extends CI_Model
         }
 
 
-
-        public function countApplicantDetails()
-        {
-                return $this->db->count_all('employee_profile');
-        }
-
         public function getassignedJob()
         {
                 $this->db->select('*,user_jobs.id as user_job_id,e.id as employee_id');
@@ -76,7 +70,7 @@ class Applicant_Model extends CI_Model
             $this->db->group_by('e.id');
         
             // Apply ordering
-            $this->db->order_by($orderColumn, $orderDirection);
+        //    $this->db->order_by($orderColumn, $orderDirection);
         
             // Apply limit and offset for pagination
             $this->db->limit($limit, $offset);
@@ -89,33 +83,37 @@ class Applicant_Model extends CI_Model
         }
 
         public function countFilteredApplicants($searchValue)
+{
+    // Join tables
+    $this->db->join('job_category c', 'c.id = e.category_id', 'left');
+    $this->db->join('country co', 'co.id = e.country', 'left');
+    $this->db->join('users u', 'u.id = e.user_id', 'left');
+    $this->db->join('user_jobs uj', 'uj.user_id = u.id', 'left');
+
+    // Apply search filter if necessary
+    if (!empty($searchValue)) {
+        var_dump($searchValue);
+        die();
+        $this->db->group_start();
+        $this->db->like('e.first_name', $searchValue);
+        $this->db->or_like('e.last_name', $searchValue);
+        $this->db->or_like('c.category_name', $searchValue);
+        $this->db->or_like('co.country_name', $searchValue);
+        $this->db->group_end();
+    }
+
+    // Use count(*) for accurate row count after filtering
+    $this->db->from('employee_profile e');
+    
+    
+    return $this->db->count_all_results();
+}
+
+        public function countApplicantDetails()
         {
-            // Join tables
-            $this->db->join('job_category c', 'c.id = e.category_id', 'left');
-            $this->db->join('country co', 'co.id = e.country', 'left');
-            $this->db->join('users u', 'u.id = e.user_id', 'left');
-            $this->db->join('user_jobs uj', 'uj.user_id = u.id', 'left');
-        
-            // Add all selected columns to GROUP BY
-            $this->db->group_by([
-                'e.id', // Assuming e.id is a unique identifier
-                'c.category_name',
-                'co.country_name',
-                'u.user_source', // Add any other columns you select here
-                'uj.id' // If you are selecting uj.id or applying aggregation to it
-            ]);
-        
-            // Apply search filter if necessary
-            if (!empty($searchValue)) {
-                $this->db->like('e.first_name', $searchValue);
-                $this->db->or_like('c.category_name', $searchValue);
-                $this->db->or_like('co.country_name', $searchValue);
-            }
-        
-            // Execute the query and return the number of rows
-            $query = $this->db->get('employee_profile e');
-            return $query->num_rows();
+                return $this->db->count_all('employee_profile');
         }
+        
         public function getIncompleteEmployeeProfiles()
         {
 

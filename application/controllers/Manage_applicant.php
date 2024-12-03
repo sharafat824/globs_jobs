@@ -58,84 +58,102 @@ class Manage_applicant extends CI_Controller
 	}
 
 	public function getApplicantsData()
-	{
-		// Get POST data from DataTable
-		$postData = $this->input->post();
+{
+    // Get POST data from DataTable
+    $postData = $this->input->post();
 
-		// Extract required parameters
-		$limit = isset($postData['length']) ? (int)$postData['length'] : 10;
-		$offset = isset($postData['start']) ? (int)$postData['start'] : 0;
-		$searchValue = isset($postData['search']['value']) ? $postData['search']['value'] : '';
-		$orderColumnIndex = isset($postData['order'][0]['column']) ? (int)$postData['order'][0]['column'] : 0;
-		$orderDirection = isset($postData['order'][0]['dir']) ? $postData['order'][0]['dir'] : 'asc';
+    // Extract required parameters
+    $limit = isset($postData['length']) ? (int)$postData['length'] : 10;
+    $offset = isset($postData['start']) ? (int)$postData['start'] : 0;
+    $searchValue = isset($postData['search']['value']) ? $postData['search']['value'] : '';
+    $orderColumnIndex = isset($postData['order'][0]['column']) ? (int)$postData['order'][0]['column'] : 0;
+    $orderDirection = isset($postData['order'][0]['dir']) ? $postData['order'][0]['dir'] : 'asc';
 
-		// Define the column mapping
-		$columns = ['profile_pic', 'first_name', 'category_name', 'cocountry_name', 'phone', 'status', 'total_applied_jobs', 'total_shortlisted_jobs', 'total_assigned_jobs', 'user_source'];
-		$orderColumn = $columns[$orderColumnIndex] ?? 'first_name'; // Default to 'first_name'
+    // Define the column mapping
+    $columns = ['profile_pic', 'first_name', 'category_name', 'cocountry_name', 'phone', 'status', 'total_applied_jobs', 'total_shortlisted_jobs', 'total_assigned_jobs', 'user_source'];
+    $orderColumn = $columns[$orderColumnIndex] ?? 'first_name'; // Default to 'first_name'
 
-		// Fetch data from model
-		$data = $this->Applicant_Model->fetchApplicants($limit, $offset, $searchValue, $orderColumn, $orderDirection);
+    // Fetch data from model (consider limiting based on pagination)
+    $data = $this->Applicant_Model->fetchApplicants($limit, $offset, $searchValue, $orderColumn, $orderDirection);
 
-		// Prepare response
-		$response = [
-			"draw" => isset($postData['draw']) ? (int)$postData['draw'] : 1,
-			"recordsTotal" => $this->Applicant_Model->countApplicantDetails(),
-			"recordsFiltered" => $this->Applicant_Model->countFilteredApplicants($searchValue),
-			"data" => array_map(function ($row) {
-				// Prepare profile picture HTML
-				$profilePicUrl = base_url('employee_images/' . $row['profile_pic']);
-				$defaultPic = base_url('assets/images/dashboard/user1.jpg');
-				$profilePicHtml = '<img src="' . (file_exists('employee_images/' . $row['profile_pic']) ? $profilePicUrl : $defaultPic) . '" height="110" width="80" class="rounded-circle" alt="Profile Picture">';
+    // Count total records (unfiltered)
+    $totalRecords = $this->Applicant_Model->countApplicantDetails();
 
-				// Prepare action buttons dynamically
-				$encrypted_id = str_replace(array('/'), array('_'), $this->encrypt->encode($row['id']));
-				$row['profile_pic'] = $profilePicHtml;  // Add the profile picture HTML to the response
-				$row['action'] = '
-    <div class="dropdown">
-        <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="bi bi-three-dots-vertical text-muted"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-            <a class="dropdown-item" href="' . base_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" title="View Application">
-                <i class="bi bi-eye"></i> View Application
-            </a>';
+    // Count filtered records (for the search query)
+    $filteredRecords = $this->Applicant_Model->countFilteredApplicants($searchValue);
+	
+    // Prepare response
+    $response = [
+        "draw" => isset($postData['draw']) ? (int)$postData['draw'] : 1,
+        "recordsTotal" => $totalRecords, // Total records (unfiltered)
+        "recordsFiltered" => $filteredRecords, // Filtered records (after search)
+        "data" => array_map(function ($row) {
+            // Prepare profile picture HTML
+            $profilePicUrl = base_url('employee_images/' . $row['profile_pic']);
+            $defaultPic = base_url('assets/images/dashboard/user1.jpg');
+            $profilePicHtml = '<img src="' . (file_exists('employee_images/' . $row['profile_pic']) ? $profilePicUrl : $defaultPic) . '" height="110" width="80" class="rounded-circle" alt="Profile Picture">';
 
-				// Conditionally display the "Approve Application" button
-				if ($row['status'] == 0 || $row['status'] == 2) {
-					$row['action'] .= '
+            // Convert status to human-readable value
+            switch ($row['status']) {
+                case 0:
+                    $row['status'] = 'Pending';
+                    break;
+                case 1:
+                    $row['status'] = 'Approved';
+                    break;
+                case 2:
+                    $row['status'] = 'Rejected';
+                    break;
+                default:
+                    $row['status'] = 'Unknown'; // In case status has an unexpected value
+            }
+			$row['name'] = $row['first_name'].' '. $row['last_name'];
+
+            // Prepare action buttons dynamically
+            $encrypted_id = str_replace(array('/'), array('_'), $this->encrypt->encode($row['id']));
+            $row['profile_pic'] = $profilePicHtml;  // Add the profile picture HTML to the response
+            $row['action'] = '
+            <div class="dropdown">
+                <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical text-muted"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+                    <a class="dropdown-item" href="' . base_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" title="View Application">
+                        <i class="bi bi-eye"></i> View Application
+                    </a>';
+
+            // Conditionally display the "Approve Application" button
+            if ($row['status'] == 'Pending' || $row['status'] == 'Rejected') {
+                $row['action'] .= '
                 <a class="dropdown-item" href="' . base_url("Manage_applicant/approvedapplicant/{$encrypted_id}") . '" title="Approve Application">
                     <i class="bi bi-check-lg"></i> Approve Application
                 </a>';
-				}
+            }
 
-				// Conditionally display the "Reject Application" button
-				if ($row['status'] == 0) {
-					$row['action'] .= '
+            // Conditionally display the "Reject Application" button
+            if ($row['status'] == 'Pending') {
+                $row['action'] .= '
                 <a class="dropdown-item" href="' . base_url("Manage_applicant/rejectapplicant/{$encrypted_id}") . '" title="Reject Application">
                     <i class="bi bi-x-lg"></i> Reject Application
                 </a>';
-				}
+            }
 
-				// Always show the "Delete Application" button
-				$row['action'] .= '
+            // Always show the "Delete Application" button
+            $row['action'] .= '
             <a class="dropdown-item" href="' . base_url("Manage_applicant/deleteapplicant/{$encrypted_id}") . '" title="Delete Application" onclick="return confirm(\'Are you sure?\');">
                 <i class="bi bi-trash"></i> Delete Application
             </a>
+            </div>
         </div>
-    </div>
-';
+    ';
 
+            return $row;
+        }, $data)
+    ];
 
-				return $row;
-			}, $data)
-		];
-
-		// Return JSON response
-		echo json_encode($response);
-	}
-
-
-
+    // Return JSON response
+    echo json_encode($response);
+}
 
 	public function assignedjobs()
 	{
