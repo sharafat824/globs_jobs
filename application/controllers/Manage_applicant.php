@@ -91,18 +91,18 @@ class Manage_applicant extends CI_Controller
             // Prepare profile picture HTML
             $profilePicUrl = base_url('employee_images/' . $row['profile_pic']);
             $defaultPic = base_url('assets/images/dashboard/user1.jpg');
-            $profilePicHtml = '<img src="' . (file_exists('employee_images/' . $row['profile_pic']) ? $profilePicUrl : $defaultPic) . '" height="110" width="80" class="rounded-circle" alt="Profile Picture">';
+            $profilePicHtml = '<img src="' . (file_exists('employee_images/' . $row['profile_pic']) ? $profilePicUrl : $defaultPic) . '" height="100"  alt="Profile Picture">';
 
             // Convert status to human-readable value
             switch ($row['status']) {
                 case 0:
-                    $row['status'] = 'Pending';
+                    $row['status'] = '<span class="badge bg-warning">Pending</span>';
                     break;
                 case 1:
-                    $row['status'] = 'Approved';
+                    $row['status'] = '<span class="badge bg-success">Approved</span>';
                     break;
                 case 2:
-                    $row['status'] = 'Rejected';
+                    $row['status'] = '<span class="badge bg-danger">Rejected</span>';
                     break;
                 default:
                     $row['status'] = 'Unknown'; // In case status has an unexpected value
@@ -122,7 +122,7 @@ class Manage_applicant extends CI_Controller
                 default:
                     $row['user_source'] = 'Unknown'; // In case status has an unexpected value
             }
-			$row['name'] = $row['first_name'].' '. $row['last_name'];
+			$row['name'] = $row['first_name'];
 
             // Prepare action buttons dynamically
             $encrypted_id = str_replace(array('/'), array('_'), $this->encrypt->encode($row['id']));

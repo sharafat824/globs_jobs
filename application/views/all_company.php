@@ -70,7 +70,7 @@
 										</ul>
 										<div class="applicants-footer">
 											<ul class="option-list">
-												<td><?php echo anchor("Company/getcompanydetail/{$row->id}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Company Detail" ><i class="ri-edit-box-line"></i></button></li>') ?></td>
+												<!-- <td><?php echo anchor("Company/getcompanydetail/{$row->id}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Company Detail" ><i class="ri-edit-box-line"></i></button></li>') ?></td> -->
 												<td><?php echo anchor("Company/getcompanydetail/{$row->id}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Company Detail" ><i class="ri-eye-line"></i></button></li>') ?></td>
 												<?php if ($row->status == 1) { ?>
 													<td>

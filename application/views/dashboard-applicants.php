@@ -74,7 +74,7 @@
 			"ordering": false,
 			"info": false,
 			"ajax": {
-				"url": "<?= base_url('Manage_applicant/getApplicantsData'); ?>", // Controller method to fetch data
+				"url": "<?= base_url('Manage_applicant/getApplicantsData'); ?>", 
 				"type": "POST"
 			},
 			"columns": [{
@@ -110,7 +110,10 @@
 				{
 					"data": "action"
 				}
-			]
+			],
+			language: {
+            searchPlaceholder: "Search by name, category, Country" // Placeholder text
+        }
 		});
 	});
 </script>
