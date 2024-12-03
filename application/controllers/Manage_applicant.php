@@ -90,12 +90,29 @@ public function getApplicantsData()
             // Prepare action buttons dynamically
             $encrypted_id = str_replace(array('/'), array('_'), $this->encrypt->encode($row['id']));
             $row['profile_pic'] = $profilePicHtml;  // Add the profile picture HTML to the response
-            $row['action'] = '
-                <a href="' . base_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" class="btn btn-info btn-sm" title="View Application"><i class="ri-eye-line"></i></a>
-                <a href="' . base_url("Manage_applicant/approvedapplicant/{$encrypted_id}") . '" class="btn btn-success btn-sm" title="Approve Application"><i class="ri-check-line"></i></a>
-                <a href="' . base_url("Manage_applicant/rejectapplicant/{$encrypted_id}") . '" class="btn btn-danger btn-sm" title="Reject Application"><i class="ri-close-line"></i></a>
-                <a href="' . base_url("Manage_applicant/deleteapplicant/{$encrypted_id}") . '" class="btn btn-danger btn-sm" title="Delete Application" onclick="return confirm(\'Are you sure?\');"><i class="ri-delete-bin-line"></i></a>
-            ';
+			$row['action'] = '
+    <div class="dropdown">
+        <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="bi bi-three-dots-vertical text-muted"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+            <a class="dropdown-item" href="' . base_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" title="View Application">
+                <i class="bi bi-eye"></i> View Application
+            </a>
+            <a class="dropdown-item" href="' . base_url("Manage_applicant/approvedapplicant/{$encrypted_id}") . '" title="Approve Application">
+                <i class="bi bi-check-lg"></i> Approve Application
+            </a>
+            <a class="dropdown-item" href="' . base_url("Manage_applicant/rejectapplicant/{$encrypted_id}") . '" title="Reject Application">
+                <i class="bi bi-x-lg"></i> Reject Application
+            </a>
+            <a class="dropdown-item" href="' . base_url("Manage_applicant/deleteapplicant/{$encrypted_id}") . '" title="Delete Application" onclick="return confirm(\'Are you sure?\');">
+                <i class="bi bi-trash"></i> Delete Application
+            </a>
+        </div>
+    </div>
+';
+
+		
             return $row;
         }, $data)
     ];
