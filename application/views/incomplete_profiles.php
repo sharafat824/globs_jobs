@@ -26,7 +26,7 @@
                         <td><?php echo $row->user_email ?></td>
                         <td>Employee</td>
                         <td>
-                            <a href="<?php echo base_url(); ?>Manage_Incomplete_Profiles/send_profile_email/<?php echo $encrypted_id; ?>"  class="default-btn" > SendEmail <i class="flaticon-list-1"></i></a>
+                            <a href="<?php echo base_url(); ?>Manage_Incomplete_Profiles/send_profile_email/<?php echo $encrypted_id; ?>"  class="default-btn default-btn-0" > SendEmail <i class="flaticon-list-1"></i></a>
                         </td>
                     </tr>
                 <?php
@@ -45,7 +45,7 @@
                         <td><?php echo $row->user_email ?></td>
                         <td>Employer</td>
                         <td>
-                            <a href="<?php echo base_url(); ?>Manage_Incomplete_Profiles/send_profile_email/<?php echo $encrypted_id; ?>"  class="default-btn" > SendEmail <i class="flaticon-list-1"></i></a>
+                            <a href="<?php echo base_url(); ?>Manage_Incomplete_Profiles/send_profile_email/<?php echo $encrypted_id; ?>"  class="default-btn  default-btn-0" > SendEmail <i class="flaticon-list-1"></i></a>
                         </td>
                     </tr>
                 <?php

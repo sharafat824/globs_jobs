@@ -37,16 +37,16 @@
                   <div class="contact-form">
                      <h3>Get In Touch</h3>
                      <form id="contactForm">
-                        <div class="row">
+                         <div class="row">
                            <div class="col-lg-6 col-md-6">
                               <div class="form-group">
-                                 <input type="text" class="form-control" placeholder="Your Name" required data-error="Please enter your name">
+                                 <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required data-error="Please enter your name">
                                  <div class="help-block with-errors"></div>
                               </div>
                            </div>
                            <div class="col-lg-6 col-md-6">
                               <div class="form-group">
-                                 <input type="email" class="form-control" placeholder="Your Email" required data-error="Please enter your email">
+                                 <input type="email"  id="email" name="email" class="form-control" placeholder="Your Email" required data-error="Please enter your email">
                                  <div class="help-block with-errors"></div>
                               </div>
                            </div>
@@ -58,7 +58,8 @@
                            </div> -->
                            <div class="col-lg-6 col-md-6">
                               <div class="form-group">
-                                 <select class="form-control" name="courses" required data-error="Please Select a Course">
+                                 <select
+                                 id="msg_subject" name="msg_subject" class="form-control" name="courses" required data-error="Please Select a Course">
                                        <option value="">Select Courses</option>
                                        <option>Course 1</option>
                                        <option>Course 2</option>
@@ -70,13 +71,13 @@
                            </div>
                            <div class="col-lg-6 col-md-6">
                               <div class="form-group">
-                                 <input type="email" class="form-control" placeholder="Phone No" required data-error="Please enter your number">
+                                 <input type="number" id="phone_number" name="phone_number" class="form-control" placeholder="Phone No" required data-error="Please enter your number">
                                  <div class="help-block with-errors"></div>
                               </div>
                            </div>
                            <div class="col-lg-12 col-md-12">
                               <div class="form-group">
-                                 <textarea placeholder="Your Comments" class="form-control" required data-error="Write your message"></textarea>
+                                 <textarea  id="message" name="message"  placeholder="Your Comments" class="form-control" required data-error="Write your message"></textarea>
                                  <div class="help-block with-errors"></div>
                               </div>
                            </div>
@@ -87,7 +88,7 @@
                               </p>
                            </div>
                            <div class="col-lg-12 col-md-12">
-                              <button type="submit" class="default-btn">Send Message <i class="flaticon-send"></i></button>
+                              <button type="submit" class="default-btn default-btn-0">Send Message <i class="flaticon-send"></i></button>
                               <div id="msgSubmit" class="h3 text-center hidden"></div>
                               <div class="clearfix"></div>
                            </div>

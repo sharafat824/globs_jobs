@@ -176,7 +176,7 @@ if (isset($userInfo) != NULL) {
                ?>
 
                <div class="col-lg-12 col-md-12">
-                  <button type="submit" class="default-btn">Post A Job <i class="flaticon-send"></i></button>
+                  <button type="submit" class="default-btn default-btn-0">Post A Job <i class="flaticon-send"></i></button>
                </div>
                <?php } ?>
             </div>

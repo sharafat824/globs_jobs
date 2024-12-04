@@ -88,10 +88,18 @@
         body>.skiptranslate {
             display: none;
         }
+ 
+   
     </style>
 
    </head>
    <body>
+   <?php
+
+function isActive($url) {
+    return current_url() === base_url() . $url ? 'active' : '';
+}
+?>
       <div class="preloader-area">
          <div class="spinner">
             <div class="inner">
@@ -115,20 +123,22 @@
          <div class="sidemenu-body">
             <ul class="sidemenu-nav metisMenu h-100" id="sidemenu-nav" data-simplebar>
 
-               <li class="nav-item">
-                  <a href="<?php echo base_url() ?>Manage_dashboard/Home" class="nav-link">
-                  <span class="icon"><i class="ri-home-line"></i></span>
-                  <span class="menu-title">Dashboard</span>
-                  </a>
-               </li>
+            <li class="nav-item">
+
+    <a href="<?php echo base_url() ?>Manage_dashboard/Home" class="nav-link <?php echo isActive('Manage_dashboard/Home'); ?>">
+        <span class="icon <?php echo isActive('Manage_dashboard/Home'); ?>"><i class="ri-home-line"></i></span>
+        <span class="menu-title">Dashboard</span>
+    </a>
+</li>
+
 			   <?php if ($this->session->userdata['rolecode'] == '2') {?>
-               <li class="nav-item">
-                  <a href="<?php echo base_url() ?>Candidate/addCandidate" class="nav-link">
+               <li class="nav-item  ">
+                  <a href="<?php echo base_url() ?>Candidate/addCandidate" class="nav-link <?php echo current_url() === base_url().'Candidate/addCandidate' ? 'active' : ''; ?>">
                   <span class="icon"><i class="ri-user-line"></i></span>
                   <span class="menu-title">Candidate Profile</span>
                   </a>
                </li>
-			   <li class="nav-item">
+			   <li class="nav-item  ">
                   <a href="<?php echo base_url() ?>Candidate/applied_jobs" class="nav-link">
                   <span class="icon"><i class="ri-user-line"></i></span>
                   <span class="menu-title">Applied Jobs</span>
@@ -136,7 +146,7 @@
                </li>
 			   <?php }?>
 			   <?php if ($this->session->userdata['rolecode'] == '3') {?>
-			   <li class="nav-item">
+			   <li class="nav-item  ">
                   <a href="<?php echo base_url() ?>Company/addcompany" class="nav-link">
                   <span class="icon"><i class="ri-user-line"></i></span>
                   <span class="menu-title">Company Profile</span>
@@ -148,26 +158,26 @@
             <?php if (authorize($_SESSION["access"]["ADMIN"]["Candidate"]["view"])) { ?>
       
                <li class="nav-item">
-                  <a href="<?php echo base_url() ?>Manage_applicant" class="nav-link">
-                  <span class="icon"><i class="ri-team-line"></i></span>
+                  <a href="<?php echo base_url() ?>Manage_applicant" class="nav-link <?php echo isActive('Manage_applicant'); ?>">
+                  <span class="icon <?php echo isActive('Manage_applicant'); ?>"><i class="ri-team-line"></i></span>
                   <span class="menu-title">All Candidate</span>
                   </a>
                </li>
             <?php } ?>
             
             <?php if (authorize($_SESSION["access"]["ADMIN"]["AssignedCandidate"]["view"])) { ?>
-               <li class="nav-item">
-                  <a href="<?php echo base_url() ?>Manage_applicant/assignedjobs" class="nav-link">
-                  <span class="icon"><i class="ri-user-line"></i></span>
+               <li class="nav-item  ">
+                  <a href="<?php echo base_url() ?>Manage_applicant/assignedjobs" class="nav-link <?php echo isActive('Manage_applicant/assignedjobs'); ?>">
+                  <span class="icon <?php echo isActive('Manage_applicant/assignedjobs'); ?>"><i class="ri-user-line"></i></span>
                   <span class="menu-title">Assigned Candidate</span>
                   </a>
                </li>
             <?php } ?>
 
             <?php if (authorize($_SESSION["access"]["ADMIN"]["AdminUser"]["view"])) { ?>
-               <li class="nav-item">
-                  <a href="<?php echo base_url() ?>User" class="nav-link">
-                  <span class="icon"><i class="ri-user-line"></i></span>
+               <li class="nav-item  ">
+                  <a href="<?php echo base_url() ?>User" class="nav-link <?php echo isActive('User'); ?>">
+                  <span class="icon <?php echo isActive('User'); ?>"><i class="ri-user-line"></i></span>
                   <span class="menu-title">Admin Users</span>
                   </a>
                </li>
@@ -175,54 +185,55 @@
 
             <?php if (authorize($_SESSION["access"]["ADMIN"]["ManageRole"]["view"])) { ?>
 
-               <li class="nav-item">
-                  <a href="<?php echo base_url() ?>Manage_role" class="nav-link">
-                  <span class="icon"><i class="ri-user-line"></i></span>
+               <li class="nav-item  ">
+                  <a href="<?php echo base_url() ?>Manage_role" class="nav-link  <?php echo isActive('Manage_role'); ?>">
+                  <span class="icon <?php echo isActive('Manage_role'); ?>"><i class="ri-user-line"></i></span>
                   <span class="menu-title">Manage Role</span>
                   </a>
                </li>
             <?php } ?>
 
             <?php if (authorize($_SESSION["access"]["ADMIN"]["IncompleteProfile"]["view"])) { ?>
-               <li class="nav-item">
-                  <a href="<?php echo base_url() ?>Manage_Incomplete_Profiles" class="nav-link">
-                  <span class="icon"><i class="ri-alert-line"></i></span>
+               <li class="nav-item  ">
+                  <a href="<?php echo base_url() ?>Manage_Incomplete_Profiles" class="nav-link 
+                  <?php echo isActive('Manage_Incomplete_Profiles'); ?>">
+                  <span class="icon <?php echo isActive('Manage_Incomplete_Profiles'); ?>"><i class="ri-alert-line"></i></span>
                   <span class="menu-title">Incomplete Profiles</span>
                   </a>
                </li>
             <?php } ?>
 
             <?php if (authorize($_SESSION["access"]["ADMIN"]["Company"]["view"])) { ?>
-			      <li class="nav-item">
-                  <a href="<?php echo base_url() ?>Company/allcompany" class="nav-link">
-                  <span class="icon"><i class="ri-user-line"></i></span>
+			      <li class="nav-item  ">
+                  <a href="<?php echo base_url() ?>Company/allcompany" class="nav-link <?php echo isActive('Company/allcompany'); ?>">
+                  <span class="icon <?php echo isActive('Company/allcompany'); ?>"><i class="ri-user-line"></i></span>
                   <span class="menu-title">All Companies</span>
                   </a>
                </li>
             <?php } ?>
 
             <?php if (authorize($_SESSION["access"]["ADMIN"]["ApprovedJobs"]["view"])) { ?>
-   			   <li class="nav-item">
-                  <a href="<?php echo base_url() ?>job/approved_jobs" class="nav-link">
-                  <span class="icon"><i class="ri-shield-check-line"></i></span>
+   			   <li class="nav-item  ">
+                  <a href="<?php echo base_url() ?>job/approved_jobs" class="nav-link  <?php echo isActive('job/approved_jobs'); ?>">
+                  <span class="icon <?php echo isActive('job/approved_jobs'); ?>"><i class="ri-shield-check-line"></i></span>
                   <span class="menu-title">Approved Jobs</span>
                   </a>
                </li>
             <?php } ?>
 
             <?php if (authorize($_SESSION["access"]["ADMIN"]["PendingJobs"]["view"])) { ?>
-               <li class="nav-item">
-                  <a href="<?php echo base_url() ?>job/pending_jobs" class="nav-link">
-                  <span class="icon"><i class="ri-loader-3-line"></i></span>
+               <li class="nav-item  ">
+                  <a href="<?php echo base_url() ?>job/pending_jobs" class="nav-link  <?php echo isActive('job/pending_jobs'); ?>">
+                  <span class="icon <?php echo isActive('job/pending_jobs'); ?>"><i class="ri-loader-3-line"></i></span>
                   <span class="menu-title">Pending Jobs</span>
                   </a>
                </li>
             <?php } ?>
 
             <?php if (authorize($_SESSION["access"]["ADMIN"]["JobsCategories"]["view"])) { ?>
-               <li class="nav-item">
-                  <a href="<?php echo base_url() ?>Categories" class="nav-link">
-                  <span class="icon"><i class="ri-creative-commons-nd-line"></i></span>
+               <li class="nav-item  ">
+                  <a href="<?php echo base_url() ?>Categories" class="nav-link   <?php echo isActive('Categories'); ?>">
+                  <span class="icon  <?php echo isActive('Categories'); ?>"><i class="ri-creative-commons-nd-line"></i></span>
                   <span class="menu-title">Jobs Categories</span>
                   </a>
                </li>
@@ -230,17 +241,17 @@
 
             <?php }?>
 			   <?php if ($this->session->userdata['rolecode'] == '3') {?>
-               <li class="nav-item">
-                  <a href="<?php echo base_url() ?>Job/add_job" class="nav-link">
-                  <span class="icon"><i class="ri-send-plane-fill"></i></span>
+               <li class="nav-item   ">
+                  <a href="<?php echo base_url() ?>Job/add_job" class="nav-link  <?php echo isActive('Job/add_job'); ?>">
+                  <span class="icon <?php echo isActive('Job/add_job'); ?>"><i class="ri-send-plane-fill"></i></span>
                   <span class="menu-title">Post a New Job</span>
                   </a>
                </li>
 			    <?php }?>
 
-               <li class="nav-item">
-                  <a href="<?php echo base_url() ?>Manage_login/logout" class="nav-link">
-                  <span class="icon"><i class="ri-logout-circle-r-line"></i></span>
+               <li class="nav-item  ">
+                  <a href="<?php echo base_url() ?>Manage_login/logout" class="nav-link  <?php echo isActive('Manage_login/logout'); ?>">
+                  <span class="icon <?php echo isActive('Manage_login/logout'); ?>"><i class="ri-logout-circle-r-line"></i></span>
                   <span class="menu-title">Logout</span>
                   </a>
                </li>
@@ -264,12 +275,12 @@
                   <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                   <?php if ($this->session->userdata['rolecode'] != '1' && $this->session->userdata['rolecode'] != '2'  && $this->session->userdata['rolecode'] != '3') {?>
                      <ul class="navbar-nav m-auto">
-                        <li class="nav-item">
+                        <li class="nav-item  ">
                            <a href="<?php echo base_url() ?>Welcome" class="nav-link">
                            Home1
                            </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item  ">
                            <a href="<?php echo base_url() ?>job/all_jobs" class="nav-link">
                            All Jobs
                            </a>
@@ -277,38 +288,38 @@
                         </li>
 
 
-                        <li class="nav-item">
+                        <li class="nav-item  ">
                            <a href="#" class="nav-link">
                            Services
 
                            </a>
 
                         </li>
-                         <li class="nav-item">
+                         <li class="nav-item  ">
                            <a href="<?php echo base_url() ?>Welcome/about" class="nav-link tab" id="about">About Us</a>
                         </li>
-						      <li class="nav-item">
+						      <li class="nav-item  ">
                            <a href="" class="nav-link tab" id="all_jobs">
                               Free Course
                               <i class="ri-arrow-down-s-line"></i>
                            </a>
                            <ul class="dropdown-menu">
-                              <li class="nav-item">
+                              <li class="nav-item  ">
                               <a href="<?php echo base_url() ?>Courses/cargoCourseView" class="nav-link">Cargo Work Course</a>
                               </li>
-                              <li class="nav-item">
+                              <li class="nav-item  ">
                               <a href="<?php echo base_url() ?>Courses/cleaningCourseView" class="nav-link">Cleaning Work Course</a>
                               </li>
-                              <li class="nav-item">
+                              <li class="nav-item  ">
                               <a href="<?php echo base_url() ?>Courses/securityCourseView" class="nav-link">Security Work Course</a>
                               </li>
                            </ul>
                         </li>
 
-                        <li class="nav-item">
+                        <li class="nav-item  ">
                            <a href="contact.php" class="nav-link">Contact</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item  ">
                            <a href="<?php echo base_url() ?>Blog" class="nav-link">
                            Blog
                            </a>
@@ -319,7 +330,7 @@
                      <div class="others-options d-flex align-items-center">
                         <div class="option-item">
 						<?php if (!$this->session->userdata['rolecode'] == '') {?>
-                           <div class="dropdown profile-nav-item">
+                           <div class="dropdown profile-nav-item  ">
                               <a href="#" class="dropdown-bs-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                  <div class="menu-profile">
                                     <?php if ($this->session->userdata['rolecode'] == '3') {?>
@@ -354,7 +365,7 @@
                                  </div>
                                  <div class="dropdown-body">
                                     <ul class="profile-nav p-0 pt-3">
-                                       <li class="nav-item active">
+                                       <li class="nav-item  ">
                                           <a href="<?php echo base_url() ?>Manage_dashboard/Home" class="nav-link">
                                           <span class="icon"><i class="ri-home-line"></i></span>
                                           <span class="menu-title">Dashboard</span>
@@ -366,7 +377,7 @@
                                  
                                  <div class="dropdown-footer">
                                     <ul class="profile-nav">
-                                       <li class="nav-item">
+                                       <li class="nav-item  ">
                                           <a href="<?php echo base_url() ?>Manage_login/logout" class="nav-link"><i class="ri-logout-box-r-line"></i> <span>Logout</span></a>
                                        </li>
                                     </ul>

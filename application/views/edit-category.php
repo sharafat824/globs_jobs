@@ -20,28 +20,29 @@ $description = $userInfo->description;
                            <div class="col-lg-6 col-md-6">
                            <input type="hidden" name="id" value="<?php echo $id; ?>"  />
                               <div class="form-group">
-                                 <input type="text" class="form-control" name='category_name' required value="<?php echo $category_name; ?>">
+                                 <input type="text" class="form-control mb-3" name='category_name' required value="<?php echo $category_name; ?>">
                                  <div class="help-block with-errors"></div>
                               </div>
                            </div>
 
-                           <div class="col-lg-6 col-md-6">
+                           <div class="col-lg-6 col-md-6 ">
                               <div class="form-group">
-                                 <input type="text" class="form-control" name='title' required value="<?php echo $title; ?>">
+                                 <input type="text" class="form-control mb-3" name='title' required value="<?php echo $title; ?>">
                                  <div class="help-block with-errors"></div>
                               </div>
                            </div>
 </div>
 <div class="row mt-5">
-                           <div class="col-lg-6 col-md-6">
+                           <div class="col-lg-10  ">
                               <div class="form-group">
-                                 <input type="text" class="form-control" name='description' required value="<?php echo $description; ?>">
+                                 <!-- <input type="text" class="form-control" name='description' required value="<?php echo $description; ?>"> -->
+                                  <textarea
+                                  class="form-control mb-3" name='description' required><?php echo htmlspecialchars($description); ?></textarea>
                                  <div class="help-block with-errors"></div>
                               </div>
                            </div>
-                          
-                           <div class="col-lg-6 col-md-6">
-                              <button type="submit" class="default-btn">Update</button>
+                           <div class="col-lg-2 text-center">
+                              <button type="submit" class="default-btn "; >Update</button >
                               
                            </div>
                         </div>

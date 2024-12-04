@@ -34,7 +34,12 @@ if (count($jobInfo)):
 					<div class="col-lg-6 col-md-12">
 					<div class="single-applicants-card">
 					<div class="image">
-					<a href=""><img src="<?php echo base_url() ?>employee_images/<?php echo htmlentities($row->profile_pic) ?>" alt="image"></a>
+					<a href="">
+					<?php if(!empty($row->profile_pic) ){ ?>
+						<img src="<?php echo base_url() ?>employee_images/<?php echo htmlentities($row->profile_pic) ?>" alt="image">
+						<?php }else{ ?>
+							<img src="<?php echo base_url('assets/images/dashboard/user1.jpg'); ?>" class="rounded-circle" alt="image">
+						<?php } ?></a>
 					</div>
 					<div class="content">
 					<h3>
@@ -58,13 +63,13 @@ if (count($jobInfo)):
 
 					<li style="color:red;"><i class="ri-check-line"></i><?php if ($row->short_list == 0) {
 
-            echo Pending;
+            echo "Pending";
         }
         if ($row->short_list == 1) {
-            echo ShortList;
+            echo "ShortList";
         }
         if ($row->short_list == 11) {
-            echo Assigned;
+            echo "Assigned";
         }
 
         ?></li>

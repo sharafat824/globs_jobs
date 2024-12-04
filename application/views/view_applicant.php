@@ -57,7 +57,11 @@ $file_portfolio_video = $userInfo->file_portfolio_video;
                <div class="candidates-details-sticky">
                   <div class="candidates-details-information">
                      <div class="information-box">
-                        <a href="<?php echo base_url()?>employee_images/<?php echo $profile_pic ?>" target="_blank"><img src="<?php echo base_url()?>employee_images/<?php echo $profile_pic ?>" alt="No Image Found"></a>
+                     <?php if(!empty($profile_pic)){ ?>
+                        <a href="<?php echo base_url()?>employee_images/<?php echo $profile_pic ?>" target="_blank"><img src="<?php echo base_url()?>employee_images/<?php echo $profile_pic ?>" alt="No Image Found">
+                        <?php }else{?>
+                                        <img src="<?php echo base_url('assets/images/dashboard/user1.jpg'); ?>" class="noImage" alt="image">
+                                       <?php } ?> </a>
                         <h3><?php echo $name." ".$last_name; ?></h3>
                         
                      </div>
@@ -354,10 +358,10 @@ $file_portfolio_video = $userInfo->file_portfolio_video;
                                     </td>
                                     <td class="product-total">
 									<?php if($uk_driving_licence==1){
-                                        echo Yes;
+                                        echo "Yes";
 									}?>
 									<?php if($uk_driving_licence==2){
-                                        echo No; 
+                                        echo "No"; 
 									}?>
                                        
                                     </td>

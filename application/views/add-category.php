@@ -22,15 +22,15 @@
                               </div>
                            </div>
 
-                           <div class="col-lg-6 col-md-6">
+                           <div class="col-lg-6 col-md-6 mt-3">
                               <div class="form-group">
                                  <input type="text" class="form-control" name='description' placeholder="Description for category" required data-error="Please enter your name">
                                  <div class="help-block with-errors"></div>
                               </div>
                            </div>
                           
-                           <div class="col-lg-6 col-md-6">
-                              <button type="submit" class="default-btn">Add</button>
+                           <div class="col-lg-6 col-md-6  mt-3">
+                              <button type="submit" class="default-btn" >Add</button>
                               
                            </div>
                         </div>

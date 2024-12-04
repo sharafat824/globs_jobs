@@ -91,7 +91,7 @@ if (count($jobInfo)):
 		                            </ul>
 		                            <div class="job-btn">
 		                                <a href="<?php echo base_url() ?>Job/approvedjob/<?php echo $encrypted_id ?>"
-		                                    class="default-btn">Approve Jobs <i class="flaticon-list-1"></i></a>
+		                                    class="default-btn default-btn-0">Approve Jobs <i class="flaticon-list-1"></i></a>
 		                            </div>
 		                        </div>
 		                    </div>

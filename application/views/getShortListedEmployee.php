@@ -8,10 +8,10 @@
             <li class="item">Short Listed Employee</li>
         </ol>
     </div>
-
-
     <div class="all-applicants-box">
+		
         <h2>Short Listed Employee</h2>
+		
         <div class="row">
             <tbody>
                 <?php
@@ -23,12 +23,17 @@ if (count($jobInfo)):
         ?>
 						                <tr>
 
-						                    <div class="col-lg-6 col-md-12">
+						                    <div class="col-lg-6 col-md-12 short-listed-employee"
+											>
 						                        <div class="single-applicants-card">
 						                            <div class="image">
-						                                <a href=""><img
+						                                <a href="">
+                                                        <?php if(!empty($row->profile_pic) ){ ?><img
 						                                        src="<?php echo base_url() ?>employee_images/<?php echo htmlentities($row->profile_pic) ?>"
-						                                        alt="image"></a>
+						                                        alt="image">
+                                                                <?php }else{ ?>
+							<img src="<?php echo base_url('assets/images/dashboard/user1.jpg'); ?>" class="rounded-circle" alt="image">
+						<?php } ?></a>
 						                            </div>
 						                            <div class="content">
 						                                <h3>
@@ -54,7 +59,7 @@ if (count($jobInfo)):
 						                            </div>
 						                        </div>
 						                    </div>
-
+											
 						                <tr>
 						                    <?php
         $cnt++;

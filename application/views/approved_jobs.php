@@ -11,7 +11,7 @@ $CI->load->model('Job_Model');
          <div class="container">
             <div class="section-title">
                <h2>Approved Jobs</h2>
-               
+        
             </div>
             <div class="row">
 			
@@ -30,7 +30,8 @@ $CI->load->model('Job_Model');
 						?>   
 						<tr>
 						
-               <div class="col-lg-4 col-md-6">
+               <div class="col-lg-4 col-md-6 approved-Jobs"
+			>
                   <div class="single-job-list-box">
                      <div class="job-information">
                         <div class="company-logo">
@@ -90,17 +91,17 @@ $CI->load->model('Job_Model');
                      </ul>
 					 
                      <div class="job-btn">
-                        <a href="<?php echo base_url()?>Job/applicant_details/<?php echo $encrypted_id ?>" class="default-btn">View Applicant  <?php echo $count_applicant_count; ?><i class="flaticon-list-1"></i></a>
+                        <a href="<?php echo base_url()?>Job/applicant_details/<?php echo $encrypted_id ?>" class="default-btn default-btn-0">View Applicant  <?php echo $count_applicant_count; ?><i class="flaticon-list-1"></i></a>
                      </div>
 					 <div class="job-btn">
-                        <a href="<?php echo base_url()?>Job/all_shortlist/<?php echo $encrypted_id ?>" class="default-btn">Shortlist Applicant <?php echo $count_shortlist_count; ?><i class="flaticon-list-1"></i></a>
+                        <a href="<?php echo base_url()?>Job/all_shortlist/<?php echo $encrypted_id ?>" class="default-btn default-btn-0">Shortlist Applicant <?php echo $count_shortlist_count; ?><i class="flaticon-list-1"></i></a>
                      </div>
 					 <div class="job-btn">
-                        <a href="<?php echo base_url()?>Manage_dashboard/getAssignedEmployee/<?php echo $encrypted_id ?>" class="default-btn">Assigned Candidates  <?php echo $count_assigned_count; ?><i class="flaticon-list-1"></i></a>
+                        <a href="<?php echo base_url()?>Manage_dashboard/getAssignedEmployee/<?php echo $encrypted_id ?>" class="default-btn default-btn-0">Assigned Candidates  <?php echo $count_assigned_count; ?><i class="flaticon-list-1"></i></a>
                      </div>
 					 <?php if ($this->session->userdata['rolecode'] == '1') {?>
 						<div class="job-btn">
-							<a href="<?php echo base_url()?>Job/delete_job/<?php echo $encrypted_id ?>" class="default-btn">Delete Job<i class="flaticon-list-1"></i></a>
+							<a href="<?php echo base_url()?>Job/delete_job/<?php echo $encrypted_id ?>" class="default-btn default-btn-0">Delete Job<i class="flaticon-list-1"></i></a>
 						</div>
 					 <?php } ?>
                   </div>
@@ -128,3 +129,4 @@ $CI->load->model('Job_Model');
       </div>
    
   </div> 
+

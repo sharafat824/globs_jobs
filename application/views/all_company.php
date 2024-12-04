@@ -12,7 +12,8 @@
 
 
 <div class="all-applicants-box">
-<h2>Companies</h2>
+		<h2>Companies</h2>
+
 <div class="row">
 <tbody>
 <?php
@@ -25,12 +26,12 @@ if (count($company)):
 					<tr>
 
 
-					<div class="col-lg-6 col-md-12">
+					<div class="col-lg-6 col-md-12 all-companies">
 					<div class="single-applicants-card">
 					<div class="image">
 					<a href="">
-						<?php $image_url =  'employeereg_images/'.$row->company_logo; ?>
-						<?php if(file_exists($image_url)){ ?>
+						<!--  -->
+						<?php if(!empty($row->company_logo) ){ ?>
 							<img src="<?php echo base_url() ?>employee_images/<?php echo htmlentities($row->company_logo) ?>" alt="image">
 						<?php }else{ ?>
 							<img src="<?php echo base_url('assets/images/dashboard/user1.jpg'); ?>" class="rounded-circle" alt="image">
@@ -75,7 +76,7 @@ if (count($company)):
 					<td><?php echo anchor("Company/getcompanydetail/{$row->id}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Company Detail" ><i class="ri-eye-line"></i></button></li>') ?></td>
 					<?php if ($row->status == 1) {?>
 					<td>
-						<?php echo anchor("Job/approved_jobs/{$row->id}", "<li><button class='option-btn d-inline-block' data-bs-toggle='tooltip' data-bs-placement='top' title='' ><span>{$row->job_count}</span></button></li>") ?>
+						<?php echo anchor("Job/approved_jobs/{$row->id}", "<li><button class='option-btn d-inline-block' data-bs-toggle='tooltip' data-bs-placement='top' title='Approved Jobs' ><span>{$row->job_count}</span></button></li>") ?>
 					</td>
 					<?php } ?>
 					<?php if ($row->status == 0 || $row->status == 2) {?>
@@ -85,12 +86,13 @@ if (count($company)):
 					<td><?php echo anchor("Company/rejectcompany/{$encrypted_id}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject Aplication" type="button"><i class="ri-close-line"></i></button></li>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog2();")) ?></td>
 					<?php }?>
 					<td><?php echo anchor("Company/deletecompany/{$encrypted_id}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Aplication" type="button"><i class="ri-delete-bin-line"></i></button></li> ', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog3();")) ?></td>
+					
 					</ul>
 					</div>
 					</div>
 					</div>
 					</div>
-
+					
 					<tr>
 					 <?php
         $cnt++;
@@ -108,4 +110,5 @@ endif;
 </div>
 </div>
 </div>
+
 

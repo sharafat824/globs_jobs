@@ -11,7 +11,10 @@
 
 
     <div class="all-applicants-box">
+		<div class=""> 
         <h2>Total Employee</h2>
+		
+	</div>
         <div class="row">
             <tbody>
                 <?php
@@ -23,17 +26,21 @@ if (count($jobInfo)):
         ?>
 						                <tr>
 
-						                    <div class="col-lg-6 col-md-12">
+						                    <div class="col-lg-6 col-md-12 total-employee">
 						                        <div class="single-applicants-card">
 						                            <div class="image">
-						                                <a href=""><img
+						                                <a href="">
+                                                        <?php if(!empty($row->profile_pic)) {?><img
 						                                        src="<?php echo base_url() ?>employee_images/<?php echo htmlentities($row->profile_pic) ?>"
-						                                        alt="image"></a>
+						                                        alt="image">
+                                                                <?php }else{ ?>
+							<img src="<?php echo base_url('assets/images/dashboard/user1.jpg'); ?>" class="rounded-circle" alt="image">
+						<?php } ?></a>
 						                            </div>
 						                            <div class="content">
 						                                <h3>
 						                                    <a href="">
-						                                        <td><?php echo htmlentities($row->first_name); ?></td>
+						                                        <td> <?php echo htmlentities($row->first_name); ?></td>
 						                                    </a>
 						                                </h3>
 						                                <span><?php echo htmlentities($row->email); ?></span>
@@ -59,7 +66,7 @@ if (count($jobInfo)):
 						                            </div>
 						                        </div>
 						                    </div>
-
+										
 						                <tr>
 						                    <?php
         $cnt++;
