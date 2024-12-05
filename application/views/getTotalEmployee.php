@@ -1,17 +1,19 @@
 <div class="">
-
+	<?php
+	$status = $status === 'pending' ? 'Pending' : 'Total';
+	?>
 	<div class="breadcrumb-area">
-		<h1>Total Employee</h1>
+		<h1><?php echo $status ?> Employee</h1>
 		<ol class="breadcrumb">
 			<li class="item"><a href="dashboard.html">Home</a></li>
 			<li class="item"><a href="dashboard.html">Dashboard</a></li>
-			<li class="item">Total Employee</li>
+			<li class="item"><?php echo $status ?> Employee</li>
 		</ol>
 	</div>
 
 
 	<div class="all-applicants-box">
-			<h2>Total Employee</h2>
+		<h2><?php echo $status ?> Employee</h2>
 		<div class="row">
 			<tbody>
 				<?php
@@ -57,7 +59,20 @@
 														<?php echo anchor("Manage_applicant/approveSingleApplicant/{$encrypted_id2}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Approve Aplication" ><i class="ri-check-line"></i></button></li>') ?>
 													<?php } ?>
 
+													<?php echo anchor("Manage_applicant/editApllicant/{$encrypted_id2}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Aplication" ><i class="bi bi-pencil"></i></button></li>') ?>
+
 													<?php echo anchor("Manage_applicant/getapllicant/{$encrypted_id2}", '<li><button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="View Aplication" ><i class="ri-eye-line"></i></button></li>') ?>
+
+													<a class="option-btnd-inline-block"
+														href="<?php echo base_url("Manage_applicant/deleteapplicant/{$encrypted_id2}"); ?>"
+														title="Delete"
+														onclick="return confirm('Are you sure?');">
+														<li>
+															<button class="option-btn d-inline-block">
+															<i class="bi bi-trash"></i>
+															</button>
+														</li>
+													</a>
 												</td>
 											</ul>
 										</div>
@@ -79,6 +94,9 @@
 				endif;
 					?>
 			</tbody>
+			<?php
+			echo $pagination_links;
+			?>
 		</div>
 	</div>
 </div>

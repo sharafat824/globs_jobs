@@ -26,13 +26,15 @@ class Applicant_Model extends CI_Model
         }
 
 
-        public function getassignedJob()
+        public function getassignedJob($limit, $offset)
         {
                 $this->db->select('*,user_jobs.id as user_job_id,e.id as employee_id');
                 $this->db->join('users', 'e.user_id =users.id', 'inner');
+                $this->db->join('country c', 'c.id =e.country', 'inner');
                 $this->db->join('user_jobs', ' e.user_id = user_jobs.user_id', 'inner');
                 $this->db->join('jobs', ' user_jobs.job_id =jobs.id', 'inner');
                 $this->db->where('e.status', 1);
+                $this->db->limit($limit, $offset);
                 $query = $this->db->get('employee_profile e');
                 // print_r($this->db->last_query());exit();
                 return $query->result();
@@ -61,6 +63,7 @@ class Applicant_Model extends CI_Model
             if (!empty($searchValue)) {
                 $this->db->group_start();
                 $this->db->like('e.first_name', $searchValue);
+                $this->db->or_like('e.last_name', $searchValue);
                 $this->db->or_like('u.user_email', $searchValue);
                 $this->db->group_end();
             }
@@ -108,8 +111,7 @@ class Applicant_Model extends CI_Model
                 $this->db->group_start();
                 $this->db->like('e.first_name', $searchValue);
                 $this->db->or_like('e.last_name', $searchValue);
-                $this->db->or_like('c.category_name', $searchValue);
-                $this->db->or_like('co.country_name', $searchValue);
+                $this->db->or_like('u.user_email', $searchValue);
                 $this->db->group_end();
             }
         
@@ -187,8 +189,8 @@ class Applicant_Model extends CI_Model
         // Function for use deletion
         public function deletejob($uid)
         {
-                $sql_query = $this->db->where('id', $uid)
-                        ->delete('user_jobs');
+                $sql_query = $this->db->where('id', $uid);
+                      
                 if ($this->db->affected_rows() > 0) {
                         return true;
                 } else {

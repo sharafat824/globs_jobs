@@ -14,6 +14,8 @@ class Company extends CI_Controller
         $this->load->model('User/User_Model');
         $this->load->model('Candidate_Model');
         $this->load->model('Email_Model');
+       
+         $this->load->library('pagination');
         $this->config->load('config');
         if (!$this->session->userdata['user_id']) {
             redirect('Welcome');
@@ -31,8 +33,6 @@ class Company extends CI_Controller
 
     public function allcompany()
     {
-        // Load Pagination library
-        $this->load->library('pagination');
     
         // Pagination configuration
         $config['base_url'] = base_url('Company/allcompany'); // Base URL

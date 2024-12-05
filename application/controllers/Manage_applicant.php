@@ -14,6 +14,7 @@ class Manage_applicant extends CI_Controller
 		$this->load->model('Candidate_Model');
 		$this->load->model('Email_Model');
 		$this->config->load('config');
+		$this->load->library('pagination');
 		if (!$this->session->userdata['user_id']) {
 			redirect('Welcome');
 		}
@@ -91,16 +92,16 @@ class Manage_applicant extends CI_Controller
 		// Define the column mapping
 		$columns = ['profile_pic', 'first_name', 'category_name', 'cocountry_name', 'phone', 'status', 'job',  'user_source'];
 		$orderColumn = $columns[$orderColumnIndex] ?? 'first_name'; // Default to 'first_name'
-		$categoryFilter = $postData['category'] ?? null; 
-		$countryFilter = $postData['country'] ?? null;   
-		$townFilter = $postData['town'] ?? null;   
+		$categoryFilter = $postData['category'] ?? null;
+		$countryFilter = $postData['country'] ?? null;
+		$townFilter = $postData['town'] ?? null;
 
 		// Fetch data with filters
-		$data = $this->Applicant_Model->fetchApplicants($limit, $offset, $searchValue, $orderColumn, $orderDirection, $categoryFilter, $countryFilter,$townFilter);
+		$data = $this->Applicant_Model->fetchApplicants($limit, $offset, $searchValue, $orderColumn, $orderDirection, $categoryFilter, $countryFilter, $townFilter);
 
 		// Count total and filtered records
 		$totalRecords = $this->Applicant_Model->countApplicantDetails();
-		$filteredRecords = $this->Applicant_Model->countFilteredApplicants($searchValue, $categoryFilter, $countryFilter,$townFilter);
+		$filteredRecords = $this->Applicant_Model->countFilteredApplicants($searchValue, $categoryFilter, $countryFilter, $townFilter);
 
 		// Prepare response
 		$response = [
@@ -161,13 +162,13 @@ class Manage_applicant extends CI_Controller
 					default:
 						$row['user_source'] = 'Unknown'; // In case status has an unexpected value
 				}
-				$row['name'] = $row['first_name'];
+				$row['name'] = $row['first_name'].' '. $row['last_name'];
 
 				$plainStatus = strip_tags($row['status']);
 				// Prepare action buttons dynamically
 				$encrypted_id = str_replace(array('/'), array('_'), $this->encrypt->encode($row['id']));
 				$row['profile_pic'] = $profilePicHtml;  // Add the profile picture HTML to the response
-				$row['name'] = $row['name'].' '. '<br>'.'<span class="text-info">'.$row['email'].'</span>';
+				$row['name'] = $row['name'] . ' ' . '<br>' . '<span class="text-info">' . $row['email'] . '</span>';
 				$row['action'] = '
             <div class="dropdown">
                 <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -218,12 +219,37 @@ class Manage_applicant extends CI_Controller
 	public function assignedjobs()
 	{
 
+		$config['base_url'] = base_url('Manage_Applicant/assignedjobs'); // Base URL
+		$config['total_rows'] = $this->Applicant_Model->countApplicantDetails(); // Total rows count
+		$per_page = $this->config->item('per_page');
+		$config['use_page_numbers'] = true;
+		$config['uri_segment'] = 3; // This segment will contain the page number
+		$this->pagination->initialize($config);
 
-		$applicant = $this->Applicant_Model->getassignedJob();
+		// Get current page
+		$page = ($this->uri->segment(3)) ? (int)$this->uri->segment(3) : 1;
+
+		// Calculate offset based on page
+		$offset = ($page - 1) * $per_page;
+
+
+
+
+		$applicant = $this->Applicant_Model->getassignedJob($per_page, $offset);
 		// count($applicant);
 
 		$this->load->view('includes/d-header.php');
-		$this->load->view('dashboard_assignjobapplicants', ['applicant' => $applicant]);
+		$this->load->view(
+			'dashboard_assignjobapplicants',
+			[
+				'applicant' => $applicant,
+				'pagination_links' => $this->load->view('pagination_bootstrap', [
+					'base_url' => base_url('Manage_Applicant/assignedjobs'),
+					'total_pages' => ceil($config['total_rows'] / $per_page),
+					'current_page' => $page,
+				], true)
+			]
+		);
 		$this->load->view('includes/d-footer.php');
 	}
 
@@ -240,7 +266,8 @@ class Manage_applicant extends CI_Controller
 		$this->load->view('includes/d-footer.php');
 	}
 
-	public function editApllicant($uid)  {
+	public function editApllicant($uid)
+	{
 		$uid = str_replace(array('_'), array('/'), $uid);
 		$decrypted_id = $this->encrypt->decode($uid);
 
@@ -249,9 +276,9 @@ class Manage_applicant extends CI_Controller
 		$this->load->view('includes/d-header.php');
 		$this->load->view('edit_applicant', $data);
 		$this->load->view('includes/d-footer.php');
-
 	}
-	public function updateApllicant($uui)  {
+	public function updateApllicant($uui)
+	{
 		$uid = str_replace(array('_'), array('/'), $uid);
 		$decrypted_id = $this->encrypt->decode($uid);
 		$date['userInfo'] = $this->applicant_Model->editApllicant($decrypted_id);

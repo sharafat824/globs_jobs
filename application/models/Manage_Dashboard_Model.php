@@ -156,8 +156,49 @@ class Manage_Dashboard_Model extends CI_Model
         return $total;
 
     }
+    public function pendingemployee()
+    {
+
+        if ($this->session->userdata('rolecode') == 2) {
+            $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
+
+        } else {
+            $multipleWhere = ['e.user_id>' => 0];
+        }
+        $this->db->select('count(e.id) as employee_count');
+        $this->db->where('e.status', 0);
+        $this->db->where($multipleWhere);
+
+        $query = $this->db->get('employee_profile e');
+        $cnt2 = $query->row();
+
+        $total = $cnt2->employee_count;
+
+        return $total;
+
+    }
 
     public function totalemployer()
+    {
+
+        if ($this->session->userdata('rolecode') == 2) {
+            $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
+
+        } else {
+            $multipleWhere = ['e.user_id>' => 0];
+        }
+        $this->db->select('count(e.id) as employer_count');
+        $this->db->where($multipleWhere);
+
+        $query = $this->db->get('employer_profile e');
+        $cnt2 = $query->row();
+
+        $total = $cnt2->employer_count;
+
+        return $total;
+
+    }
+    public function pendingemployer()
     {
 
         if ($this->session->userdata('rolecode') == 2) {
@@ -215,9 +256,11 @@ class Manage_Dashboard_Model extends CI_Model
         return $query->result();
 
     }
-    public function gettotalemployee($approved)
+    public function gettotalemployee($approved,$status=null,$perPage=null,$offset=null)
     {
-
+        $status = $this->input->get('status');
+       
+        
         if ($this->session->userdata('rolecode') == 2) {
             $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
 
@@ -226,7 +269,13 @@ class Manage_Dashboard_Model extends CI_Model
         }
         if (!empty($approved)) {
             $this->db->where('status>', 0);
+        }elseif($status==='pending'){
+            $this->db->where('status', 0); 
         }
+    
+        // if ($perPage) {
+            $this->db->limit($perPage,$offset);
+        // }
         $this->db->select('*');
         $this->db->where($multipleWhere);
 
@@ -234,6 +283,55 @@ class Manage_Dashboard_Model extends CI_Model
 
         return $query->result();
 
+    }
+
+    public function countEmploy($status = null) {
+    
+        // Check user role and set conditions
+        if ($this->session->userdata('rolecode') == 2) {
+            $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
+        } else {
+            $multipleWhere = ['e.user_id>' => 0]; 
+        }
+    
+        // Apply conditions based on the status parameter
+        if ($status === 'pending') {
+            $this->db->where('status', 0); 
+        } else {
+            $this->db->where('status>', 0); // Corrected the syntax
+        }
+    
+        // Apply the where conditions
+        $this->db->where($multipleWhere);
+
+        // Get the count of matching records
+        $count = $this->db->count_all_results('employee_profile e');
+ 
+        // Return the count
+        return $count;
+    }
+    public function getPendingEmployee($approved = null) {
+        // Check user role and set conditions
+        if ($this->session->userdata('rolecode') == 2) {
+            $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
+        } else {
+            $multipleWhere = ['e.user_id >' => 0]; // Corrected the syntax
+        }
+    
+        // Check if approved is not empty and set the status condition
+     //   if (!empty($approved)) {
+            $this->db->where('status', 0); // Corrected the syntax
+      //  }
+    
+        // Select all columns and apply the where conditions
+        $this->db->select('*');
+        $this->db->where($multipleWhere);
+    
+        // Execute the query
+        $query = $this->db->get('employee_profile e');
+     
+        // Return the result
+        return $query->result();
     }
     public function getshortlistedemployee()
     {    

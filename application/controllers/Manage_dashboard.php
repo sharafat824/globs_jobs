@@ -12,7 +12,8 @@ class Manage_dashboard extends CI_Controller
 		$this->load->model('Candidate_Model');
         $this->load->model('Manage_Dashboard_Model');
 		$this->load->model('Applicant_Model');
-		
+        $this->load->library('pagination');
+
     }
     public function Home()
     {   
@@ -24,6 +25,7 @@ class Manage_dashboard extends CI_Controller
 			$data['total_job'] = $this->Manage_Dashboard_Model->totaljob();
 			$data['approved_job'] = $this->Manage_Dashboard_Model->approvedjob();
 			$data['total_employee'] = $this->Manage_Dashboard_Model->totalemployee();
+			$data['pending_employee'] = $this->Manage_Dashboard_Model->pendingemployee();
 			$data['totalemployer'] = $this->Manage_Dashboard_Model->totalemployer();
 			$data['approved_employee'] = $this->Manage_Dashboard_Model->approvedemployee();
 			
@@ -65,13 +67,40 @@ class Manage_dashboard extends CI_Controller
        
     }
     public function getTotalEmployee()
-    {   
+    {  
+        // Get the 'status' parameter from the URL
+        $status = $this->input->get('status');
+    
+        // Pagination configuration
+        $config['base_url'] = base_url('Manage_dashboard/getTotalEmployee?status=' . urlencode($status)); // Base URL with status
+        $config['total_rows'] = $this->Manage_Dashboard_Model->countEmploy($status); // Total rows count
+        $per_page = $this->config->item('per_page');
+        $config['per_page'] = $per_page; // Set items per page
+        $config['use_page_numbers'] = true;
+        $config['uri_segment'] = 3; // This segment will contain the page number
+        $this->pagination->initialize($config);
+    
+        // Get current page from the query string
+        $page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
+    
+        // Calculate offset based on page
+        $offset = ($page - 1) * $per_page;
+    
+        // Fetch employee data
+        $data['jobInfo'] = $this->Manage_Dashboard_Model->gettotalemployee(NULL, $status, $per_page, $offset);
+        $data['status'] = $status;
+    
+        // Load views
         $this->load->view('includes/d-header.php');
-		$data['jobInfo'] = $this->Manage_Dashboard_Model->gettotalemployee(NULL);
-		$this->load->view('getTotalEmployee',$data);
-           
+        $this->load->view('getTotalEmployee', [
+            'jobInfo' => $data['jobInfo'], // Pass the jobInfo directly
+            'pagination_links' => $this->load->view('pagination_employ', [
+                'base_url' => base_url('Manage_dashboard/getTotalEmployee?status=' . urlencode($status)), 
+                'total_pages' => ceil($config['total_rows'] / $per_page),
+                'current_page' => $page,
+            ], true)
+        ]);
         $this->load->view('includes/d-footer.php'); 
-       
     }
     public function getApprovedEmployee()
     {   
