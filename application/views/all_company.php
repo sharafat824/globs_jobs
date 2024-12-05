@@ -10,7 +10,15 @@
 	</div>
 
 	<div class="all-applicants-box">
-		<h2>Companies</h2>
+		<div class="d-flex justify-content-between align-items-center">
+			<div>
+			<h2>Companies</h2>
+			</div>
+			<div>
+			<a href="<?php echo base_url() .'Company/CreateCompanyAdmin' ?>" class="default-btn"><i class="bi bi-plus"></i>Add</a>
+			
+			</div>
+		</div>
 		<div class="row">
 			<tbody>
 				<?php

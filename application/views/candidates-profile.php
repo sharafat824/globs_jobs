@@ -97,7 +97,7 @@ if (!empty($userInfo)) {
             <div class="col-xl-12 col-lg-12 col-md-12">
                 <div class="form-group">
                     <label>Job Category</label>
-                    <select class="form-control" name="category" id="category" onchange="showDiv('hidden_div', this)"
+                    <select class="form-control" name="category" id="category" 
                         required="required">
                         <option value="">Select</option>
                         <?php
@@ -105,17 +105,13 @@ if (!empty($userInfo)) {
                             foreach ($catInfo as $c) {
                         ?>
                                 <option value="<?php echo $c->id ?>" <?php if ($userInfo->category_id == $c->id) {
-                                                                            echo
-                                                                            "selected";
-                                                                        } ?>>
-                                    <?php echo $c->category_name ?>
+                              echo "selected";   } ?>>
+                               <?php echo $c->category_name ?>
                                 </option>
                         <?php
                             }
                         }
                         ?>
-
-                    </select>
                     </select>
                 </div>
             </div>
@@ -346,7 +342,7 @@ if (!empty($userInfo)) {
                     <?php } else { ?>
                         <label>Country Of Birth</label>
                     <?php } ?>
-                    <select  class="form-control" name="nationality" id="nationality" <?php if (empty($userInfo)) { ?>
+                    <select class="form-control" name="nationality" id="nationality" <?php if (empty($userInfo)) { ?>
                         required="required"
                         <?php } ?>>
                         <option value="{{$userInfo->nationality}}" selected><?php $country_data->country_name ?></option>

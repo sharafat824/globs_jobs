@@ -9,7 +9,6 @@ if (isset($userInfo) && $userInfo != NULL) {
     $address = $userInfo->c_address;
     $city_name = $userInfo->ccity_name;
     $country_name = $userInfo->cocountry_name;
-    var_dump($userInfo);
 }
 ?>
 
@@ -38,7 +37,8 @@ if (isset($userInfo) && $userInfo != NULL) {
                             <input type="text" name="website" id="website" value="<?php echo $website; ?>" class="form-control">
                         </div>
                     </div>
-
+                    <input type="hidden" name="previous_country" value="<?php echo $userInfo->c_country?>">
+                    <input type="hidden" name="previous_city" value="<?php echo $userInfo->c_city?>">
                     <!-- Right Section: Contact Info -->
                     <div class="col-lg-8">
                         <h5 class="text-primary mb-3"><i class="bi bi-person-lines-fill"></i> Contact Information</h5>

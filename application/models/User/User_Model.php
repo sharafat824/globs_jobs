@@ -60,6 +60,13 @@ Class User_Model extends CI_Model {
 
         return $insert_id;
     }
+
+    public function email_exists($email) {
+        $this->db->where('user_email', $email);
+        $query = $this->db->get('users');
+        return ($query->num_rows() > 0);
+    }
+    
     function getCity()
     {
         $query = $this->db->select('id, city_name')

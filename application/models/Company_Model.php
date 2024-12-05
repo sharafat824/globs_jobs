@@ -5,6 +5,7 @@ class Company_Model extends CI_Model
 
     public function getcompanyDetailRow()
     {
+       
         $query = $this->db->select('*')
             ->where('user_id', $this->session->userdata['user_id'])
             ->get('employer_profile');
@@ -47,10 +48,10 @@ class Company_Model extends CI_Model
         return $query->row();
     }
 
-    public function add_company($name, $registration_number, $email, $phone, $website, $about, $country, $city, $address, $new_image_name11, $company_lat, $company_long)
+    public function add_company($name, $registration_number, $email, $phone, $website, $about, $country, $city, $address, $new_image_name11, $company_lat, $company_long, $userId)
     {
         $data = array(
-            'user_id' => $this->session->userdata['user_id'],
+            'user_id' => $userId,
             'company_logo' => $new_image_name11,
             'company_name' => $name,
             'registration_number' => $registration_number,
