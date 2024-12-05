@@ -14,10 +14,10 @@
             </div>
         <?php endif; ?>
         <div class="card shadow-lg">
-            <div class="card-header bg-primary text-white">
+            <div class=" bg-primary text-white">
                 <h3 class="mb-0 text-white">Create Company</h3>
             </div>
-            <div class="card-body">
+            <div class="card-body my-profile-box">
                 <!-- Form to Create User -->
                 <?php echo form_open_multipart('Company/StoreUserAndCompany'); ?>
 
@@ -34,8 +34,10 @@
                         <img id="logo-preview" src="" alt="Logo Preview" style="display:none; margin-top: 10px; max-width: 200px;">
                     </div>
                     <div class="col-md-4 mb-3">
+                        <div class="form-group">
                         <label class="mb-1" for="user_name">User Name</label>
                         <input type="text" name="user_name" id="user_name" class="form-control" required>
+                        </div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="mb-1" for="user_email">User Email</label>

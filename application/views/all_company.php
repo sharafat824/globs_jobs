@@ -15,7 +15,7 @@
 			<h2>Companies</h2>
 			</div>
 			<div>
-			<a href="<?php echo base_url() .'Company/CreateCompanyAdmin' ?>" class="default-btn"><i class="bi bi-plus"></i>Add</a>
+			<a href="<?php echo base_url() .'Company/CreateCompanyAdmin' ?>" class="default-btn default-btn-0"><i class="bi bi-plus"></i>Add</a>
 			
 			</div>
 		</div>
