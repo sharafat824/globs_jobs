@@ -14,7 +14,7 @@ Class User_Model extends CI_Model {
 
     public function deleteuser($uid) {
         $sql_query = $this->db->where('id', $uid)
-                ->delete('user');
+                ->delete('users');
 //        $data = array('deleted' =>1);
 //        $this->db->where('id', $uid);
 //        $this->db->update('user', $data);
@@ -46,9 +46,9 @@ Class User_Model extends CI_Model {
         
         $this->db->where('id', $userId);
         $this->db->update('user', $userInfo);
-
         return TRUE;
     }
+
 
     public function addNewUser($userInfo) {
         $this->db->trans_start();

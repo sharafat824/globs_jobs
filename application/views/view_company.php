@@ -22,7 +22,9 @@ $country_name = $userInfo->cocountry_name;
                <div class="candidates-details-sticky">
                   <div class="candidates-details-information">
                      <div class="information-box">
-                        <img src="<?php echo base_url()?>employee_images/<?php echo $company_logo ?>" alt="image">
+                     <?php if(!empty($company_logo) ){ ?>
+                        <img src="<?php echo base_url()?>employee_images/<?php echo $company_logo ?>" alt="image"> <?php } else{ ?><img src="<?php echo base_url('assets/images/dashboard/user1.jpg'); ?>" class="rounded-circle" alt="image"><?php } ?>
+
                         <h3><?php echo $company_name; ?></h3>
                         <a href="<?php echo $website ?>" target="_blank"><span><?php echo $website; ?></span></a>
                         

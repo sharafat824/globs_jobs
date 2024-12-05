@@ -5,11 +5,15 @@
                <h2>Categories</h2>
             </div>
               <div>
-                <span style="float:right;">
+              
+    
+            <span style="float:right;">
 
                 <a href="<?php echo base_url(); ?>categories/add_category/"  class="default-btn" > Add </a>
 
                 </span>
+	</div>
+                
               </div>
             <table class="table">
                 <thead>
@@ -29,17 +33,19 @@
                         $encrypted_id = $this->encrypt->encode($row->id);
                         $encrypted_id = str_replace(array('/'), array('_'), $encrypted_id);
                 ?>
-                    <tr>
+                    <tr class="categories">
                         
                         <td><?php echo $cnt ?></td>
                         <td><?php echo $row->category_name ?></td>
                         <td><?php echo $row->title ?></td>
                         <td><?php echo $row->description ?></td>
-                        <td>
-                            <a href="<?php echo base_url(); ?>Categories/getcategory/<?php echo $encrypted_id; ?>"  class="default-btn" > Edit </a>
+                        <td class="d-flex gap-2">
+                            <a href="<?php echo base_url(); ?>Categories/getcategory/<?php echo $encrypted_id; ?>"  class="option-btn text-center" ><i class="ri-pencil-line"></i> </a>
 
-                            <a href="<?php echo base_url(); ?>Categories/deletecategory/<?php echo $encrypted_id; ?>"  class="default-btn" > Delete </a>
+                            <a href="<?php echo base_url(); ?>Categories/deletecategory/<?php echo $encrypted_id; ?>"  class="option-btn text-center" >  <i class="ri-delete-bin-line"></i>
+                            </a>
                         </td>
+                        
                     </tr>
                 <?php
                     $cnt++;
@@ -48,6 +54,8 @@
                 ?>
                 </tbody>
             </table>
+				
         </div>
     </div>
 </div> 
+

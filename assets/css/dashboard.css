@@ -91,6 +91,10 @@
     font-size: var(--font-size)
 }
 
+.sidemenu-area .sidemenu-body .sidemenu-nav .nav-item  .active, .active{
+    color: var(--main-color) !important;
+}
+
 .sidemenu-area .sidemenu-body .sidemenu-nav .nav-item .nav-link .icon {
     color: var(--black-color);
     -webkit-transition: var(--transition);
@@ -107,20 +111,24 @@
     color: var(--main-color)
 }
 
+
+
 .sidemenu-area .sidemenu-body .sidemenu-nav .nav-item .nav-link:hover .icon {
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg);
     color: var(--main-color)
 }
 
-.sidemenu-area .sidemenu-body .sidemenu-nav .nav-item.active .nav-link {
+/* .sidemenu-area .sidemenu-body .sidemenu-nav .nav-item.active .nav-link {
     background-color: #fafafa;
     color: var(--main-color)
 }
-
-.sidemenu-area .sidemenu-body .sidemenu-nav .nav-item.active .nav-link .icon {
+.sidemenu-area .sidemenu-body .sidemenu-nav .nav-item.active {
+    background-color: #fafafa;
     color: var(--main-color)
-}
+} */
+
+
 
 .main-dashboard-content {
     -webkit-transition: var(--transition);
@@ -856,13 +864,15 @@
 
 .single-applicants-card .image {
     position: absolute;
-    top: 20px;
+    top: 20px;   
     left: 20px
 }
 
 .single-applicants-card .image img {
-    border-radius: 5px;
-    max-width: 92px
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover !important;
 }
 
 .single-applicants-card .content {
@@ -940,7 +950,7 @@
     margin-right: 0
 }
 
-.single-applicants-card .content .applicants-footer .option-list li .option-btn {
+.option-btn {
     display: inline-block;
     border: none;
     background: rgba(25, 103, 210, .07);
@@ -954,7 +964,8 @@
     transition: var(--transition)
 }
 
-.single-applicants-card .content .applicants-footer .option-list li .option-btn:hover {
+
+.option-btn:hover {
     background: var(--main-color);
     color: var(--white-color)
 }
@@ -1134,9 +1145,13 @@
     padding: 10px 15px;
     border-radius: 0
 }
-
+/* new  */
+.default-btn i {
+    right: 10px !important;
+}
 .my-profile-box form .default-btn {
-    border: none
+    border: none;
+    padding: 12px 60px 12px 40px;
 }
 
 .my-profile-box form .default-btn::before {
@@ -1394,7 +1409,6 @@
     padding: 10px 15px;
     border-radius: 0
 }
-
 .post-a-new-job-box form .default-btn {
     display: block;
     border: none
@@ -3009,8 +3023,7 @@
 
     .main-dashboard-content .main-responsive-nav .mean-container a.meanmenu-reveal {
         padding: 0;
-        margin-top: -5px;
-        display: none;
+        margin-top: -5px
     }
 
     .main-dashboard-content .main-responsive-nav .mean-container a.meanmenu-reveal span {
@@ -3545,10 +3558,11 @@
         font-size: 18px
     }
 
-    .single-applicants-card .content .applicants-footer .option-list li .option-btn {
+    .option-btn {
         height: 30px;
         width: 30px;
         line-height: 32px;
         font-size: 14px
     }
+    
 }

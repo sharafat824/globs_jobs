@@ -12,7 +12,7 @@
 
 
 <div class="all-applicants-box">
-<h2>Applicants</h2>
+	<h2>Applicants</h2>
 <div class="row">
 <tbody>
 <?php
@@ -31,7 +31,7 @@ if (count($applicant)):
 					<div class="single-applicants-card">
 					<div class="image">
 					<?php $image_url =  'employee_images/'.$row->profile_pic; ?>
-						<?php if(file_exists($image_url)){ ?>
+						<?php if (!empty($row->profile_pic) && file_exists($image_url)){ ?>
 							<img src="<?php echo base_url() ?>employee_images/<?php echo htmlentities($row->profile_pic) ?>" alt="image">
 						<?php }else{ ?>
 							<img src="<?php echo base_url('assets/images/dashboard/user1.jpg'); ?>" class="rounded-circle" alt="image">

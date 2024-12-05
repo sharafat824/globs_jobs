@@ -27,7 +27,7 @@
                         <div class="col-md-6 mb-3">
                             <?php //if (authorize($_SESSION["access"]["ADMIN"]["User"]["create"])) { ?>
 
-                                <button class="btn btn-primary pull-right" style="margin-top:50px; margin-right:30px"; display:block;>
+                                <button class="default-btn pull-right" style="margin-top:50px; border:none; margin-right:30px"; display:block;>
                                         <a href="<?php echo site_url('User/addNew') ?>" style="color:#fff; text-decoration:none;">Add User</a>
                                 </button>
 
@@ -63,7 +63,7 @@
                                                 <td><?php echo htmlentities($row->user_name) ?></td>
                                                 <td><?php echo htmlentities($row->user_email) ?></td>
                                                 
-                                                <td align="center">
+                                                <td class="text-center">
                                                     <?php //if (authorize($_SESSION["access"]["ADMIN"]["User"]["delete"])) { ?>
                                                         <?php echo anchor("User/deleteuser/{$encrypted_id}", '<button class="option-btn d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete User" type="button"><i class="ri-delete-bin-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog3();")) ?>
 

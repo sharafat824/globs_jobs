@@ -97,7 +97,7 @@ $CI->load->model('Job_Model');
                      
                      <?php if ($this->session->userdata('rolecode') == 3) { ?>
                      <div class="job-btn">
-                        <a href="<?php echo base_url()?>Manage_dashboard/getAssignedEmployee/<?php echo $encrypted_id ?>" class="default-btn">Assigned Candidates  <?php echo $count_assigned_count; ?><i class="flaticon-list-1"></i></a>
+                        <a href="<?php echo base_url()?>Manage_dashboard/getAssignedEmployee/<?php echo $encrypted_id ?>" class="default-btn default-btn-0">Assigned Candidates  <?php echo $count_assigned_count; ?><i class="flaticon-list-1"></i></a>
                      </div>
                      <?php } ?>
                      

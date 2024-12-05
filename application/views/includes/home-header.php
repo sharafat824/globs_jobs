@@ -214,11 +214,11 @@
                      <div class="others-options d-flex align-items-center">
 					 <?php if($this->session->userdata['rolecode']=='') { ?>
                         <div class="option-item" style="margin-right: 5px;">
-                           <a href="<?php echo base_url() ?>Welcome/all_jobs" class="default-btn btn-2">Apply for a job <i class="flaticon-plus"></i></a>
+                           <a href="<?php echo base_url() ?>Welcome/all_jobs" class="default-btn default-btn-0 btn-2">Apply for a job <i class="flaticon-plus"></i></a>
                         </div>
 
                         <div class="option-item">
-                           <a href="<?php echo base_url() ?>Manage_login?page=2" class="default-btn ">Post Job<i class="flaticon-plus"></i></a>
+                           <a href="<?php echo base_url() ?>Manage_login?page=2" class="default-btn default-btn-0">Post Job<i class="flaticon-plus"></i></a>
                         </div>
 
 					 <?php } ?>
