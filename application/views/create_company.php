@@ -2,9 +2,10 @@
 <div class="breadcrumb-area mb-0 mx-3">
 		<h1>All Applicants</h1>
 		<ol class="breadcrumb">
-			<li class="item"><a href="dashboard.html">Home</a></li>
-			<li class="item"><a href="dashboard.html">Dashboard</a></li>
-			<li class="item">Create Company  User</li>
+			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Home</a></li>
+			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
+            <li class="item"><a href="<?php echo base_url()?>Company/allcompany">All Companies</a></li>
+            <li class="item">Create Company  User</li>
 		</ol>
 	</div>
     <div class="container py-5">
@@ -15,7 +16,7 @@
         <?php endif; ?>
         <div class="card shadow-lg">
             <div class=" bg-primary text-white">
-                <h3 class="mb-0 text-white">Create Company</h3>
+                <h3 class="mb-0 text-white text-center p-3">Create Company</h3>
             </div>
             <div class="card-body my-profile-box">
                 <!-- Form to Create User -->
@@ -25,11 +26,13 @@
                 <h5 class="text-secondary mb-3">User Information</h5>
                 <div class="row">
                     <div class="mb-3">
+                    <div class="form-group">
                         <label class="form-label" for="company_logo">Company Logo</label>
                         <div class="input-group">
                             <input type="file" name="file11" id="company_logo" class="form-control" accept="image/*">
-                            <button class="btn btn-outline-secondary" type="button" id="upload-button">Upload</button>
+                            <label class="default-btn" for="company_logo" style="padding: 18px; cursor: pointer;">Upload </label>
                         </div>
+                       </div>
                         <small class="form-text text-muted">Upload a logo image (JPG, PNG, GIF).</small>
                         <img id="logo-preview" src="" alt="Logo Preview" style="display:none; margin-top: 10px; max-width: 200px;">
                     </div>
@@ -40,12 +43,16 @@
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
+                    <div class="form-group">
                         <label class="mb-1" for="user_email">User Email</label>
                         <input type="email" name="user_email" id="user_email" class="form-control" required>
                     </div>
+                    </div>
                     <div class="col-md-4 mb-3">
+                    <div class="form-group">
                         <label class="mb-1" for="user_password">Password</label>
                         <input type="password" name="user_password" id="user_password" class="form-control" required>
+                    </div>
                     </div>
                 </div>
                 <!-- Company Information -->
@@ -54,35 +61,48 @@
                     <div class="col-lg-12">
                         <div class="row">
                             <div class="col-md-4 mb-3">
+                                <div class="form-group">
                                 <label class="mb-1" for="company_name">Company Name</label>
                                 <input type="text" name="company_name" id="company_name" class="form-control" required>
                             </div>
+                            </div>
                             <div class="col-md-4 mb-3">
+                                <div class="form-group">
                                 <label class="mb-1" for="registration_number">Registration Number</label>
                                 <input type="text" name="registration_number" id="registration_number" class="form-control">
                             </div>
+                            </div>
                             <div class="col-md-4 mb-3">
+                                <div class="form-group">
                                 <label class="mb-1" for="website">Website</label>
                                 <input type="text" name="website" id="website" class="form-control">
                             </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
+                                <div class="form-group">
                                 <label class="mb-1" for="phone">Phone</label>
                                 <input type="text" name="phone" id="phone" class="form-control" required>
                             </div>
+                            </div>
                             <div class="col-md-6 mb-3">
+                                <div class="form-group">
                                 <label class="mb-1" for="companyemail">Email</label>
                                 <input type="email" name="email" id="companyemail" class="form-control" required>
+                            </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
+                            <div class="form-group">
                                 <label class="mb-1" for="country">Country*</label>
                                 <select class="form-control" id="country" name="country" required>
                                 </select>
                             </div>
+                            </div>
                             <div class="col-md-6 mb-3">
+                            <div class="form-group">
                                 <label class="mb-1" for="city">City*</label>
                                 <select class="form-control" id="town" name="city" <?php if (empty($userInfo)) { ?>
                                     required="required"
@@ -102,6 +122,7 @@
                                     }
                                     ?>
                                 </select>
+                            </div>
                             </div>
                         </div>
                         <div class="form-group mb-3">
@@ -124,7 +145,10 @@
                             <label class="mb-1"  for="longitude">Longitude</label>
                             <input type="text" name="longitude" id="longitude" class="form-control">
                         </div> -->
-                        <button type="submit" class="btn btn-primary w-100">Create User and Company</button>
+                        <div class="text-center "> 
+
+                            <button type="submit" class="btn  default-btn w-100 mt-3">Create User and Company</button>
+                        </div>
                     </div>
                 </div>
                 <?php echo form_close(); ?>

@@ -141,8 +141,8 @@
 <div class="breadcrumb-area">
     <h1>All Applicants</h1>
     <ol class="breadcrumb">
-        <li class="item"><a href="dashboard.html">Home</a></li>
-        <li class="item"><a href="dashboard.html">Dashboard</a></li>
+        <li class="item"><a href="<?php echo base_url() ?>Manage_dashboard/Home">Home</a></li>
+        <li class="item"><a href="<?php echo base_url() ?>Manage_dashboard/Home">Dashboard</a></li>
         <li class="item">All Applicants</li>
     </ol>
 </div>
