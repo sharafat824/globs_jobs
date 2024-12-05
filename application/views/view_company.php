@@ -16,6 +16,15 @@ $country_name = $userInfo->cocountry_name;
 <body>
   
    <div class="candidates-details-area ptb-100">
+   <div class="breadcrumb-area mb-5 mx-3">
+		<h1>Welcome!</h1>
+		<ol class="breadcrumb">
+			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Home</a></li>
+			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
+            <li class="item"><a href="<?php echo base_url()?>Company/allcompany">All Companies</a></li>
+            <li class="item">Company Details</li>
+		</ol>
+	</div>
       <div class="container">
          <div class="row">
             <div class="col-lg-4 col-md-12">

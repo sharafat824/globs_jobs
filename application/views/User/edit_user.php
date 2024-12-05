@@ -26,7 +26,7 @@ $city = $cityInfo;
 
 
 <!--row open-->
-<div class="row">
+<div class="row my-profile-box">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">

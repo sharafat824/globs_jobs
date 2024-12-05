@@ -7,7 +7,7 @@ $title = $userInfo->title;
 $description = $userInfo->description;
 
 } 
-?><div class="">
+?><div class="my-profile-box">
    <div class="job-list-area">
         <div class="container">
             <div class="section-title">
@@ -33,7 +33,7 @@ $description = $userInfo->description;
                            </div>
 </div>
 <div class="row mt-5">
-                           <div class="col-lg-10  ">
+                           <div class="col-lg-10  my-profile-box">
                               <div class="form-group">
                                  <!-- <input type="text" class="form-control" name='description' required value="<?php echo $description; ?>"> -->
                                   <textarea

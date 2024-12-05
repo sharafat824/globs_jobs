@@ -5,7 +5,7 @@ $form = form_open_multipart('User/addNewUser');
 
 ?>
 
-<div class="">
+<div class="my-profile-box">
    <div class="job-list-area">
         <div class="container">
             <div class="section-title">

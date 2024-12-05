@@ -1,12 +1,19 @@
 
 <div class="">
-   
+<div class="breadcrumb-area">
+        <h1>Applied Jobs</h1>
+        <ol class="breadcrumb">
+            <li class="item"><a href="<?php echo base_url() ?>Manage_dashboard/Home">Home</a></li>
+            <li class="item"><a href="<?php echo base_url() ?>Manage_dashboard/Home">Dashboard</a></li>
+            <li class="item">Applied Jobs</li>
+        </ol>
+</div>
    
    <div class="job-list-area">
          <div class="container">
             <div class="section-title">
                <h2>Applied Jobs</h2>
-               
+                   
             </div>
             <div class="row">
 			
