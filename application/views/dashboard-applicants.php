@@ -1,154 +1,273 @@
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
+<!-- Load jQuery first -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" defer></script>
+
+
+<!-- Select2 JS -->
+<script src="<?php echo base_url('assets/js/select2.min.js'); ?>" defer></script>
+
+
 <style>
-	.pagination {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		justify-content: center;
-		padding: 0;
-	}
+    /* Pagination styling */
+    .pagination {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        padding: 0;
+    }
 
-	.pagination .page-item {
-		margin: 0.1rem;
-	}
+    .pagination .page-item {
+        margin: 0.1rem;
+    }
 
-	.pagination .page-item.disabled .page-link {
-		background-color: #f0f0f0;
-		color: #d1d1d1;
-	}
+    .pagination .page-item.disabled .page-link {
+        background-color: #f0f0f0;
+        color: #d1d1d1;
+    }
 
-	.pagination .page-item.active .page-link {
-		background-color: #007bff;
-		border-color: #007bff;
-		color: white;
-	}
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
 
-	.pagination .page-item a {
-		padding: 0.5rem 1rem;
-	}
+    .pagination .page-item a {
+        padding: 0.5rem 1rem;
+    }
+
+    /* Avatar styling */
+    .avatar {
+        object-fit: cover;
+        height: 80px;
+        width: 80px;
+    }
+
+    /* Styling for filters */
+    .filters {
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .filters select {
+        font-size: 1rem;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+        color: #333;
+        transition: border-color 0.3s;
+    }
+
+    .filters select:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    /* Styling for search input */
+    #example_filter input {
+        width: 22rem;
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+        outline: none;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    /* Hover effect for DataTable rows */
+    #example tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Custom filter and search alignment */
+    .filter-search-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .filter-search-wrapper .filters,
+    .filter-search-wrapper #example_filter {
+        margin: 0;
+    }
+
+    #example_paginate {
+        margin-top: 1rem;
+    }
+
+    #example_length {
+        margin-top: 1rem;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #dda63a !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+        background: #dda63a !important;
+
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: rgb(255, 193, 7) !important;
+        color: #ffffff !important;
+
+    }
+
+    .btn-check:focus+.btn,
+    .btn:focus {
+        box-shadow: none !important;
+    }
+    .select2-container--default .select2-selection--single{
+        height: 39px !important;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        padding: 5px 10px !important;
+    }
 </style>
-<div class="">
 
-	<div class="breadcrumb-area">
-		<h1>All Applicants</h1>
-		<ol class="breadcrumb">
-			<li class="item"><a href="dashboard.html">Home</a></li>
-			<li class="item"><a href="dashboard.html">Dashboard</a></li>
-			<li class="item">All Applicants</li>
-		</ol>
-	</div>
-
-	<div class="all-applicants-box">
-		<h2>Applicants </h2>
-		<br />
-		<div class="row">
-			<table id="example" class="display respons " style="width:100%">
-				<thead>
-					<tr>
-						<th>ProfilePic</th>
-						<th>Name</th>
-						<th>Category</th>
-						<th>Country</th>
-						<th>Phone</th>
-						<th>Status</th>
-						<th>Register Source</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					if (count($applicant)):
-						$cnt = 1;
-						foreach ($applicant as $row):
-							$encrypted_id = $this->encrypt->encode($row->id);
-							$encrypted_id = str_replace(array('/'), array('_'), $encrypted_id);
-					?>
-							<tr>
-								<td>
-									<div class="image">
-										<?php $image_url =  'employee_images/' . $row->profile_pic; ?>
-										<?php if (file_exists($image_url)) { ?>
-											<img src="<?php echo base_url() ?>employee_images/<?php echo htmlentities($row->profile_pic) ?>" height="110" width="80" alt="image">
-										<?php } else { ?>
-											<img src="<?php echo base_url('assets/images/dashboard/user1.jpg'); ?>" height="110" width="80" class="rounded-circle" alt="image">
-										<?php } ?>
-									</div>
-								</td>
-								<td>
-									<?php echo htmlentities($row->first_name) ?>
-								</td>
-								<td>
-									<?php echo htmlentities($row->category_name) ?>
-								</td>
-								<td>
-									<?php echo htmlentities($row->cocountry_name) ?>
-								</td>
-								<td>
-									<?php echo htmlentities($row->phone) ?>
-								</td>
-								<td>
-									<?php if ($row->status == 1) { ?>
-										<b style="color:green;">Approved</b>
-									<?php } ?>
-									<?php if ($row->status == 2) { ?>
-										<b style="color:red;">Rejected</b>
-									<?php } ?>
-									<?php if ($row->status == 0) { ?>
-										<b style="color:orange;">Pending</b>
-									<?php } ?>
-								</td>
-								<td>
-									<?php if ($row->user_source == 1) { ?>
-										<b style="color:green;">Aegseagles</b>
-									<?php } ?>
-									<?php if ($row->user_source == 2) { ?>
-										<b style="color:green;">MobileApp</b>
-									<?php } ?>
-									<?php if ($row->user_source == 0) { ?>
-										<b style="color:green;">JobsGlob</b>
-									<?php } ?>
-								</td>
-								<td>
-									<?php echo anchor("Manage_applicant/getapllicant/{$encrypted_id}", '<button class="option-btn  border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="View Aplication" ><i class="ri-eye-line mt-2"></i></button>') ?>
-
-									<?php if ($row->status == 0 || $row->status == 2) { ?>
-										<?php echo anchor("Manage_applicant/approvedapplicant/{$encrypted_id}", '<button class="option-btn border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Approve Aplication" type="button"><i class="ri-check-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog1();")) ?>
-									<?php } ?>
-									<?php if ($row->status == 0) { ?>
-										<?php echo anchor("Manage_applicant/rejectapplicant/{$encrypted_id}", '<button class="option-btn border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject Aplication" type="button"><i class="ri-close-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog2();")) ?>
-									<?php } ?>
-									<?php echo anchor("Manage_applicant/deleteapplicant/{$encrypted_id}", '<button class="option-btn border-0  rounded d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Aplication" type="button"><i class="ri-delete-bin-line"></i></button>', array('class' => "fa fa-trash fa-lg", 'onclick' => "return confirmDialog3();")) ?>
-								</td>
-
-							</tr>
-
-						<?php
-							$cnt++;
-						endforeach;
-					else:
-						?>
-						<tr>
-							<td colspan="6">No Record found</td>
-						</tr>
-					<?php
-					endif;
-					?>
-			</table>
-			<?php echo $pagination_links; ?>
-		</div>
-	</div>
+<div class="breadcrumb-area">
+    <h1>All Applicants</h1>
+    <ol class="breadcrumb">
+        <li class="item"><a href="dashboard.html">Home</a></li>
+        <li class="item"><a href="dashboard.html">Dashboard</a></li>
+        <li class="item">All Applicants</li>
+    </ol>
 </div>
+
+<div class="all-applicants-box">
+    <h2>Applicants</h2>
+    <br />
+    <div class="row">
+        <!-- Custom Filters -->
+        <div class="col-md-4 mb-2">
+            <select id="filter-category" class="form-select">
+                <option value="">All Categories</option>
+                <?php foreach ($categories as $category) { ?>
+                    <option value="<?= $category->id; ?>"><?= htmlspecialchars($category->category_name, ENT_QUOTES, 'UTF-8'); ?></option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="col-md-4 mb-2">
+            <select id="filter-country" class="form-select">
+                <option value="">All Countries</option>
+                <?php foreach ($countries as $country) { ?>
+                    <option value="<?= $country['id']; ?>"><?= htmlspecialchars($country['country_name'], ENT_QUOTES, 'UTF-8'); ?></option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <div class="col-md-4 mb-2">
+            <div id="example_filter" class="dataTables_filter">
+                <input type="search" class="form-control form-control-sm" placeholder="Search by Name, Email" aria-controls="example">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="table-responsive">
+        <table id="example" class="display responsive" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ProfilePic</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Country</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Jobs</th>
+                    <th>Register Source</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+        </div>
+    </div>
+</div>
+</div>
+
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('#example').DataTable({
-			"paging": false, // Enable pagination
-			"lengthChange": true, // Allow changing the number of entries per page
-			"searching": true, // Enable search functionality
-			"ordering": true, // Enable column ordering
-			"info": false, // Show info about the table
-			"autoWidth": false // Disable auto-width calculation for columns
-		});
-	});
+    $(document).ready(function() {
+        const table = $('#example').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "paging": true,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "ajax": {
+                "url": "<?= base_url('Manage_applicant/getApplicantsData'); ?>",
+                "type": "POST",
+                "data": function(d) {
+                    d.category = $('#filter-category').val(); // Add category filter
+                    d.country = $('#filter-country').val(); // Add country filter
+                    d.search = $('#example_filter input').val(); // Add search query
+                }
+            },
+            "columns": [{
+                    "data": "profile_pic"
+                },
+                {
+                    "data": "name"
+                },
+                {
+                    "data": "category_name"
+                },
+                {
+                    "data": "cocountry_name"
+                },
+                {
+                    "data": "phone"
+                },
+                {
+                    "data": "status"
+                },
+                {
+                    "data": "job"
+                },
+
+                {
+                    "data": "user_source"
+                },
+                {
+                    "data": "action"
+                }
+            ],
+            "dom": '<"top"f>rt<"bottom"lip><"clear">', // Moves search and other elements below the table.
+            language: {
+                searchPlaceholder: "Search by name, category, country"
+            }
+        });
+
+        // Event listeners for filters and search input
+        $('#filter-category, #filter-country').on('change', function() {
+            table.ajax.reload(); // Reload table data with the applied filters
+        });
+
+        $('#example_filter input').on('input', function() {
+            table.ajax.reload(); // Reload table data with the search input
+        });
+
+        $('#filter-category').select2({
+        placeholder: 'Select Category',
+        allowClear: true,
+        width: '100%'
+    });
+        $('#filter-country').select2({
+        placeholder: 'Select Country',
+        allowClear: true,
+        width: '100%'
+    });
+    });
 </script>

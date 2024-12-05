@@ -1,11 +1,11 @@
 <div class="">
     <div class="breadcrumb-area">
         <h1><?php if ($this->session->userdata('rolecode') == 1) {
-    echo Admin;
+    echo "Admin";
 } elseif ($this->session->userdata('rolecode') == 2) {
-    echo Candidate;
+    echo "Candidate";
 } elseif ($this->session->userdata('rolecode') == 3) {
-    echo Company;
+    echo "Company";
 }
 ?></h1>
         <ol class="breadcrumb">

@@ -9,28 +9,25 @@ class Candidate_Model extends CI_Model
         $this->db->where("user_id", $user_id);
         $query = $this->db->get('employee_profile');
         return $query->row();
-
     }
-    
+
     public function getCountryInfo($id)
     {
         $this->db->select('*');
         $this->db->where("id", $id);
         $query = $this->db->get('country');
         return $query->row();
-
     }
-    
+
     public function getCityInfo($id)
     {
         $this->db->select('*');
         $this->db->where("id", $id);
         $query = $this->db->get('city');
         return $query->row();
-
     }
-    
-    
+
+
     public function getjobsCategory($id)
     {
         $this->db->select('COUNT(id) as count');
@@ -40,9 +37,8 @@ class Candidate_Model extends CI_Model
         $query = $this->db->get('jobs');
         $result = $query->row();
         return $result->count;
-
     }
-    
+
     public function getalljobs()
     {
         $this->db->select('j.*,c.category_name,co.country_name');
@@ -58,7 +54,6 @@ class Candidate_Model extends CI_Model
         }
         $query = $this->db->get('jobs j');
         return $query->result();
-
     }
     public function getapprovedjobs()
     {
@@ -73,10 +68,9 @@ class Candidate_Model extends CI_Model
         $this->db->join('country co', 'co.id=j.city', 'left');
         $query = $this->db->get('jobs j');
         return $query->result();
-
     }
 
-    public function getallapprovedjobs($cat_id='')
+    public function getallapprovedjobs($cat_id = '')
     {
         $this->db->select('j.*,c.category_name,co.country_name,c.title,c.description');
         if ($this->session->userdata('rolecode') == 2) {
@@ -88,7 +82,7 @@ class Candidate_Model extends CI_Model
                 $this->db->where('j.deleted', NULL);
             }
         }
-        if($cat_id!=''){
+        if ($cat_id != '') {
             $this->db->where("j.category", $cat_id);
         }
         $this->db->where('j.deleted', NULL);
@@ -97,7 +91,6 @@ class Candidate_Model extends CI_Model
         $this->db->join('country co', 'co.id=j.city', 'left');
         $query = $this->db->get('jobs j');
         return $query->result();
-
     }
 
     public function applied_jobs()
@@ -109,7 +102,6 @@ class Candidate_Model extends CI_Model
         $this->db->join('user_jobs u', 'j.id=u.job_id', 'left');
         $query = $this->db->get('jobs j');
         return $query->result();
-
     }
 
     public function getuseremail($rolecode)
@@ -140,7 +132,7 @@ class Candidate_Model extends CI_Model
         //$result=$query->row();
         return $query->result();
     }
-        public function getuseremail_approve($job_id)
+    public function getuseremail_approve($job_id)
     {
         $this->db->select('u.user_email, e.user_id, u.fcm_token');
         $this->db->where('j.id', $job_id);
@@ -151,7 +143,7 @@ class Candidate_Model extends CI_Model
         //$result=$query->row();
         return $query->result();
     }
-     public function getuseremail_id($user_id)
+    public function getuseremail_id($user_id)
     {
         $this->db->select('u.user_email,u.fcm_token');
         $this->db->where('u.id', $user_id);
@@ -207,28 +199,32 @@ class Candidate_Model extends CI_Model
             ->delete('agency');
         if ($this->db->affected_rows() > 0) {
             return true;
-
         } else {
             return false;
         }
     }
     public function update_Candidate($data)
     {
-        $this->db->where('user_id', $this->session->userdata['user_id']);
-        $sql_query = $this->db->update('employee_profile', $data);
-        return true;
+        $user_id = $this->session->userdata('user_id');
 
+        if (!$user_id) {
+            // Handle the case where user_id is not set in the session
+            return false; // or throw an exception, or handle it as needed
+        }
+
+        $this->db->where('user_id', $user_id);
+        $sql_query = $this->db->update('employee_profile', $data);
+
+        return $sql_query; // Return true or false based on the update result
     }
     public function add_Candidate($data)
     {
         $sql_query = $this->db->insert('employee_profile', $data);
         if ($this->db->affected_rows() > 0) {
             return true;
-
         } else {
             return false;
         }
-
     }
     public function edit_agency($userInfo, $cat_id)
     {
@@ -335,11 +331,8 @@ class Candidate_Model extends CI_Model
                     echo "<h4>Not supported file type!</h4>";
 
                     break;
-
             }
-
         }
-
     }
     function fetch_city($region_id)
     {
@@ -347,9 +340,8 @@ class Candidate_Model extends CI_Model
         $this->db->order_by('city_name', 'ASC');
         $query = $this->db->get('city');
         $output = '<option value="">Select Town/City</option>';
-        foreach($query->result() as $row)
-        {
-         $output .= '<option value="'.$row->id.'">'.$row->city_name.'</option>';
+        foreach ($query->result() as $row) {
+            $output .= '<option value="' . $row->id . '">' . $row->city_name . '</option>';
         }
         return $output;
     }
@@ -359,11 +351,9 @@ class Candidate_Model extends CI_Model
         $this->db->order_by('country_name', 'ASC');
         $query = $this->db->get('country');
         $output = '<option value="">Select Country</option>';
-        foreach($query->result() as $row)
-        {
-         $output .= '<option value="'.$row->id.'">'.$row->country_name.'</option>';
+        foreach ($query->result() as $row) {
+            $output .= '<option value="' . $row->id . '">' . $row->country_name . '</option>';
         }
         return $output;
     }
-
 }

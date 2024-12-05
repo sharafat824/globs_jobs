@@ -35,7 +35,11 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/css/footer.css'); ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dashboard.css'); ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/responsive.css'); ?>"/>
+      <link rel="stylesheet" href="<?php echo base_url('assets/css/select2.min.css'); ?>"  />
+
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
       <!-- Google tag (gtag.js) -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YL4J6XL77"></script>
       <script>

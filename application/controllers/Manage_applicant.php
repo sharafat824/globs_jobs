@@ -8,54 +8,205 @@ class Manage_applicant extends CI_Controller
 		// $this->load does not exist until after you call this
 		parent::__construct(); // Construct CI's core so that you can use it
 
+		$this->load->model('Category_Model');
 		$this->load->database();
 		$this->load->model('Applicant_Model');
 		$this->load->model('Candidate_Model');
 		$this->load->model('Email_Model');
+		$this->config->load('config');
 		if (!$this->session->userdata['user_id']) {
 			redirect('Welcome');
 		}
 	}
 	public function index()
-{
-    // Load Pagination library
-    $this->load->library('pagination');
+	{
+		// Load Pagination library
+		$this->load->library('pagination');
 
-    // Pagination configuration
-    $config['base_url'] = base_url('Manage_applicant/index');
-    $config['total_rows'] = $this->Applicant_Model->countApplicantDetails();
-    $config['per_page'] = 10; // Adjust per page
-    $config['use_page_numbers'] = true;
-    $config['uri_segment'] = 3;
-    $this->pagination->initialize($config);
+		// Pagination configuration
+		$config['base_url'] = base_url('Manage_applicant/index');
+		$config['total_rows'] = $this->Applicant_Model->countApplicantDetails();
+		$per_page = $this->config->item('per_page');
+		$config['use_page_numbers'] = true;
+		$config['uri_segment'] = 3;
+		$this->pagination->initialize($config);
 
-    // Get current page
-    $page = ($this->uri->segment(3)) ? (int)$this->uri->segment(3) : 1;
+		// Get current page
+		$page = ($this->uri->segment(3)) ? (int)$this->uri->segment(3) : 1;
 
-    // Calculate offset
-    $offset = ($page - 1) * $config['per_page'];
+		// Calculate offset
+		$offset = ($page - 1) * $per_page;
 
-    // Fetch applicants with limit and offset
-    $applicants = $this->Applicant_Model->getapplicantDetails($config['per_page'], $offset);
+		// Fetch applicants with limit and offset
+		$applicants = $this->Applicant_Model->getapplicantDetails($per_page, $offset);
 
-    // Store total rows in a variable
-    $total_rows = $config['total_rows'];
+		//die(json_encode($applicants));
+		// Store total rows in a variable
+		$total_rows = $config['total_rows'];
+		$categories = $this->Category_Model->getcategories();
+		$countries = $this->getCountries();
 
-    // Create pagination links
-    $pagination_links = $this->pagination->create_links();
+		// Load views with applicants and pagination links
+		$this->load->view('includes/d-header.php');
+		$this->load->view('dashboard-applicants', [
+			'applicant' => $applicants,
+			'categories' => $categories,
+			'countries' => $countries,
+			'pagination_links' => $this->load->view('pagination_bootstrap', [
+				'base_url' => base_url('Manage_applicant/index'),
+				'total_pages' => ceil($total_rows / $per_page), // Use ceil to get the total number of pages
+				'current_page' => $page
+			], true)
+		]);
+		$this->load->view('includes/d-footer.php');
+	}
 
-    // Load views with applicants and pagination links
-	$this->load->view('includes/d-header.php');
-    $this->load->view('dashboard-applicants', [
-        'applicant' => $applicants,
-        'pagination_links' => $this->load->view('pagination_bootstrap', [
-            'base_url' => base_url('Manage_applicant/index'),
-            'total_pages' => ceil($total_rows / $config['per_page']), // Use ceil to get the total number of pages
-            'current_page' => $page
-        ], true)
-    ]);
-    $this->load->view('includes/d-footer.php');
-}
+	public function getCountries()
+	{
+		// Select id and country name from the countries table
+		$this->db->select('id, country_name');
+		$this->db->from('country');
+		$this->db->order_by('country_name', 'ASC'); // Optional: Order by name for better user experience
+
+		// Execute the query and fetch the results
+		$query = $this->db->get();
+
+		// Return the result as an array
+		return $query->result_array();
+	}
+
+
+	public function getApplicantsData()
+	{
+		// Get POST data from DataTable
+		$postData = $this->input->post();
+
+		// Extract required parameters
+		$limit = isset($postData['length']) ? (int)$postData['length'] : 10;
+		$offset = isset($postData['start']) ? (int)$postData['start'] : 0;
+		$searchValue = isset($postData['search']) ? $postData['search'] : '';
+		$orderColumnIndex = isset($postData['order'][0]['column']) ? (int)$postData['order'][0]['column'] : 0;
+		$orderDirection = isset($postData['order'][0]['dir']) ? $postData['order'][0]['dir'] : 'asc';
+
+		// Define the column mapping
+		$columns = ['profile_pic', 'first_name', 'category_name', 'cocountry_name', 'phone', 'status', 'job',  'user_source'];
+		$orderColumn = $columns[$orderColumnIndex] ?? 'first_name'; // Default to 'first_name'
+		$categoryFilter = $postData['category'] ?? null; // Category filter
+		$countryFilter = $postData['country'] ?? null;   // Country filter
+
+		// Fetch data with filters
+		$data = $this->Applicant_Model->fetchApplicants($limit, $offset, $searchValue, $orderColumn, $orderDirection, $categoryFilter, $countryFilter);
+
+		// Count total and filtered records
+		$totalRecords = $this->Applicant_Model->countApplicantDetails();
+		$filteredRecords = $this->Applicant_Model->countFilteredApplicants($searchValue, $categoryFilter, $countryFilter);
+
+		// Prepare response
+		$response = [
+			"draw" => isset($postData['draw']) ? (int)$postData['draw'] : 1,
+			"recordsTotal" => $totalRecords, // Total records (unfiltered)
+			"recordsFiltered" => $filteredRecords, // Filtered records (after search)
+			"data" => array_map(function ($row) {
+				// Prepare profile picture HTML
+				$profilePicUrl = base_url('employee_images/' . $row['profile_pic']);
+				$defaultPic = base_url('assets/images/dashboard/user1.jpg');
+				$profilePicHtml = '<div class="image"><img src="' . (file_exists('employee_images/' . $row['profile_pic']) ? $profilePicUrl : $defaultPic) . '"   alt="Profile Picture" class="rounded-circle avatar"></div>';
+
+				// Convert status to human-readable value
+				switch ($row['status']) {
+					case 0:
+						$row['status'] = '<span class="badge bg-warning">Pending</span>';
+						break;
+					case 1:
+						$row['status'] = '<span class="badge bg-success">Approved</span>';
+						break;
+					case 2:
+						$row['status'] = '<span class="badge bg-danger">Rejected</span>';
+						break;
+					default:
+						$row['status'] = 'Unknown'; // In case status has an unexpected value
+				}
+
+				$row['job'] = '
+				<div class="d-flex flex-wrap justify-content-start p-2">
+					<span class="badge bg-secondary text-white d-flex align-items-center me-2 mb-2">
+						<i class="fas fa-clipboard-list me-1"></i>
+						Applied: <span class="ms-1">' . $row['total_applied_jobs'] . '</span>
+					</span>
+					<span class="badge bg-info text-white d-flex align-items-center me-2 mb-2">
+						<i class="fas fa-check-circle me-1"></i>
+						Shortlisted: <span class="ms-1">' . $row['total_shortlisted_jobs'] . '</span>
+					</span>
+					<span class="badge bg-success text-white d-flex align-items-center mb-2">
+						<i class="fas fa-user-check me-1"></i>
+						Assigned: <span class="ms-1">' . $row['total_assigned_jobs'] . '</span>
+					</span>
+				</div>';
+
+
+				// Convert status to human-readable value
+				switch ($row['user_source']) {
+					case 0:
+						$row['user_source'] = 'JobsGlob';
+						break;
+					case 1:
+						$row['user_source'] = 'Aegseagles';
+						break;
+					case 2:
+						$row['user_source'] = 'MobileApp';
+						break;
+					default:
+						$row['user_source'] = 'Unknown'; // In case status has an unexpected value
+				}
+				$row['name'] = $row['first_name'];
+
+				$plainStatus = strip_tags($row['status']);
+				// Prepare action buttons dynamically
+				$encrypted_id = str_replace(array('/'), array('_'), $this->encrypt->encode($row['id']));
+				$row['profile_pic'] = $profilePicHtml;  // Add the profile picture HTML to the response
+				$row['name'] = $row['name'].' '. $row['email'];
+				$row['action'] = '
+            <div class="dropdown">
+                <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical text-muted"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+                    <a class="dropdown-item" href="' . base_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" title="View ">
+                        <i class="bi bi-eye"></i> View 
+                    </a>';
+
+				// Conditionally display the "Approve Application" button
+				if ($plainStatus  == 'Pending' || $plainStatus  == 'Rejected') {
+					$row['action'] .= '
+                <a class="dropdown-item" href="' . base_url("Manage_applicant/approvedapplicant/{$encrypted_id}") . '" title="Approve ">
+                    <i class="bi bi-check-lg"></i> Approve 
+                </a>';
+				}
+
+				// Conditionally display the "Reject Application" button
+				if ($plainStatus  == 'Pending') {
+					$row['action'] .= '
+                <a class="dropdown-item" href="' . base_url("Manage_applicant/rejectapplicant/{$encrypted_id}") . '" title="Reject ">
+                    <i class="bi bi-x-lg"></i> Reject 
+                </a>';
+				}
+
+				// Always show the "Delete Application" button
+				$row['action'] .= '
+            <a class="dropdown-item" href="' . base_url("Manage_applicant/deleteapplicant/{$encrypted_id}") . '" title="Delete " onclick="return confirm(\'Are you sure?\');">
+                <i class="bi bi-trash"></i> Delete 
+            </a>
+            </div>
+        </div>
+    ';
+
+				return $row;
+			}, $data)
+		];
+
+		// Return JSON response
+		echo json_encode($response);
+	}
 
 	public function assignedjobs()
 	{

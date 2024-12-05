@@ -3,10 +3,9 @@
 $add_edit = 'Add';
 $city = $cityInfo;
 $country = $countryInfo;
-if(!empty($userInfo)){
+if (!empty($userInfo)) {
     $form = form_open_multipart('Candidate/updateCandidate');
-}
-else{
+} else {
     $form = form_open_multipart('Candidate/addingCandidate');
 }
 
@@ -45,16 +44,18 @@ else{
                         onchange="showDiv('hidden_div', this)" required="required">
                         <option value="">Select</option>
                         <?php
-if (!empty($catInfo)) {
-    foreach ($catInfo as $c) {
-        ?>
-                        <option value="<?php echo $c->id ?>"
-                            <?php if ($userInfo->category_id == $c->id) {echo "selected";}?>>
-                            <?php echo $c->category_name ?></option>
+                        if (!empty($catInfo)) {
+                            foreach ($catInfo as $c) {
+                        ?>
+                                <option value="<?php echo $c->id ?>"
+                                    <?php if ($userInfo->category_id == $c->id) {
+                                        echo "selected";
+                                    } ?>>
+                                    <?php echo $c->category_name ?></option>
                         <?php
-}
-}
-?>
+                            }
+                        }
+                        ?>
 
                     </select>
                     </select>
@@ -64,9 +65,9 @@ if (!empty($catInfo)) {
 
 
                 <div class="form-group">
-                    <?php if(!empty($userInfo->profile_pic)){ ?>
-                    <img src="<?php echo base_url() . "employee_images/" . $userInfo->profile_pic; ?>" width="100px"
-                        height="100px" />
+                    <?php if (!empty($userInfo->profile_pic)) { ?>
+                        <img src="<?php echo base_url() . "employee_images/" . $userInfo->profile_pic; ?>" width="100px"
+                            height="100px" />
                     <?php } ?>
                 </div>
 
@@ -102,9 +103,15 @@ if (!empty($catInfo)) {
                     <label>GENDER*</label>
                     <select class="form-control" name="gender" required="required">
                         <option value="">Select</option>
-                        <option <?php if ($userInfo->gender == 1) {echo "selected";}?> value="1">Male</option>
-                        <option <?php if ($userInfo->gender == 2) {echo "selected";}?> value="2">female</option>
-                        <option <?php if ($userInfo->gender == 3) {echo "selected";}?> value="3">other</option>
+                        <option <?php if ($userInfo->gender == 1) {
+                                    echo "selected";
+                                } ?> value="1">Male</option>
+                        <option <?php if ($userInfo->gender == 2) {
+                                    echo "selected";
+                                } ?> value="2">female</option>
+                        <option <?php if ($userInfo->gender == 3) {
+                                    echo "selected";
+                                } ?> value="3">other</option>
 
                     </select>
                 </div>
@@ -134,16 +141,18 @@ if (!empty($catInfo)) {
                     <select class="form-control" id="country" name="country" required="required">
                         <option value="">Select Country</option>
                         <?php
-if (!empty($country)) {
-    foreach ($country as $c) {
-        ?>
-                        <option value="<?php echo $c->id ?>"
-                            <?php if ($userInfo->country == $c->id) {echo "selected";}?>><?php echo $c->country_name ?>
-                        </option>
+                        if (!empty($country)) {
+                            foreach ($country as $c) {
+                        ?>
+                                <option value="<?php echo $c->id ?>"
+                                    <?php if ($userInfo->country == $c->id) {
+                                        echo "selected";
+                                    } ?>><?php echo $c->country_name ?>
+                                </option>
                         <?php
-}
-}
-?>
+                            }
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
@@ -153,15 +162,17 @@ if (!empty($country)) {
                     <select class="form-control" id="town" name="town" required="required">
                         <option value="">Select Town/City</option>
                         <?php
-if (!empty($city)) {
-    foreach ($city as $c) {
-        ?>
-                        <option value="<?php echo $c->id ?>" <?php if ($userInfo->town == $c->id) {echo "selected";}?>>
-                            <?php echo $c->city_name ?></option>
+                        if (!empty($city)) {
+                            foreach ($city as $c) {
+                        ?>
+                                <option value="<?php echo $c->id ?>" <?php if ($userInfo->town == $c->id) {
+                                                                            echo "selected";
+                                                                        } ?>>
+                                    <?php echo $c->city_name ?></option>
                         <?php
-}
-}
-?>
+                            }
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
@@ -197,16 +208,18 @@ if (!empty($city)) {
                     <select class="form-control" name="nationality" id="nationality" required="required">
                         <option value="">Select Country</option>
                         <?php
-if (!empty($country)) {
-    foreach ($country as $c) {
-        ?>
-                        <option value="<?php echo $c->id ?>"
-                            <?php if ($userInfo->nationality == $c->id) {echo "selected";}?>>
-                            <?php echo $c->country_name ?></option>
+                        if (!empty($country)) {
+                            foreach ($country as $c) {
+                        ?>
+                                <option value="<?php echo $c->id ?>"
+                                    <?php if ($userInfo->nationality == $c->id) {
+                                        echo "selected";
+                                    } ?>>
+                                    <?php echo $c->country_name ?></option>
                         <?php
-}
-}
-?>
+                            }
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
@@ -216,16 +229,18 @@ if (!empty($country)) {
                     <select class="form-control" name="birth_city" id="birth_city" required="required">
                         <option value="">Select Town/City</option>
                         <?php
-if (!empty($city)) {
-    foreach ($city as $c) {
-        ?>
-                        <option value="<?php echo $c->id ?>"
-                            <?php if ($userInfo->birth_city == $c->id) {echo "selected";}?>><?php echo $c->city_name ?>
-                        </option>
+                        if (!empty($city)) {
+                            foreach ($city as $c) {
+                        ?>
+                                <option value="<?php echo $c->id ?>"
+                                    <?php if ($userInfo->birth_city == $c->id) {
+                                        echo "selected";
+                                    } ?>><?php echo $c->city_name ?>
+                                </option>
                         <?php
-}
-}
-?>
+                            }
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
@@ -252,8 +267,12 @@ if (!empty($city)) {
                     <label>VISA REQUIRED*</label>
                     <select class="form-control" name="visa" required="required">
                         <option value="" disabled selected>Select</option>
-                        <option <?php if ($userInfo->visa_required == 1) {echo "selected";}?> value="1">Yes</option>
-                        <option <?php if ($userInfo->visa_required == 2) {echo "selected";}?> value="2">No</option>
+                        <option <?php if ($userInfo->visa_required == 1) {
+                                    echo "selected";
+                                } ?> value="1">Yes</option>
+                        <option <?php if ($userInfo->visa_required == 2) {
+                                    echo "selected";
+                                } ?> value="2">No</option>
 
                     </select>
                 </div>
@@ -264,9 +283,13 @@ if (!empty($city)) {
                     <label>DO YOU HOLD A VALID UK DRIVING LICENSE*</label>
                     <select class="form-control" name="licence" required="required">
                         <option value="" disabled selected>Select</option>
-                        <option <?php if ($userInfo->uk_driving_licence == 1) {echo "selected";}?> value="1">Yes
+                        <option <?php if ($userInfo->uk_driving_licence == 1) {
+                                    echo "selected";
+                                } ?> value="1">Yes
                         </option>
-                        <option <?php if ($userInfo->uk_driving_licence == 2) {echo "selected";}?> value="2">No
+                        <option <?php if ($userInfo->uk_driving_licence == 2) {
+                                    echo "selected";
+                                } ?> value="2">No
                         </option>
                     </select>
                 </div>
@@ -275,9 +298,9 @@ if (!empty($city)) {
 
 
                 <div class="form-group">
-                    <?php if(!empty($userInfo->passport_pic)){ ?>
-                    <img src="<?php echo base_url() . "employee_images/" . $userInfo->passport_pic; ?>" width="100px"
-                        height="100px" />
+                    <?php if (!empty($userInfo->passport_pic)) { ?>
+                        <img src="<?php echo base_url() . "employee_images/" . $userInfo->passport_pic; ?>" width="100px"
+                            height="100px" />
                     <?php } ?>
                 </div>
 
@@ -293,9 +316,9 @@ if (!empty($city)) {
 
 
                 <div class="form-group">
-                    <?php if(!empty($userInfo->utilitybill_pic)){ ?>
-                    <img src="<?php echo base_url() . "employee_images/" . $userInfo->utilitybill_pic; ?>" width="100px"
-                        height="100px" />
+                    <?php if (!empty($userInfo->utilitybill_pic)) { ?>
+                        <img src="<?php echo base_url() . "employee_images/" . $userInfo->utilitybill_pic; ?>" width="100px"
+                            height="100px" />
                     <?php } ?>
                 </div>
 
@@ -311,9 +334,9 @@ if (!empty($city)) {
 
 
                 <div class="form-group">
-                    <?php if(!empty($userInfo->resident_pic)){ ?>
-                    <img src="<?php echo base_url() . "employee_images/" . $userInfo->resident_pic; ?>" width="100px"
-                        height="100px" />
+                    <?php if (!empty($userInfo->resident_pic)) { ?>
+                        <img src="<?php echo base_url() . "employee_images/" . $userInfo->resident_pic; ?>" width="100px"
+                            height="100px" />
                     <?php } ?>
                 </div>
 
@@ -390,9 +413,9 @@ if (!empty($city)) {
 
 
                     <div class="form-group">
-                        <?php if(!empty($userInfo->badge_pic)){ ?>
-                        <img src="<?php echo base_url() . "employee_images/" . $userInfo->badge_pic; ?>" width="100px"
-                            height="100px" />
+                        <?php if (!empty($userInfo->badge_pic)) { ?>
+                            <img src="<?php echo base_url() . "employee_images/" . $userInfo->badge_pic; ?>" width="100px"
+                                height="100px" />
                         <?php } ?>
                     </div>
 

@@ -151,6 +151,4 @@ class Manage_dashboard extends CI_Controller
         $this->load->view('includes/d-footer.php'); 
        
     }
-    
-    
 }
