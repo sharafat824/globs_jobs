@@ -1031,6 +1031,7 @@
     font-family: var(--heading-font-family)
 }
 
+
 .my-profile-box form .form-group .form-control::-webkit-input-placeholder {
     color: gray;
     -webkit-transition: var(--transition);
@@ -1151,7 +1152,7 @@
 }
 .my-profile-box form .default-btn {
     border: none;
-    padding: 12px 60px 12px 40px;
+    padding: 12px 60px 12px 50px;
 }
 
 .my-profile-box form .default-btn::before {

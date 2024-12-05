@@ -50,12 +50,11 @@ $file_portfolio_video = $userInfo->file_portfolio_video;
    <!--      </div>-->
    <!--   </div>-->
    <!--</div>-->
-   <div class="candidates-details-area ptb-100">
+   <div class="candidates-details-area pb-3">
    <div class="breadcrumb-area">
 		<h1>Welcome!</h1>
 		<ol class="breadcrumb">
-			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Home</a></li>
-			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
+      <li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
 		</ol>
 	</div>
       <div class="container">

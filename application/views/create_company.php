@@ -2,7 +2,7 @@
 <div class="breadcrumb-area mb-0 mx-3">
 		<h1>All Applicants</h1>
 		<ol class="breadcrumb">
-			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Home</a></li>
+			
 			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
             <li class="item"><a href="<?php echo base_url()?>Company/allcompany">All Companies</a></li>
             <li class="item">Create Company  User</li>

@@ -9,7 +9,7 @@
 }
 ?></h1>
         <ol class="breadcrumb">
-            <li class="item"><a href="<?php echo base_url() ?>Manage_dashboard/Home">Home</a></li>
+            
             <li class="item">Dashboard</li>
         </ol>
     </div>

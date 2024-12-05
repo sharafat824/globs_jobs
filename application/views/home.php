@@ -198,7 +198,7 @@
                                 <?php if($this->session->userdata['rolecode']=='') { ?>
                                 <div class="col-lg-3">
                                     <div class="job-list-optional">
-                                        <a href="<?php echo base_url()?>Manage_login" class="default-btn"> Apply Jobs <i
+                                        <a href="<?php echo base_url()?>Manage_login" class="default-btn default-btn-0"> Apply Jobs <i
                                                 class="flaticon-list-1"></i></a>
                                         <div class="save-text">
 

@@ -23,8 +23,7 @@ $encrypted_id = str_replace(array('/'), array('_'), $encrypted_id);
 		<div class="breadcrumb-area">
 <h1>Job Details </h1>
 <ol class="breadcrumb">
-<li class="item"><a href="dashboard.html">Home</a></li>
-<li class="item"><a href="dashboard.html">Dashboard</a></li>
+<li class="item"><a href="<?php echo base_url() ?>Manage_dashboard/Home">Dashboard</a></li>
 <li class="item">Job Details </li>
 </ol>
 </div>
