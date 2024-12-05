@@ -75,7 +75,7 @@
 
     /* Styling for search input */
     #example_filter input {
-        width: 22rem;
+        width: 16rem;
         border: 1px solid #ddd;
         padding: 0.5rem;
         outline: none;
@@ -128,10 +128,12 @@
     .btn:focus {
         box-shadow: none !important;
     }
-    .select2-container--default .select2-selection--single{
+
+    .select2-container--default .select2-selection--single {
         height: 39px !important;
     }
-    .select2-container--default .select2-selection--single .select2-selection__rendered{
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
         padding: 5px 10px !important;
     }
 </style>
@@ -146,11 +148,19 @@
 </div>
 
 <div class="all-applicants-box">
-    <h2>Applicants</h2>
+
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h2>Applicants</h2>
+        </div>
+        <div>
+            <a href="<?php echo base_url() . 'Candidate/create_employ_user' ?>" class="default-btn default-btn-0"><i class="bi bi-plus"></i>Add</a>
+        </div>
+    </div>
     <br />
     <div class="row">
         <!-- Custom Filters -->
-        <div class="col-md-4 mb-2">
+        <div class="col-md-3 mb-2">
             <select id="filter-category" class="form-select">
                 <option value="">All Categories</option>
                 <?php foreach ($categories as $category) { ?>
@@ -158,46 +168,50 @@
                 <?php } ?>
             </select>
         </div>
-        <div class="col-md-4 mb-2">
-            <select id="filter-country" class="form-select">
+        <div class="col-md-3 mb-2">
+            <select id="country" class="form-select">
                 <option value="">All Countries</option>
-                <?php foreach ($countries as $country) { ?>
-                    <option value="<?= $country['id']; ?>"><?= htmlspecialchars($country['country_name'], ENT_QUOTES, 'UTF-8'); ?></option>
-                <?php } ?>
+            </select>
+        </div>
+        <div class="col-md-3 mb-2">
+            <select id="town" class="form-select">
+                <option value="">All Cities</option>
             </select>
         </div>
 
-        <div class="col-md-4 mb-2">
+        <div class="col-md-3 mb-2">
             <div id="example_filter" class="dataTables_filter">
                 <input type="search" class="form-control form-control-sm" placeholder="Search by Name, Email" aria-controls="example">
             </div>
         </div>
-
     </div>
 
     <div class="row">
         <div class="table-responsive">
-        <table id="example" class="display responsive" style="width:100%">
-            <thead>
-                <tr>
-                    <th>ProfilePic</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Country</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Jobs</th>
-                    <th>Register Source</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-        </table>
+            <table id="example" class="display responsive" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ProfilePic</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Country</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th data-toggle="tooltip" data-placement="top" title="Applied, Shortlist, Assigned">Jobs</th>
+                        <th>Register Source</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>
 </div>
 
 <script type="text/javascript">
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
     $(document).ready(function() {
         const table = $('#example').DataTable({
             "processing": true,
@@ -211,7 +225,8 @@
                 "type": "POST",
                 "data": function(d) {
                     d.category = $('#filter-category').val(); // Add category filter
-                    d.country = $('#filter-country').val(); // Add country filter
+                    d.country = $('#country').val();
+                    d.town = $('#town').val();
                     d.search = $('#example_filter input').val(); // Add search query
                 }
             },
@@ -251,7 +266,7 @@
         });
 
         // Event listeners for filters and search input
-        $('#filter-category, #filter-country').on('change', function() {
+        $('#filter-category, #country, #town').on('change', function() {
             table.ajax.reload(); // Reload table data with the applied filters
         });
 
@@ -260,14 +275,19 @@
         });
 
         $('#filter-category').select2({
-        placeholder: 'Select Category',
-        allowClear: true,
-        width: '100%'
-    });
-        $('#filter-country').select2({
-        placeholder: 'Select Country',
-        allowClear: true,
-        width: '100%'
-    });
+            placeholder: 'Select Category',
+            allowClear: true,
+            width: '100%'
+        });
+        $('#country').select2({
+            placeholder: 'Select Country',
+            allowClear: true,
+            width: '100%'
+        });
+        $('#town').select2({
+            placeholder: 'Select City',
+            allowClear: true,
+            width: '100%'
+        });
     });
 </script>

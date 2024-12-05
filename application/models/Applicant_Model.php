@@ -38,7 +38,7 @@ class Applicant_Model extends CI_Model
                 return $query->result();
         }
 
-        public function fetchApplicants($limit, $offset, $searchValue, $orderColumn, $orderDirection, $categoryFilter = null, $countryFilter = null)
+        public function fetchApplicants($limit, $offset, $searchValue, $orderColumn, $orderDirection, $categoryFilter = null, $countryFilter = null,$townFilter=null)
         {
             // Select the necessary columns
             $this->db->select('
@@ -74,6 +74,11 @@ class Applicant_Model extends CI_Model
             if (!empty($countryFilter)) {
                 $this->db->where('co.id', $countryFilter);
             }
+
+            // Apply town filter
+            if (!empty($townFilter)) {
+                $this->db->where('e.town', $townFilter);
+            }
         
             // Group by `e.id` to ensure proper aggregation
             $this->db->group_by('e.id');
@@ -90,7 +95,7 @@ class Applicant_Model extends CI_Model
             return $query->result_array(); // Return the results as an array
         }
         
-        public function countFilteredApplicants($searchValue, $categoryFilter = null, $countryFilter = null)
+        public function countFilteredApplicants($searchValue, $categoryFilter = null, $countryFilter = null,$townFilter=null)
         {
             // Join tables
             $this->db->join('job_category c', 'c.id = e.category_id', 'left');
@@ -116,6 +121,11 @@ class Applicant_Model extends CI_Model
             // Apply country filter
             if (!empty($countryFilter)) {
                 $this->db->where('co.id', $countryFilter);
+            }
+
+            // Apply town filter
+            if (!empty($townFilter)) {
+                $this->db->where('e.town', $townFilter);
             }
         
             // Get the count of unique filtered results

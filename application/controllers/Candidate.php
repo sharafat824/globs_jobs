@@ -10,6 +10,7 @@ class Candidate extends CI_Controller
 
         $this->load->database();
         $this->load->model('Candidate_Model');
+        $this->load->model('User/User_Model');
         $this->load->model('Applicant_Model');
         $this->load->model('Category_Model');
         $this->load->model('Job_Model');
@@ -825,7 +826,6 @@ class Candidate extends CI_Controller
 
         $employee_lat = $this->input->post('employee_lat');
         $employee_long = $this->input->post('employee_long');
-        $new_image_name4 = '';
 
         $config['upload_path']          = './employee_images/';
         $config['allowed_types']        = 'gif|jpg|png|pdf|PDF|DOCX|docx|mp4|mp3|rtf|jpeg|JPEG|JPG|PNG';
@@ -834,49 +834,44 @@ class Candidate extends CI_Controller
         $config['max_height']           = 3000;
 
         $this->load->library('upload', $config);
-
-        $imageResult = $this->Candidate_Model->getUserInfo($this->session->userdata['user_id']);
+        $new_image_name11 = '';
+        $file_resume = '';
+        $file_portfolio_video = '';
         // profile pic
         if (!empty($_FILES['file11']["name"])) {
             if (! $this->upload->do_upload('file11')) {
                 $file_error = $this->upload->display_errors();
                 $this->session->set_flashdata('error', $file_error . 'Something went wrong with Profile Pic. Please try again with valid format.');
-                redirect('Candidate/addCandidate');
+                redirect('Candidate/create_employ_user');
             } else {
                 $data = array('upload_data' => $this->upload->data());
                 $new_image_name11 = $data['upload_data']['file_name'];
             }
-        } else {
-            $new_image_name11 = $imageResult->profile_pic;
-        }
+        } 
 
         // resume file 
         if (!empty($_FILES['file_resume']["name"])) {
             if (! $this->upload->do_upload('file_resume')) {
                 $file_error = $this->upload->display_errors();
                 $this->session->set_flashdata('error', $file_error . 'Something went wrong with resume file. Please try again with valid format.');
-                redirect('Candidate/addCandidate');
+                redirect('Candidate/create_employ_user');
             } else {
                 $data = array('upload_data' => $this->upload->data());
                 $file_resume = $data['upload_data']['file_name'];
             }
-        } else {
-            $file_resume = $imageResult->file_resume;
-        }
+        } 
 
         // portfolio video
         if (!empty($_FILES['file_portfolio_video']["name"])) {
-            if (! $this->upload->do_upload('file_portfolio_video')) {
+            if (!$this->upload->do_upload('file_portfolio_video')) {
                 $file_error = $this->upload->display_errors();
                 $this->session->set_flashdata('error', $file_error . 'Something went wrong with portfolio video. Please try again with valid format.');
-                redirect('Candidate/addCandidate');
+                redirect('Candidate/create_employ_user');
             } else {
                 $data = array('upload_data' => $this->upload->data());
                 $file_portfolio_video = $data['upload_data']['file_name'];
             }
-        } else {
-            $file_portfolio_video = $imageResult->file_portfolio_video;
-        }
+        } 
 
         $user_data = [
             'user_name' => $this->input->post('user_name'),
@@ -915,22 +910,11 @@ class Candidate extends CI_Controller
         $result = $this->Candidate_Model->add_Candidate($data,$userId);
 
         if ($result == true) {
-            $rolecode = 1;
-            $email_id = $this->Candidate_Model->getuseremail($rolecode);
-            foreach ($email_id as $email) {
-                if ($email->user_email != null) {
-                    $mail = $this->Email_Model->send($email->user_email, 'Employee Updated his Profile', 'An Employee Complete his Profile Please Approve It.');
-                }
-
-                if ($email->fcm_token != NULL) {
-                    $notification = $this->Email_Model->sendNotification($email->fcm_token,  'Employee Updated his Profile', 'An Employee Complete his Profile Please Approve It.');
-                }
-            }
-            $this->session->set_flashdata('success', 'Personal Info updated successfully.');
-            return redirect('Candidate/addCandidate');
+            $this->session->set_flashdata('success', 'Employ created successfully.');
+            return redirect('Manage_applicant');
         } else {
             $this->session->set_flashdata('error', 'Something went wrong. Please try again with valid format.');
-            redirect('Candidate/addCandidate');
+            redirect('Candidate/create_employ_user');
         }
     }
 }

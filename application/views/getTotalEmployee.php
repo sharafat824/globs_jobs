@@ -11,14 +11,7 @@
 
 
 	<div class="all-applicants-box">
-		<div class="d-flex justify-content-between align-items-center">
-			<div>
 			<h2>Total Employee</h2>
-			</div>
-			<div>
-			<a href="<?php echo base_url() .'Candidate/create_employ_user' ?>" class="default-btn default-btn-0"><i class="bi bi-plus"></i>Add</a>
-			</div>
-		</div>
 		<div class="row">
 			<tbody>
 				<?php

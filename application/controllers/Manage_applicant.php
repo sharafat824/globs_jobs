@@ -91,15 +91,16 @@ class Manage_applicant extends CI_Controller
 		// Define the column mapping
 		$columns = ['profile_pic', 'first_name', 'category_name', 'cocountry_name', 'phone', 'status', 'job',  'user_source'];
 		$orderColumn = $columns[$orderColumnIndex] ?? 'first_name'; // Default to 'first_name'
-		$categoryFilter = $postData['category'] ?? null; // Category filter
-		$countryFilter = $postData['country'] ?? null;   // Country filter
+		$categoryFilter = $postData['category'] ?? null; 
+		$countryFilter = $postData['country'] ?? null;   
+		$townFilter = $postData['town'] ?? null;   
 
 		// Fetch data with filters
-		$data = $this->Applicant_Model->fetchApplicants($limit, $offset, $searchValue, $orderColumn, $orderDirection, $categoryFilter, $countryFilter);
+		$data = $this->Applicant_Model->fetchApplicants($limit, $offset, $searchValue, $orderColumn, $orderDirection, $categoryFilter, $countryFilter,$townFilter);
 
 		// Count total and filtered records
 		$totalRecords = $this->Applicant_Model->countApplicantDetails();
-		$filteredRecords = $this->Applicant_Model->countFilteredApplicants($searchValue, $categoryFilter, $countryFilter);
+		$filteredRecords = $this->Applicant_Model->countFilteredApplicants($searchValue, $categoryFilter, $countryFilter,$townFilter);
 
 		// Prepare response
 		$response = [
@@ -128,18 +129,20 @@ class Manage_applicant extends CI_Controller
 				}
 
 				$row['job'] = '
-				<div class="d-flex flex-wrap justify-content-start p-2">
-					<span class="badge bg-secondary text-white d-flex align-items-center me-2 mb-2">
+				<div >
+				<div class="d-flex justify-content-start p-2">
+					<span class="text-dark d-flex align-items-center me-2 mb-2">
 						<i class="fas fa-clipboard-list me-1"></i>
-						Applied: <span class="ms-1">' . $row['total_applied_jobs'] . '</span>
+						App: <span class="ms-1 text-secondary">(' . $row['total_applied_jobs'] . ')</span>
 					</span>
-					<span class="badge bg-info text-white d-flex align-items-center me-2 mb-2">
+					<span class=" text-dark d-flex align-items-center me-2 mb-2">
 						<i class="fas fa-check-circle me-1"></i>
-						Shortlisted: <span class="ms-1">' . $row['total_shortlisted_jobs'] . '</span>
+						Short: <span class="ms-1 text-info">(' . $row['total_shortlisted_jobs'] . ')</span>
 					</span>
-					<span class="badge bg-success text-white d-flex align-items-center mb-2">
+					</div>
+					<span class=" text-dark d-flex justify-content-center align-items-center mb-2">
 						<i class="fas fa-user-check me-1"></i>
-						Assigned: <span class="ms-1">' . $row['total_assigned_jobs'] . '</span>
+						Assign: <span class="ms-1 text-success">(' . $row['total_assigned_jobs'] . ')</span>
 					</span>
 				</div>';
 
@@ -164,21 +167,25 @@ class Manage_applicant extends CI_Controller
 				// Prepare action buttons dynamically
 				$encrypted_id = str_replace(array('/'), array('_'), $this->encrypt->encode($row['id']));
 				$row['profile_pic'] = $profilePicHtml;  // Add the profile picture HTML to the response
-				$row['name'] = $row['name'].' '. $row['email'];
+				$row['name'] = $row['name'].' '. '<br>'.'<span class="text-info">'.$row['email'].'</span>';
 				$row['action'] = '
             <div class="dropdown">
                 <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="bi bi-three-dots-vertical text-muted"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                    <a class="dropdown-item" href="' . base_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" title="View ">
+                    <a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . base_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" title="View ">
                         <i class="bi bi-eye"></i> View 
-                    </a>';
+                    </a>
+					<a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . base_url("Manage_applicant/editApllicant/{$encrypted_id}") . '" title="View ">
+                        <i class="bi bi-pencil"></i> Edit 
+                    </a>
+					';
 
 				// Conditionally display the "Approve Application" button
 				if ($plainStatus  == 'Pending' || $plainStatus  == 'Rejected') {
 					$row['action'] .= '
-                <a class="dropdown-item" href="' . base_url("Manage_applicant/approvedapplicant/{$encrypted_id}") . '" title="Approve ">
+                <a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . base_url("Manage_applicant/approvedapplicant/{$encrypted_id}") . '" title="Approve ">
                     <i class="bi bi-check-lg"></i> Approve 
                 </a>';
 				}
@@ -186,14 +193,14 @@ class Manage_applicant extends CI_Controller
 				// Conditionally display the "Reject Application" button
 				if ($plainStatus  == 'Pending') {
 					$row['action'] .= '
-                <a class="dropdown-item" href="' . base_url("Manage_applicant/rejectapplicant/{$encrypted_id}") . '" title="Reject ">
+                <a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . base_url("Manage_applicant/rejectapplicant/{$encrypted_id}") . '" title="Reject ">
                     <i class="bi bi-x-lg"></i> Reject 
                 </a>';
 				}
 
 				// Always show the "Delete Application" button
 				$row['action'] .= '
-            <a class="dropdown-item" href="' . base_url("Manage_applicant/deleteapplicant/{$encrypted_id}") . '" title="Delete " onclick="return confirm(\'Are you sure?\');">
+            <a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . base_url("Manage_applicant/deleteapplicant/{$encrypted_id}") . '" title="Delete " onclick="return confirm(\'Are you sure?\');">
                 <i class="bi bi-trash"></i> Delete 
             </a>
             </div>
@@ -231,6 +238,23 @@ class Manage_applicant extends CI_Controller
 		$this->load->view('includes/d-header.php');
 		$this->load->view('view_applicant', $data);
 		$this->load->view('includes/d-footer.php');
+	}
+
+	public function editApllicant($uid)  {
+		$uid = str_replace(array('_'), array('/'), $uid);
+		$decrypted_id = $this->encrypt->decode($uid);
+
+		$data['userInfo'] = $this->Applicant_Model->getapplicant($decrypted_id);
+
+		$this->load->view('includes/d-header.php');
+		$this->load->view('edit_applicant', $data);
+		$this->load->view('includes/d-footer.php');
+
+	}
+	public function updateApllicant($uui)  {
+		$uid = str_replace(array('_'), array('/'), $uid);
+		$decrypted_id = $this->encrypt->decode($uid);
+		$date['userInfo'] = $this->applicant_Model->editApllicant($decrypted_id);
 	}
 
 
