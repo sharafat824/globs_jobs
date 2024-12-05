@@ -39,87 +39,116 @@ if (isset($userInfo) != NULL) {
 ?>
 
 <body>
-    <div class="candidates-details-area ptb-100">
+    <div class="candidates-details-area ">
+    <div class="breadcrumb-area mb-5 mx-3">
+		<h1>Edit Employee</h1>
+		<ol class="breadcrumb">
+			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
+            <!-- <li class="item"><a href="<?php echo base_url()?>Company/allcompany">All Companies</a></li> -->
+            <li class="item">Edit Employee</li>
+		</ol>
+	</div>
         <div class="container">
             <div class="row">
-                <div class="col-lg-5 col-md-12">
+                <!-- <div class="col-lg-5 col-md-12">
                     <div class="candidates-details-sticky">
-                        <div class="candidates-details-information">
-                            <div class="information-box">
-                                <h1 class="mb-4 text-center">Edit User Information</h1>
+                        <div class="candidates-details-information"> -->
+                        <div class="my-profile-box">
+                                <h2 class="my-4 text-center ">Edit User Information</h2>
                                 <?= form_open_multipart('user/update_user_info', ['method' => 'POST']) ?>
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body p-4">
                                         <div class="row">
                                             <!-- Personal Details -->
                                             <div class="col-md-6 mb-3">
+                                                <div class="form-group">
                                                 <label for="first_name" class="form-label">First Name</label>
                                                 <input type="text" id="first_name" name="first_name" class="form-control" value="<?= set_value('first_name', $name ?? '') ?>" required>
+                                                </div>
                                             </div>
                                             <div class="col-md-6 mb-3">
+                                            <div class="form-group">
                                                 <label for="last_name" class="form-label">Last Name</label>
                                                 <input type="text" id="last_name" name="last_name" class="form-control" value="<?= set_value('last_name', $last_name ?? '') ?>" required>
-                                            </div>
+                                                </div>
+                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
+                                            <div class="form-group">
                                                 <label for="gender" class="form-label">Gender</label>
-                                                <select id="gender" name="gender" class="form-select">
+                                                <select id="gender" name="gender" class=" form-control">
                                                     <option value="Male" <?= set_select('gender', 'Male', $gender == 'Male') ?>>Male</option>
                                                     <option value="Female" <?= set_select('gender', 'Female', $gender == 'Female') ?>>Female</option>
                                                 </select>
                                             </div>
+                                            </div>
                                             <div class="col-md-6 mb-3">
+                                            <div class="form-group">
                                                 <label for="birth_date" class="form-label">Birth Date</label>
                                                 <input type="date" id="birth_date" name="birth_date" class="form-control" value="<?= set_value('birth_date', $birth_date ?? '') ?>">
+                                            </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12 mb-3">
+                                            <div class="form-group">
                                                 <label for="address" class="form-label">Address</label>
                                                 <input type="text" id="address" name="address" class="form-control" value="<?= set_value('address', $address ?? '') ?>">
                                             </div>
+                                            </div>
+
                                         </div>
                                         <div class="row">
                                             <!-- Contact Information -->
                                             <div class="col-md-6 mb-3">
+                                            <div class="form-group">
                                                 <label for="email" class="form-label">Email</label>
                                                 <input type="email" id="email" name="email" class="form-control" value="<?= set_value('email', $email ?? '') ?>">
                                             </div>
+                                            </div>
                                             <div class="col-md-6 mb-3">
+                                            <div class="form-group">
                                                 <label for="phone" class="form-label">Phone</label>
                                                 <input type="text" id="phone" name="phone" class="form-control" value="<?= set_value('phone', $phone ?? '') ?>">
+                                            </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <!-- Emergency Contact -->
                                             <div class="col-md-6 mb-3">
+                                            <div class="form-group">
                                                 <label for="e_contact_name" class="form-label">Emergency Contact Name</label>
                                                 <input type="text" id="e_contact_name" name="e_contact_name" class="form-control" value="<?= set_value('e_contact_name', $e_contact_name ?? '') ?>">
                                             </div>
+                                            </div>
                                             <div class="col-md-6 mb-3">
+                                            <div class="form-group">
                                                 <label for="e_contact_relation" class="form-label">Relationship</label>
                                                 <input type="text" id="e_contact_relation" name="e_contact_relation" class="form-control" value="<?= set_value('e_contact_relation', $e_contact_relation ?? '') ?>">
                                             </div>
+                                            </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-12 mb-3">
+                                            <div class="col-md-12 ">
+                                            <div class="form-group">
                                                 <label for="e_contact_phone" class="form-label">Emergency Contact Phone</label>
                                                 <input type="text" id="e_contact_phone" name="e_contact_phone" class="form-control" value="<?= set_value('e_contact_phone', $e_contact_phone ?? '') ?>">
                                             </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- Submit Button -->
-                                <div class="text-center mt-3">
-                                    <button type="submit" class="btn btn-success btn-lg">Save Changes</button>
+                                    <!-- Submit Button -->
+                                    <div class="text-center mb-4">
+                                        <button type="submit" class="default-btn">Save Changes</button>
+                                    </div>
                                 </div>
                                 <?= form_close() ?>
                             </div>
                         </div>
-                    </div>
+                    <!-- </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </body>

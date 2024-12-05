@@ -7,11 +7,20 @@ $title = $userInfo->title;
 $description = $userInfo->description;
 
 } 
-?><div class="my-profile-box">
+?>
+<div class="breadcrumb-area">
+    <h1>Edit Category</h1>
+    <ol class="breadcrumb">
+        <li class="item"><a href="<?php echo base_url() ?>Manage_dashboard/Home">Dashboard</a></li>
+        <li class="item"><a href="<?php echo base_url() ?>Categories">Categories</a></li>
+        <li class="item">Edit Category</li>
+    </ol>
+</div>
+<div class="my-profile-box">
    <div class="job-list-area">
         <div class="container">
             <div class="section-title">
-               <h2>Edit Category</h2>
+               <h4 class="mt-3">Edit Category</h4>
             </div>
              <div>
              <!-- <form id="contactForm" action="Category/addcategory" method="post"> -->
@@ -32,8 +41,8 @@ $description = $userInfo->description;
                               </div>
                            </div>
 </div>
-<div class="row mt-5">
-                           <div class="col-lg-10  my-profile-box">
+<div class="row mt-2">
+                           <div class="col-lg-12  ">
                               <div class="form-group">
                                  <!-- <input type="text" class="form-control" name='description' required value="<?php echo $description; ?>"> -->
                                   <textarea
@@ -41,8 +50,8 @@ $description = $userInfo->description;
                                  <div class="help-block with-errors"></div>
                               </div>
                            </div>
-                           <div class="col-lg-2 text-center">
-                              <button type="submit" class="default-btn "; >Update</button >
+                           <div class="col-lg-12 text-center">
+                              <button type="submit" class="default-btn ">Update</button>
                               
                            </div>
                         </div>

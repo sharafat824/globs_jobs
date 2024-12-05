@@ -3,7 +3,7 @@
 	<div class="breadcrumb-area">
 		<h1>All Companies</h1>
 		<ol class="breadcrumb">
-			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Home</a></li>
+			
 			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
 			<li class="item">All Companies</li>
 		</ol>

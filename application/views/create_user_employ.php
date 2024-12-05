@@ -21,11 +21,11 @@
 
     </div>
     <div class="breadcrumb-area">
-        <h1>Create Employ</h1>
+        <h1>Create Employee</h1>
         <ol class="breadcrumb">
-            <li class="item"><a href="dashboard.html">Home</a></li>
-            <li class="item"><a href="dashboard.html">Dashboard</a></li>
-            <li class="item">Create Employ</li>
+            <li class="item"><a href="<?php echo base_url() ?>Manage_dashboard/Home">Dashboard</a></li>
+            <li class="item"><a href="<?php echo base_url() ?>Manage_applicant">Manage applicant</a></li>
+            <li class="item">Create Employee</li>
         </ol>
     </div>
     <div class="my-profile-box">
@@ -194,22 +194,22 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label>Upload Resume</label>
                             <input type="file" class="form-control" name="file_resume" required="required">
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label>Upload Portfolio Video</label>
                             <input type="file" class="form-control" name="file_portfolio_video" accept="video/mp4">
                         </div>
                     </div>
 
-                    <div class="col-md-12 mb-3">
-                        <button type="submit" class="btn btn-warning text-white rounded">Create employee</button>
+                    <div class="col-md-12 col-12 text-center mt-3 mb-4">
+                        <button type="submit" class=" default-btn ">Create employee</button>
                     </div>
                 </div>
             </div>
