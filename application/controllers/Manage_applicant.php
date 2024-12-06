@@ -175,7 +175,7 @@ class Manage_applicant extends CI_Controller
                     <i class="bi bi-three-dots-vertical text-muted"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                    <a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . baseditApllicante_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" title="View ">
+                    <a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . base_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" title="View ">
                         <i class="bi bi-eye"></i> View 
                     </a>
 					<a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . base_url("Manage_applicant/editApllicant/{$encrypted_id}") . '" title="View ">
@@ -283,6 +283,8 @@ class Manage_applicant extends CI_Controller
 	// 	$decrypted_id = $this->encrypt->decode($uid);
 	// 	$date['userInfo'] = $this->applicant_Model->editApllicant($decrypted_id);
 	// }
+
+	// new 
 	public function updateApllicant()
 	{
 		// Load required helpers and models
@@ -335,10 +337,6 @@ class Manage_applicant extends CI_Controller
 			}
 		}
 	}
-	
-
-
-
 
 	public function deleteapplicant($uid)
 	{
