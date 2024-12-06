@@ -31,26 +31,30 @@ class Company extends CI_Controller
         $this->load->view('includes/d-footer.php');
     }
 
-    public function allcompany()
+    public function company()
     {
-    
+        $status =$this->input->get('status');
+        $country = $this->input->get('country');
+        $city = $this->input->get('city');
+        
+       // die($country);
         // Pagination configuration
-        $config['base_url'] = base_url('Company/allcompany'); // Base URL
-        $config['total_rows'] = $this->Company_Model->countApplicantDetails(); // Total rows count
+        $config['base_url'] = base_url('Company/company?status='.$status); // Base URL
+        $config['total_rows'] = $this->Company_Model->countApplicantDetails($status,$country,$city); // Total rows count
         $per_page = $this->config->item('per_page'); 
         $config['use_page_numbers'] = true;
         $config['uri_segment'] = 3; // This segment will contain the page number
         $this->pagination->initialize($config);
     
         // Get current page
-        $page = ($this->uri->segment(3)) ? (int)$this->uri->segment(3) : 1;
+        $page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
     
         // Calculate offset based on page
         $offset = ($page - 1) * $per_page;
  
     
         // Get company details with pagination
-        $company = $this->Company_Model->getcompanyDetails($per_page, $offset);
+        $company = $this->Company_Model->getcompanyDetails($per_page, $offset,$status,$country,$city);
     
         // Debugging the result set
         // echo "<pre>"; print_r($company); echo "</pre>";
@@ -59,8 +63,9 @@ class Company extends CI_Controller
         $this->load->view('includes/d-header.php');
         $this->load->view('all_company', [
             'company' => $company,
-            'pagination_links' => $this->load->view('pagination_bootstrap', [
-                'base_url' => base_url('Company/allcompany'),
+            'status' => $status,
+            'pagination_links' => $this->load->view('pagination_employ', [
+                'base_url' => base_url('Company/company?status='. $status),
                 'total_pages' => ceil($config['total_rows'] / $per_page),
                 'current_page' => $page,
             ], true)
@@ -177,7 +182,7 @@ class Company extends CI_Controller
 
         // Add Company
         if ($this->Company_Model->add_company(...array_values($company_data))) {
-            redirect('Company/allcompany'); // Redirect on success
+            redirect('Company/company'); // Redirect on success
         } else {
             // Handle error when creating company...
         }
@@ -244,7 +249,7 @@ class Company extends CI_Controller
 
         if ($result == true) {    
             $this->session->set_flashdata('success', 'Company Profile Updated Successfully.');
-            return redirect('Company/allCompany');
+            return redirect('Company/company');
         } else {
             $this->session->set_flashdata('error', 'Something went wrong. Please try again with valid format.');
             redirect('Company/editCompanyAdmin');
@@ -381,10 +386,10 @@ class Company extends CI_Controller
         $result = $this->Company_Model->deletecity($decrypted_id);
         if ($result == true) {
             $this->session->set_flashdata('success', 'Deleted successfully.');
-            return redirect('Company/allcompany');
+            return redirect('Company/company');
         } else {
             $this->session->set_flashdata('error', 'Something went wrong. Please try again.');
-            redirect('Company/allcompany');
+            redirect('Company/company');
         }
     }
     public function approvedcompany($uid)
@@ -407,10 +412,10 @@ class Company extends CI_Controller
                 }
             }
             $this->session->set_flashdata('success', 'Approved successfully.');
-            return redirect('Company/allcompany');
+            return redirect('Company/company');
         } else {
             $this->session->set_flashdata('error', 'Something went wrong. Please try again.');
-            redirect('Company/allcompany');
+            redirect('Company/company');
         }
     }
     public function rejectcompany($uid)
@@ -422,10 +427,10 @@ class Company extends CI_Controller
         $result = $this->Company_Model->approve($decrypted_id, $userInfo);
         if ($result == true) {
             $this->session->set_flashdata('success', 'Reject successfully.');
-            return redirect('Company/allcompany');
+            return redirect('Company/company');
         } else {
             $this->session->set_flashdata('error', 'Something went wrong. Please try again.');
-            redirect('Company/allcompany');
+            redirect('Company/company');
         }
     }
     function fetch_city($region_id)

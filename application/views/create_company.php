@@ -4,7 +4,7 @@
 		<ol class="breadcrumb">
 			
 			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
-            <li class="item"><a href="<?php echo base_url()?>Company/allcompany">All Companies</a></li>
+            <li class="item"><a href="<?php echo base_url()?>Company/company">All Companies</a></li>
             <li class="item">Create Company User</li>
 		</ol>
 	</div>

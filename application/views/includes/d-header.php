@@ -209,8 +209,8 @@ function isActive($url) {
 
             <?php if (authorize($_SESSION["access"]["ADMIN"]["Company"]["view"])) { ?>
 			      <li class="nav-item  ">
-                  <a href="<?php echo base_url() ?>Company/allcompany" class="nav-link <?php echo isActive('Company/allcompany'); ?>">
-                  <span class="icon <?php echo isActive('Company/allcompany'); ?>"><i class="ri-user-line"></i></span>
+                  <a href="<?php echo base_url() ?>Company/company" class="nav-link <?php echo isActive('Company/company'); ?>">
+                  <span class="icon <?php echo isActive('Company/company'); ?>"><i class="ri-user-line"></i></span>
                   <span class="menu-title">All Companies</span>
                   </a>
                </li>

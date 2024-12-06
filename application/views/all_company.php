@@ -1,22 +1,57 @@
-<div class="">
+<!-- Load jQuery first -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
+
+<!-- Select2 JS -->
+<script src="<?php echo base_url('assets/js/select2.min.js'); ?>" defer></script>
+<style>
+	    .select2-container--default .select2-selection--single {
+        height: 39px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding: 5px 10px !important;
+    }
+</style>
+<div class="">
 	<div class="breadcrumb-area">
-		<h1>All Companies</h1>
+		<h1><?php echo $status ?> Companies</h1>
 		<ol class="breadcrumb">
-			
-			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
-			<li class="item">All Companies</li>
+
+			<li class="item"><a href="<?php echo base_url() ?>Manage_dashboard/Home">Dashboard</a></li>
+			<li class="item"><?php echo $status ?> Companies</li>
 		</ol>
 	</div>
 
 	<div class="all-applicants-box">
 		<div class="d-flex justify-content-between align-items-center">
 			<div>
-			<h2>Companies</h2>
+				<h2>Companies</h2>
 			</div>
 			<div>
-			<a href="<?php echo base_url() .'Company/CreateCompanyAdmin' ?>" class="default-btn default-btn-0"><i class="bi bi-plus"></i>Add</a>
-			
+				<form action="<?php echo base_url(); ?>/Company/company" method="GET" class="row g-3">
+					<div class="form-group input-group">
+						<!-- <input type="text" id="date_range" name="date_range" class="form-control"
+								value="<?php echo $this->input->get('date_range'); ?>"
+								required placeholder="Select date range"> -->
+						<input type="hidden" name="status" value="<?php echo $status  ?>">
+						<div class="d-flex">
+						<select id="country" name="country" class="form-control">
+							<option value="">All Countries</option>
+						</select>
+						<select id="town" name="city" class="form-control">
+							<option value="">All Cities</option>
+						</select>
+						</div>
+						
+						<button type="submit" class="btn btn-warning text-white input-group-text">
+							<i class="bi bi-search"></i>Search
+						</button>
+					</div>
+				</form>
+			</div>
+			<div>
+				<a href="<?php echo base_url() . 'Company/CreateCompanyAdmin' ?>" class="default-btn default-btn-0"><i class="bi bi-plus"></i>Add</a>
 			</div>
 		</div>
 		<div class="row">
@@ -103,10 +138,15 @@
 					endforeach;
 				else:
 						?>
-
 						<tr>
-							<td colspan="6">No Record found</td>
+							<td colspan="6" class="text-center no-record">
+								<div class="container text-center p-5">
+									<i class="bi bi-info-circle" style="font-size: 1.5rem; color: #6c757d;"></i>
+									<p class="mt-2" style="font-size: 1rem; color: #6c757d;">No Records Found</p>
+								</div>
+							</td>
 						</tr>
+
 					<?php
 				endif;
 					?>
@@ -115,3 +155,19 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+  
+    $(document).ready(function() {
+        $('#country').select2({
+            placeholder: 'Select Country',
+            allowClear: true,
+            width: '15rem'
+        });
+        $('#town').select2({
+            placeholder: 'Select City',
+            allowClear: true,
+           width: '15rem'
+        });
+    });
+</script>

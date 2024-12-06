@@ -13,6 +13,7 @@ class Manage_applicant extends CI_Controller
 		$this->load->model('Applicant_Model');
 		$this->load->model('Candidate_Model');
 		$this->load->model('Email_Model');
+		$this->load->model('User/User_model');
 		$this->config->load('config');
 		$this->load->library('pagination');
 		if (!$this->session->userdata['user_id']) {
@@ -21,43 +22,14 @@ class Manage_applicant extends CI_Controller
 	}
 	public function index()
 	{
-		// Load Pagination library
-		$this->load->library('pagination');
-
-		// Pagination configuration
-		$config['base_url'] = base_url('Manage_applicant/index');
-		$config['total_rows'] = $this->Applicant_Model->countApplicantDetails();
-		$per_page = $this->config->item('per_page');
-		$config['use_page_numbers'] = true;
-		$config['uri_segment'] = 3;
-		$this->pagination->initialize($config);
-
-		// Get current page
-		$page = ($this->uri->segment(3)) ? (int)$this->uri->segment(3) : 1;
-
-		// Calculate offset
-		$offset = ($page - 1) * $per_page;
-
-		// Fetch applicants with limit and offset
-		$applicants = $this->Applicant_Model->getapplicantDetails($per_page, $offset);
-
-		//die(json_encode($applicants));
-		// Store total rows in a variable
-		$total_rows = $config['total_rows'];
 		$categories = $this->Category_Model->getcategories();
 		$countries = $this->getCountries();
 
 		// Load views with applicants and pagination links
 		$this->load->view('includes/d-header.php');
 		$this->load->view('dashboard-applicants', [
-			'applicant' => $applicants,
 			'categories' => $categories,
 			'countries' => $countries,
-			'pagination_links' => $this->load->view('pagination_bootstrap', [
-				'base_url' => base_url('Manage_applicant/index'),
-				'total_pages' => ceil($total_rows / $per_page), // Use ceil to get the total number of pages
-				'current_page' => $page
-			], true)
 		]);
 		$this->load->view('includes/d-footer.php');
 	}
@@ -287,10 +259,13 @@ class Manage_applicant extends CI_Controller
 	// new 
 	public function updateApllicant()
 	{
+		$uid =$this->input->get('id');
+		$uid = str_replace(array('_'), array('/'), $uid);
+		$decrypted_id = $this->encrypt->decode($uid);
+
 		// Load required helpers and models
 		$this->load->helper(['form', 'url']);
 		$this->load->library('form_validation');
-		$this->load->model('User_model'); // Assume User_model handles user database operations
 	
 		// Set form validation rules
 		$this->form_validation->set_rules('first_name', 'First Name', 'trim|required');
@@ -322,14 +297,11 @@ class Manage_applicant extends CI_Controller
 				'e_contact_relation' => $this->input->post('e_contact_relation'),
 				'e_contact_phone' => $this->input->post('e_contact_phone'),
 			];
-	
-			// Get user ID from session or hidden field
-			$user_id = $this->session->userdata('user_id') ?? $this->input->post('user_id');
-	
-			if ($user_id && $this->User_model->update_user($user_id, $data)) {
+		
+			if ($decrypted_id && $this->User_model->update_employee($decrypted_id, $data)) {
 				// Update successful
 				$this->session->set_flashdata('success', 'User information updated successfully.');
-				redirect('user/profile'); // Redirect to profile or desired page
+				redirect('Manage_applicant'); // Redirect to profile or desired page
 			} else {
 				// Update failed
 				$this->session->set_flashdata('error', 'Failed to update user information. Please try again.');

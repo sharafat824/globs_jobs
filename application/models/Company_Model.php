@@ -11,14 +11,34 @@ class Company_Model extends CI_Model
             ->get('employer_profile');
         return $query->row();
     }
-    public function getcompanyDetails($limit, $offset)
+    public function getcompanyDetails($limit, $offset,$status,$country=null,$city=null)
     {
+        if ($status === 'pending') {
+            $this->db->where('e.status', 0);
+        } elseif ($status === 'approved') {
+            $this->db->where('e.status', 1);
+        }
+        
+
+        if ($country && $city) {
+            // Both country and city conditions are provided
+            $this->db->where('e.c_country', $country);
+            $this->db->where('e.c_city', $city);
+        } elseif ($country) {
+            // Only country condition is provided
+            $this->db->where('e.c_country', $country);
+        } elseif ($city) {
+            // Only city condition is provided
+            $this->db->where('e.c_city', $city);
+        } 
+
         $query = $this->db->select('e.*, c.city_name as ccity_name, co.country_name as cocountry_name, u.user_source, COUNT(j.id) as job_count')
             ->join('city c', 'c.id = e.c_city', 'left')
             ->join('country co', 'co.id = e.c_country', 'left')
             ->join('users u', 'u.id = e.user_id', 'left')
             ->join('jobs j', 'e.id = j.company_id', 'left')
             ->group_by('e.id')
+            ->order_by('created_at', 'desc')
             ->limit($limit, $offset)
             ->get('employer_profile e');
         return $query->result();
@@ -26,9 +46,32 @@ class Company_Model extends CI_Model
     
     
 
-    public function countApplicantDetails()
+    public function countApplicantDetails($status,$country=null,$city=null)
     {
-        return $this->db->count_all('employer_profile');
+        switch ($status) {
+            case 'pending':
+                $this->db->where('status', 0);
+                break;
+            case 'approved':
+                $this->db->where('status', 1);
+                break;
+            default:
+                // No specific status, count all
+                break;
+        }
+        if ($country && $city) {
+            // Both country and city conditions are provided
+            $this->db->where('e.c_country', $country);
+            $this->db->where('e.c_city', $city);
+        } elseif ($country) {
+            // Only country condition is provided
+            $this->db->where('e.c_country', $country);
+        } elseif ($city) {
+            // Only city condition is provided
+            $this->db->where('e.c_city', $city);
+        } 
+
+        return $this->db->count_all_results('employer_profile');
     }
 
 

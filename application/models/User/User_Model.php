@@ -112,5 +112,11 @@ Class User_Model extends CI_Model {
                 ->get('user');
         return $ret->row();
         }
+
+        public function update_employee($userId,$userData)  {
+            $this->db->where('id', $userId);
+            $this->db->update('employee_profile', $userData);
+            return true;
+        }
    
 }

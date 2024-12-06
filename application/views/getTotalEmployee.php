@@ -1,18 +1,27 @@
 <div class="">
 	<?php
-	$status = $status === 'pending' ? 'Pending' : 'Total';
+
+	if ($status === 'pending') {
+		$statusLabel = 'Pending';
+	}elseif ($status==='total') {
+		$statusLabel = 'Total';
+	}elseif ($status==='approved') {
+		$statusLabel = 'Approved';
+	}
 	?>
 	<div class="breadcrumb-area">
-		<h1><?php echo $status ?> Employee</h1>
+		<h1><?php echo $statusLabel ?> Employee</h1>
 		<ol class="breadcrumb">
 			<li class="item"><a href="<?php echo base_url() ?>Manage_dashboard/Home">Dashboard</a></li>
-			<li class="item">Total Employee</li>
+			<li class="item"><?php
+			$statusLabel
+			?> Employee</li>
 		</ol>
 	</div>
 
 
 	<div class="all-applicants-box">
-		<h2><?php echo $status ?> Employee</h2>
+		<h2><?php echo $statusLabel ?> Employee</h2>
 		<div class="row">
 			<tbody>
 				<?php

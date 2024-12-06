@@ -87,7 +87,7 @@ class Applicant_Model extends CI_Model
             $this->db->group_by('e.id');
         
             // Apply ordering
-        //    $this->db->order_by($orderColumn, $orderDirection);
+           $this->db->order_by('created_at', 'desc');
         
             // Apply limit and offset for pagination
             $this->db->limit($limit, $offset);
