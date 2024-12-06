@@ -16,18 +16,19 @@ class Manage_dashboard extends CI_Controller
 
     }
     public function Home()
-    {   
+    {   $startDate = $this->input->get('start_date');
+       $endtDate = $this->input->get('end_date');
         $this->load->view('includes/d-header.php');
         if($this->session->userdata['rolecode']=='1'){
 			
-			$data['Assignedjob'] = $this->Manage_Dashboard_Model->Assignedjob();
-			$data['Shortlistjob'] = $this->Manage_Dashboard_Model->Shortlistjob();
-			$data['total_job'] = $this->Manage_Dashboard_Model->totaljob();
-			$data['approved_job'] = $this->Manage_Dashboard_Model->approvedjob();
-			$data['total_employee'] = $this->Manage_Dashboard_Model->totalemployee();
-			$data['pending_employee'] = $this->Manage_Dashboard_Model->pendingemployee();
-			$data['totalemployer'] = $this->Manage_Dashboard_Model->totalemployer();
-			$data['approved_employee'] = $this->Manage_Dashboard_Model->approvedemployee();
+			$data['Assignedjob'] = $this->Manage_Dashboard_Model->Assignedjob($startDate,$endtDate);
+			$data['Shortlistjob'] = $this->Manage_Dashboard_Model->Shortlistjob(null,$startDate,$endtDate);
+			$data['total_job'] = $this->Manage_Dashboard_Model->totaljob($startDate,$endtDate);
+			$data['approved_job'] = $this->Manage_Dashboard_Model->approvedjob(null,$startDate,$endtDate);
+			$data['total_employee'] = $this->Manage_Dashboard_Model->totalemployee($startDate,$endtDate);
+			$data['pending_employee'] = $this->Manage_Dashboard_Model->pendingemployee($startDate,$endtDate);
+			$data['totalemployer'] = $this->Manage_Dashboard_Model->totalemployer($startDate, $endtDate);
+			$data['approved_employee'] = $this->Manage_Dashboard_Model->approvedemployee($startDate,$endtDate);
 			
 			$data['jobInfo'] =$this->Candidate_Model->getalljobs();
 			$this->load->view('admin-dashboard',$data);
@@ -179,5 +180,20 @@ class Manage_dashboard extends CI_Controller
            
         $this->load->view('includes/d-footer.php'); 
        
+    }
+
+    public function addCreatedAtColumns() {
+      //  $sql_users = "ALTER TABLE users ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP";
+        $sql_employee_profile = "ALTER TABLE employee_profile ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP";
+        $sql_employer_profile = "ALTER TABLE employer_profile ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP";
+        $sql_user_jobs = "ALTER TABLE user_jobs ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP";
+        $sql_jobs = "ALTER TABLE jobs ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP";
+    
+        // Execute each query
+      //  $this->db->query($sql_users);
+        $this->db->query($sql_jobs);
+       $this->db->query($sql_employee_profile);
+       $this->db->query($sql_employer_profile);
+        $this->db->query($sql_user_jobs);
     }
 }

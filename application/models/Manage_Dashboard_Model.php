@@ -3,74 +3,45 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Manage_Dashboard_Model extends CI_Model
 {
 
-    public function totaljob()
+    public function totaljob($startDate =null, $endDate=null)
     {
+        $conditions = ($this->session->userdata('rolecode') == 3) ?
+        ['j.company_id' => $this->session->userdata('user_id')] :
+        ['j.company_id >' => 0];
 
-        if ($this->session->userdata('rolecode') == 3) {
-            $multipleWhere = ['j.company_id' => $this->session->userdata('user_id')];
+    $conditions['deleted'] = NULL;
 
-        } else {
-            $multipleWhere = ['j.company_id>' => 0];
-        }
-        $this->db->select('count(j.id) as job_count');
-        $this->db->where($multipleWhere);
-        $this->db->where('deleted', NULL);
-        $query = $this->db->get('jobs j');
-        $cnt2 = $query->row();
-
-        $total = $cnt2->job_count;
-
-        return $total;
+    return $this->countWithDateFilter($conditions, $startDate, $endDate, 'jobs j');
 
     }
-    public function approvedjob($category_id = 0)
-    {
-
-        if ($this->session->userdata('rolecode') == 3) {
-            $multipleWhere = ['j.company_id' => $this->session->userdata('user_id')];
-
-        } else {
-            $multipleWhere = ['j.company_id>' => 0];
-        }
-        $this->db->select('count(j.id) as job_count');
-        $this->db->where($multipleWhere);
-        $this->db->where('deleted', NULL);
+    public function approvedjob($category_id = 0, $startDate = null, $endDate = null) {
+        // Determine conditions based on the user's role
+        $conditions = ($this->session->userdata('rolecode') == 3) ?
+            ['j.company_id' => $this->session->userdata('user_id')] :
+            ['j.company_id >' => 0];
+    
+        // Additional conditions
+        $conditions['deleted'] = NULL;
+        $conditions['approve'] = 1;
+    
         if ($this->session->userdata('rolecode') == 2) {
-            if (!empty($category_id) && $category_id!= 0) {
-                $this->db->where('category', $category_id);
-            } else {
-                $this->db->where('category', 0);
-            }
+            $conditions['category'] = (!empty($category_id) && $category_id != 0) ? $category_id : 0;
         }
-        $this->db->where('approve', 1);
-        $query = $this->db->get('jobs j');
-        $cnt2 = $query->row();
-
-        $total = $cnt2->job_count;
-
-        return $total;
-
+    
+        // Use the reusable function for filtering with dates
+        return $this->countWithDateFilter($conditions, $startDate, $endDate, 'jobs j');
     }
-    public function pendingjob()
-    {
-
-        if ($this->session->userdata('rolecode') == 3) {
-            $multipleWhere = ['j.company_id' => $this->session->userdata('user_id')];
-
-        } else {
-            $multipleWhere = ['j.company_id>' => 0];
-        }
-        $this->db->select('count(j.id) as job_count');
-        $this->db->where($multipleWhere);
-        $this->db->where('approve', 0);
-        $query = $this->db->get('jobs j');
-        $cnt2 = $query->row();
-
-        $total = $cnt2->job_count;
-
-        return $total;
-
+    
+    public function pendingjob($startDate = null, $endDate = null) {
+        $conditions = ($this->session->userdata('rolecode') == 3) ?
+            ['j.company_id' => $this->session->userdata('user_id')] :
+            ['j.company_id >' => 0];
+    
+        $conditions['approve'] = 0;
+    
+        return $this->countWithDateFilter($conditions, $startDate, $endDate, 'jobs j');
     }
+    
     public function appliedjob()
     {
 
@@ -90,155 +61,119 @@ class Manage_Dashboard_Model extends CI_Model
         return $total;
 
     }
-    public function Shortlistjob($category_id = 0)
-    {
-
-        if ($this->session->userdata('rolecode') == 2) {
-            $multipleWhere = ['j.user_id' => $this->session->userdata('user_id')];
-
-        } else {
-            $multipleWhere = ['j.id>' => 0];
-        }
-        $this->db->select('count(j.id) as job_count');
-        $this->db->where($multipleWhere);
+    public function Shortlistjob($category_id = 0, $startDate = null, $endDate = null) {
+        $conditions = ($this->session->userdata('rolecode') == 2) ?
+            ['j.user_id' => $this->session->userdata('user_id')] :
+            ['j.id >' => 0];
+    
         if ($this->session->userdata('rolecode') == 3) {
-            $this->db->where('j.user_id', $this->session->userdata('user_id'));
+            $conditions['j.user_id'] = $this->session->userdata('user_id');
         }
-        $this->db->where('short_list', 1);
-        $query = $this->db->get('user_jobs j');
-        $cnt2 = $query->row();
-
-        $total = $cnt2->job_count;
-
-        return $total;
-
+    
+        $conditions['short_list'] = 1;
+    
+        return $this->countWithDateFilter($conditions, $startDate, $endDate, 'user_jobs j');
     }
-    public function Assignedjob($category_id = 0)
-    {
-
-        if ($this->session->userdata('rolecode') == 2) {
-            $multipleWhere = ['j.user_id' => $this->session->userdata('user_id')];
-        } else {
-            $multipleWhere = ['j.id>' => 0];
-        }
-        $this->db->select('count(j.id) as job_count');
-        $this->db->where($multipleWhere);
+    
+    public function Assignedjob($startDate = null, $endDate = null) {
+        $conditions = ($this->session->userdata('rolecode') == 2) ?
+            ['j.user_id' => $this->session->userdata('user_id')] :
+            ['j.id >' => 0];
+    
         if ($this->session->userdata('rolecode') == 3) {
-            $this->db->where('j.user_id', $this->session->userdata('user_id'));
+            $conditions['j.user_id'] = $this->session->userdata('user_id');
         }
-        $this->db->where('short_list', 11);
-        $query = $this->db->get('user_jobs j');
-        $cnt2 = $query->row();
-
-        $total = $cnt2->job_count;
-
-        return $total;
-
+    
+        $conditions['short_list'] = 11;
+    
+        return $this->countWithDateFilter($conditions, $startDate, $endDate, 'user_jobs j');
     }
+    
 
-    public function totalemployee()
-    {
+    public function totalemployee($startDate = null, $endDate = null) {
+        $conditions = ($this->session->userdata('rolecode') == 2) ?
+            ['e.user_id' => $this->session->userdata('user_id')] :
+            ['e.user_id >' => 0];
+    
+        return $this->countWithDateFilter($conditions, $startDate, $endDate, 'employee_profile e');
+    }
+    
+    public function pendingemployee($startDate = null, $endDate = null) {
+        $conditions = ($this->session->userdata('rolecode') == 2) ?
+            ['e.user_id' => $this->session->userdata('user_id')] :
+            ['e.user_id >' => 0];
+    
+        $conditions['e.status'] = 0;
+    
+        return $this->countWithDateFilter($conditions, $startDate, $endDate, 'employee_profile e');
+    }
+    
+    public function totalemployer($startDate = null, $endDate = null) {
+        $conditions = ($this->session->userdata('rolecode') == 2) ?
+            ['e.user_id' => $this->session->userdata('user_id')] :
+            ['e.user_id >' => 0];
+    
+        return $this->countWithDateFilter($conditions, $startDate, $endDate, 'employer_profile e');
+    }
+    
 
-        if ($this->session->userdata('rolecode') == 2) {
-            $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
+    public function pendingemployer($startDate = null, $endDate = null) {
+        $conditions = ($this->session->userdata('rolecode') == 2) ?
+            ['e.user_id' => $this->session->userdata('user_id')] :
+            ['e.user_id >' => 0];
+    
+        return $this->countWithDateFilter($conditions, $startDate, $endDate, 'employer_profile e');
+    }
+    
+    // public function pendingemployer()
+    // {
 
-        } else {
-            $multipleWhere = ['e.user_id>' => 0];
+    //     if ($this->session->userdata('rolecode') == 2) {
+    //         $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
+
+    //     } else {
+    //         $multipleWhere = ['e.user_id>' => 0];
+    //     }
+    //     $this->db->select('count(e.id) as employer_count');
+    //     $this->db->where($multipleWhere);
+
+    //     $query = $this->db->get('employer_profile e');
+    //     $cnt2 = $query->row();
+
+    //     $total = $cnt2->employer_count;
+
+    //     return $total;
+
+    // }
+
+    public function approvedemployee($startDate = null, $endDate = null) {
+        $conditions = ($this->session->userdata('rolecode') == 2) ?
+            ['e.user_id' => $this->session->userdata('user_id')] :
+            ['e.user_id >' => 0];
+    
+        $conditions['status >'] = 0;
+    
+        return $this->countWithDateFilter($conditions, $startDate, $endDate, 'employee_profile e');
+    }
+    
+
+    private function countWithDateFilter($conditions = [], $startDate = null, $endDate = null, $table = 'jobs', $dateColumn = 'created_at') {
+        $this->db->select('count(id) as count');
+        $this->db->where($conditions);
+    
+        if ($startDate) {
+            $this->db->where("$dateColumn >=", $startDate);
         }
-        $this->db->select('count(e.id) as employee_count');
-        $this->db->where($multipleWhere);
-
-        $query = $this->db->get('employee_profile e');
-        $cnt2 = $query->row();
-
-        $total = $cnt2->employee_count;
-
-        return $total;
-
-    }
-    public function pendingemployee()
-    {
-
-        if ($this->session->userdata('rolecode') == 2) {
-            $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
-
-        } else {
-            $multipleWhere = ['e.user_id>' => 0];
+        if ($endDate) {
+            // Append time to include the entire end date
+            $endDate = date('Y-m-d 23:59:59', strtotime($endDate));
+            $this->db->where("$dateColumn <=", $endDate);
         }
-        $this->db->select('count(e.id) as employee_count');
-        $this->db->where('e.status', 0);
-        $this->db->where($multipleWhere);
-
-        $query = $this->db->get('employee_profile e');
-        $cnt2 = $query->row();
-
-        $total = $cnt2->employee_count;
-
-        return $total;
-
+    
+        $query = $this->db->get($table);
+        return $query->row()->count;
     }
-
-    public function totalemployer()
-    {
-
-        if ($this->session->userdata('rolecode') == 2) {
-            $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
-
-        } else {
-            $multipleWhere = ['e.user_id>' => 0];
-        }
-        $this->db->select('count(e.id) as employer_count');
-        $this->db->where($multipleWhere);
-
-        $query = $this->db->get('employer_profile e');
-        $cnt2 = $query->row();
-
-        $total = $cnt2->employer_count;
-
-        return $total;
-
-    }
-    public function pendingemployer()
-    {
-
-        if ($this->session->userdata('rolecode') == 2) {
-            $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
-
-        } else {
-            $multipleWhere = ['e.user_id>' => 0];
-        }
-        $this->db->select('count(e.id) as employer_count');
-        $this->db->where($multipleWhere);
-
-        $query = $this->db->get('employer_profile e');
-        $cnt2 = $query->row();
-
-        $total = $cnt2->employer_count;
-
-        return $total;
-
-    }
-
-    public function approvedemployee()
-    {
-
-        if ($this->session->userdata('rolecode') == 2) {
-            $multipleWhere = ['e.user_id' => $this->session->userdata('user_id')];
-
-        } else {
-            $multipleWhere = ['e.user_id>' => 0];
-        }
-        $this->db->select('count(e.id) as employee_count');
-        $this->db->where($multipleWhere);
-        $this->db->where('status>', 0);
-        $query = $this->db->get('employee_profile e');
-        $cnt2 = $query->row();
-
-        $total = $cnt2->employee_count;
-
-        return $total;
-
-    }
+    
 
     public function gettotaljob()
     {
