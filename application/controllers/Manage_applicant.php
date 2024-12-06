@@ -175,7 +175,7 @@ class Manage_applicant extends CI_Controller
                     <i class="bi bi-three-dots-vertical text-muted"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                    <a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . base_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" title="View ">
+                    <a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . baseditApllicante_url("Manage_applicant/getapllicant/{$encrypted_id}") . '" title="View ">
                         <i class="bi bi-eye"></i> View 
                     </a>
 					<a class="dropdown-item option-btn d-flex align-items-center gap-2 mb-1 w-100" href="' . base_url("Manage_applicant/editApllicant/{$encrypted_id}") . '" title="View ">
@@ -277,12 +277,67 @@ class Manage_applicant extends CI_Controller
 		$this->load->view('edit_applicant', $data);
 		$this->load->view('includes/d-footer.php');
 	}
-	public function updateApllicant($uui)
+	// public function updateApllicant($uui)
+	// {
+	// 	$uid = str_replace(array('_'), array('/'), $uid);
+	// 	$decrypted_id = $this->encrypt->decode($uid);
+	// 	$date['userInfo'] = $this->applicant_Model->editApllicant($decrypted_id);
+	// }
+	public function updateApllicant()
 	{
-		$uid = str_replace(array('_'), array('/'), $uid);
-		$decrypted_id = $this->encrypt->decode($uid);
-		$date['userInfo'] = $this->applicant_Model->editApllicant($decrypted_id);
+		// Load required helpers and models
+		$this->load->helper(['form', 'url']);
+		$this->load->library('form_validation');
+		$this->load->model('User_model'); // Assume User_model handles user database operations
+	
+		// Set form validation rules
+		$this->form_validation->set_rules('first_name', 'First Name', 'trim|required');
+		$this->form_validation->set_rules('last_name', 'Last Name', 'trim|required');
+		$this->form_validation->set_rules('gender', 'Gender', 'trim|required');
+		$this->form_validation->set_rules('birth_date', 'Birth Date', 'trim|required');
+		$this->form_validation->set_rules('address', 'Address', 'trim|required');
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+		$this->form_validation->set_rules('phone', 'Phone', 'trim|required');
+		$this->form_validation->set_rules('e_contact_name', 'Emergency Contact Name', 'trim|required');
+		$this->form_validation->set_rules('e_contact_relation', 'Relationship', 'trim|required');
+		$this->form_validation->set_rules('e_contact_phone', 'Emergency Contact Phone', 'trim|required');
+	
+		if ($this->form_validation->run() === FALSE) {
+			// Validation failed, reload the edit form with errors
+			$this->session->set_flashdata('error', validation_errors());
+			redirect('user/edit_form'); // Replace with your form view path
+		} else {
+			// Collect input data
+			$data = [
+				'first_name' => $this->input->post('first_name'),
+				'last_name' => $this->input->post('last_name'),
+				'gender' => $this->input->post('gender'),
+				'birth_date' => $this->input->post('birth_date'),
+				'address' => $this->input->post('address'),
+				'email' => $this->input->post('email'),
+				'phone' => $this->input->post('phone'),
+				'e_contact_name' => $this->input->post('e_contact_name'),
+				'e_contact_relation' => $this->input->post('e_contact_relation'),
+				'e_contact_phone' => $this->input->post('e_contact_phone'),
+			];
+	
+			// Get user ID from session or hidden field
+			$user_id = $this->session->userdata('user_id') ?? $this->input->post('user_id');
+	
+			if ($user_id && $this->User_model->update_user($user_id, $data)) {
+				// Update successful
+				$this->session->set_flashdata('success', 'User information updated successfully.');
+				redirect('user/profile'); // Redirect to profile or desired page
+			} else {
+				// Update failed
+				$this->session->set_flashdata('error', 'Failed to update user information. Please try again.');
+				redirect('user/edit_form'); // Reload edit form
+			}
+		}
 	}
+	
+
+
 
 
 	public function deleteapplicant($uid)

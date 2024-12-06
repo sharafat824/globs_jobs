@@ -3,9 +3,9 @@
 	<div class="breadcrumb-area">
 		<h1>All Applicants</h1>
 		<ol class="breadcrumb">
-			
 			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
-			<li class="item">All Applicants</li>
+			<li class="item"><a href="<?php echo base_url()?>job/approved_jobs">Approved Jobs</a></li>
+			<li class="item">Applicants</li>
 			
 		</ol>
 	</div>
