@@ -15,10 +15,8 @@
             </div>
         <?php endif; ?>
         <div class="card shadow-lg">
-            <div class=" bg-primary text-white">
-                <h3 class="mb-0 text-white text-center p-3">Create Company</h3>
-            </div>
             <div class="card-body my-profile-box">
+                <h2 class=" px-md-4 my-2 all-applicants-h2 ">Create Company</h2>
                 <!-- Form to Create User -->
                 <?php echo form_open_multipart('Company/StoreUserAndCompany'); ?>
 
@@ -146,8 +144,7 @@
                             <input type="text" name="longitude" id="longitude" class="form-control">
                         </div> -->
                         <div class="text-center "> 
-
-                            <button type="submit" class="btn  default-btn w-100 mt-3">Create User and Company</button>
+                            <button type="submit" class="default-btn  mt-3">Create User and Company</button>
                         </div>
                     </div>
                 </div>
