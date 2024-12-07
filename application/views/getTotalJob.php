@@ -5,7 +5,7 @@
 <!-- Select2 JS -->
 <script src="<?php echo base_url('assets/js/select2.min.js'); ?>" defer></script>
 <style>
-	    .select2-container--default .select2-selection--single {
+    .select2-container--default .select2-selection--single {
         height: 39px !important;
     }
 
@@ -41,7 +41,7 @@ $CI->load->model('Job_Model');
                 ?> Jobs</h2>
         </div>
         <div class="d-flex justify-content-center">
-        <div class="mb-5">
+            <div class="mb-5">
                 <form action="<?php echo base_url(); ?>/Manage_dashboard/jobs" method="GET" class="row g-3">
                     <div class="form-group input-group">
                         <!-- <input type="text" id="date_range" name="date_range" class="form-control"
@@ -49,6 +49,7 @@ $CI->load->model('Job_Model');
 								required placeholder="Select date range"> -->
                         <input type="hidden" name="status" value="<?php echo $status  ?>">
                         <div class="d-flex">
+                            <input type="text" style="height: 40px;width:22rem;border:1px solid #ababab;background:transparent" class="form-control" name="search" placeholder="Search...">
                             <select id="country" name="country" class="form-control">
                                 <option value="">All Countries</option>
                             </select>
@@ -73,9 +74,23 @@ $CI->load->model('Job_Model');
                     $count_assigned_count = $CI->Manage_Dashboard_Model->getassignedemployeeCount($row->id);
                     $count_applicant_count = $CI->Job_Model->getapplicantDetailsCount($row->id);
                     $count_shortlist_count = $CI->Job_Model->shortlistCount($row->id);
+
             ?>
+
                     <div class="col-lg-4 col-md-6 job-item">
                         <div class="single-job-list-box">
+                            <?php
+                            if ($this->session->userdata('rolecode') == 3) { ?>
+                                <div class="d-flex justify-content-end gap-2 mb-2">
+                                    <a href="<?php echo base_url(); ?>/Job/edit_job?id=<?php echo $encrypted_id ?>" class="btn btn-sm default-btn "><i class="bi bi-pencil"></i></a>
+                                    <a class="btn btn-sm default-btn" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                                        onclick="setDeleteAction('<?= base_url("Job/delete_job/" .  $encrypted_id) ?>')">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            <?php }
+                            ?>
+
                             <div class="job-information">
                                 <div class="company-logo">
                                     <a href="#"><img src="<?php echo base_url('assets/images/dashboard/user1.jpg'); ?>" alt="image"></a>
@@ -155,14 +170,14 @@ $CI->load->model('Job_Model');
                 endforeach;
             else :
                 ?>
-               	<tr>
-							<td colspan="6" class="text-center no-record">
-								<div class="container text-center p-5">
-									<i class="bi bi-info-circle" style="font-size: 1.5rem; color: #6c757d;"></i>
-									<p class="mt-2" style="font-size: 1rem; color: #6c757d;">No Records Found</p>
-								</div>
-							</td>
-						</tr>
+                <tr>
+                    <td colspan="6" class="text-center no-record">
+                        <div class="container text-center p-5">
+                            <i class="bi bi-info-circle" style="font-size: 1.5rem; color: #6c757d;"></i>
+                            <p class="mt-2" style="font-size: 1rem; color: #6c757d;">No Records Found</p>
+                        </div>
+                    </td>
+                </tr>
             <?php
             endif;
             ?>
@@ -172,18 +187,42 @@ $CI->load->model('Job_Model');
         </div>
     </div>
 </div>
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this job? This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a id="confirmDeleteButton" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to set the delete action
+    function setDeleteAction(deleteUrl) {
+        document.getElementById('confirmDeleteButton').setAttribute('href', deleteUrl);
+    }
+</script>
 
 <script type="text/javascript">
     $(document).ready(function() {
         $('#country').select2({
             placeholder: 'Select Country',
             allowClear: true,
-            width: '15rem'
+            width: '20rem'
         });
         $('#town').select2({
             placeholder: 'Select City',
             allowClear: true,
-           width: '15rem'
+            width: '20rem'
         });
     });
 </script>

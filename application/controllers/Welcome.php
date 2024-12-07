@@ -107,8 +107,6 @@ class Welcome extends CI_Controller {
 	}
 	public function all_jobs($id='')
     {
-		
-		
 
         $data['jobInfo'] = $this->Candidate_Model->getallapprovedjobs($id);
         $category_info = $this->Candidate_Model->get_cat_title_description($id);

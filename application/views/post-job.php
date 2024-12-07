@@ -21,7 +21,7 @@ if (isset($userInfo) != NULL) {
       </div>
       <div class="post-a-new-job-box">
          <h3>Post Your Job</h3>
-         <?php echo form_open('Job/update_job'); ?>
+         <?php echo form_open('Job/post_job'); ?>
             <div class="row">
                <div class="col-lg-12 col-md-12">
                   <div class="form-group" >
@@ -196,6 +196,7 @@ if (isset($userInfo) != NULL) {
         autocomplete.setTypes(['address']);
         autocomplete.addListener('place_changed', function () {
             var place = autocomplete.getPlace();
+        
             for (var i = 0; i < place.address_components.length; i++) {
                 for (var j = 0; j < place.address_components[i].types.length; j++) {
                     if (place.address_components[i].types[j] == "street_number") {

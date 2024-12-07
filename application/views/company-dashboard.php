@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="stats-fun-fact-box">
-                    <a href="<?php echo base_url(); ?>/Manage_dashboard/getTotalJob">
+                    <a href="<?php echo base_url(); ?>/Manage_dashboard/jobs?status=all">
                         <div class="icon-box">
                             <i class="ri-briefcase-line"></i>
                         </div>
@@ -29,7 +29,7 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="stats-fun-fact-box">
-                    <a href="<?php echo base_url(); ?>/Manage_dashboard/getApprovedJobs">
+                    <a href="<?php echo base_url(); ?>/Manage_dashboard/jobs?status=approved">
                         <div class="icon-box">
                             <i class="ri-file-list-line"></i>
                         </div>
@@ -40,7 +40,7 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="stats-fun-fact-box">
-                    <a href="<?php echo base_url(); ?>/Manage_dashboard/getPendingJobs">
+                    <a href="<?php echo base_url(); ?>/Manage_dashboard/jobs?status=pending">
                         <div class="icon-box">
                             <i class="ri-file-list-line"></i>
                         </div>

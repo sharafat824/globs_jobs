@@ -15,10 +15,18 @@ class Manage_Dashboard_Model extends CI_Model
 
     }
 
-    public function countJob($status,$country,$city) {
+    public function countJob($status,$country,$city,$search=null) {
         // Apply the condition for approved status
+        if ($this->session->userdata('rolecode') == 3) {
+            $multipleWhere = ['company_id' => $this->session->userdata('user_id')];
+        } else {
+            $multipleWhere = ['company_id >' => 0];
+        }
+        $this->db->where($multipleWhere);
         if ($status === 'approved') {
             $this->db->where('approve', 1);
+        }elseif ($status==='pending') {
+            $this->db->where('approve', 0);
         }
         if ($country && $city) {
             // Both country and city conditions are provided
@@ -31,6 +39,11 @@ class Manage_Dashboard_Model extends CI_Model
             // Only city condition is provided
             $this->db->where('city', $city);
         } 
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('title', $search);
+            $this->db->group_end(); 
+               }
         $this->db->where('deleted', NULL);
         // Select the count of jobs
         $this->db->select('COUNT(id) as job_count');
@@ -239,7 +252,7 @@ class Manage_Dashboard_Model extends CI_Model
     
     
 
-    public function getTotalJob($perPage, $offset, $status, $country, $city)
+    public function getTotalJob($perPage, $offset, $status, $country, $city,$search=null)
     {
         if ($this->session->userdata('rolecode') == 3) {
             $multipleWhere = ['j.company_id' => $this->session->userdata('user_id')];
@@ -254,6 +267,8 @@ class Manage_Dashboard_Model extends CI_Model
     
         if ($status === 'approved') {
             $this->db->where('approve', 1);
+        }elseif ($status=='pending') {
+            $this->db->where('approve', 0); 
         }
     
         if ($country && $city) {
@@ -264,6 +279,12 @@ class Manage_Dashboard_Model extends CI_Model
         } elseif ($city) {
             $this->db->where('city', $city);
         }
+
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('title', $search);
+            $this->db->group_end(); 
+               }
     
         $this->db->where('deleted', NULL);
         $this->db->group_by('j.id'); // Group by job ID to ensure distinct records

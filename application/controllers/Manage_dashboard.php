@@ -36,22 +36,20 @@ class Manage_dashboard extends CI_Controller
         }
         else if($this->session->userdata['rolecode']=='2'){
 			$category_type = $this->Manage_Dashboard_Model->getUserCategory();
-			$data['Assignedjob'] = $this->Manage_Dashboard_Model->Assignedjob($category_type->category_id);
-			$data['Shortlistjob'] = $this->Manage_Dashboard_Model->Shortlistjob($category_type->category_id);
+			$data['Assignedjob'] = $this->Manage_Dashboard_Model->Assignedjob($dateRange);
+			$data['Shortlistjob'] = $this->Manage_Dashboard_Model->Shortlistjob($dateRange);
 			$data['appliedjob'] = $this->Manage_Dashboard_Model->appliedjob();
-			$data['approved_job'] = $this->Manage_Dashboard_Model->approvedjob($category_type->category_id);
-			$data['jobInfo'] = $this->Manage_Dashboard_Model->getapprovedjobs($category_type->category_id);
+			$data['approved_job'] = $this->Manage_Dashboard_Model->approvedjob($category_type->category_id,$dateRange);
+			$data['jobInfo'] = $this->Manage_Dashboard_Model->getapprovedjobs($category_type->category_id,$dateRange);
             $this->load->view('candidates-dashboard',$data);
         }
 		else if($this->session->userdata['rolecode']=='3'){
-			
-			
 	
-            $data['total_job']    = $this->Manage_Dashboard_Model->totaljob();
-			$data['approved_job'] = $this->Manage_Dashboard_Model->approvedjob();
-			$data['Assignedjob']  = $this->Manage_Dashboard_Model->Assignedjob();
+            $data['total_job']    = $this->Manage_Dashboard_Model->totaljob($dateRange);
+			$data['approved_job'] = $this->Manage_Dashboard_Model->approvedjob(null,$dateRange);
+			$data['Assignedjob']  = $this->Manage_Dashboard_Model->Assignedjob($dateRange);
             $data['pendingjob']   = $this->Manage_Dashboard_Model->pendingjob();
-			$data['Shortlistjob'] = $this->Manage_Dashboard_Model->Shortlistjob();
+			$data['Shortlistjob'] = $this->Manage_Dashboard_Model->Shortlistjob($dateRange);
 			$data['jobInfo']      = $this->Candidate_Model->getalljobs();
             $this->load->view('company-dashboard',$data);
         }
@@ -64,10 +62,11 @@ class Manage_dashboard extends CI_Controller
         $status =$this->input->get('status');
         $country = $this->input->get('country');
         $city = $this->input->get('city');
+        $search = $this->input->get('search');
         
          // Pagination configuration
          $config['base_url'] = base_url('Manage_dashboard/jobs?status=' . urlencode($status)); // Base URL with status
-         $config['total_rows'] = $this->Manage_Dashboard_Model->countJob($status,$country,$city); 
+         $config['total_rows'] = $this->Manage_Dashboard_Model->countJob($status,$country,$city,$search); 
        
          $per_page = $this->config->item('per_page') + 2;
          $config['per_page'] = $per_page; // Set items per page
@@ -80,7 +79,7 @@ class Manage_dashboard extends CI_Controller
      
          // Calculate offset based on page
          $offset = ($page - 1) * $per_page;
-         $data['jobInfo'] = $this->Manage_Dashboard_Model->gettotaljob($per_page,$offset,$status,$country,$city);
+         $data['jobInfo'] = $this->Manage_Dashboard_Model->gettotaljob($per_page,$offset,$status,$country,$city,$search);
        
         
         $this->load->view('includes/d-header.php');
@@ -169,24 +168,6 @@ class Manage_dashboard extends CI_Controller
         $this->load->view('includes/d-footer.php'); 
        
     }
-    public function getApprovedJobs()
-    {   
-        $this->load->view('includes/d-header.php');
-		$data['jobInfo'] = $this->Manage_Dashboard_Model->getapprovedjobs();
-		$this->load->view('getApprovedJob',$data);
-           
-        $this->load->view('includes/d-footer.php'); 
-       
-    }
-    public function getPendingJobs()
-    {   
-        $this->load->view('includes/d-header.php');
-		$data['jobInfo'] = $this->Manage_Dashboard_Model->getpendingjobs();
-		$this->load->view('getPendingJob',$data);
-           
-        $this->load->view('includes/d-footer.php'); 
-       
-    }
     public function getAvailableJobs()
     {   
         $this->load->view('includes/d-header.php');
@@ -210,6 +191,35 @@ class Manage_dashboard extends CI_Controller
         $this->load->view('includes/d-header.php');
 		$data['jobInfo'] = $this->Manage_Dashboard_Model->getAssignedjob();
 		$this->load->view('getAssignedJob',$data);
+           
+        $this->load->view('includes/d-footer.php'); 
+       
+    }
+
+    public function getTotalJob()
+    {   
+        $this->load->view('includes/d-header.php');
+		$data['jobInfo'] = $this->Manage_Dashboard_Model->gettotaljob();
+		$this->load->view('getTotalJob',$data);
+           
+        $this->load->view('includes/d-footer.php'); 
+       
+    }
+
+    public function getApprovedJobs()
+    {   
+        $this->load->view('includes/d-header.php');
+		$data['jobInfo'] = $this->Manage_Dashboard_Model->getapprovedjobs();
+		$this->load->view('getApprovedJob',$data);
+           
+        $this->load->view('includes/d-footer.php'); 
+       
+    }
+    public function getPendingJobs()
+    {   
+        $this->load->view('includes/d-header.php');
+		$data['jobInfo'] = $this->Manage_Dashboard_Model->getpendingjobs();
+		$this->load->view('getPendingJob',$data);
            
         $this->load->view('includes/d-footer.php'); 
        

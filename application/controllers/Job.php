@@ -90,7 +90,7 @@ class Job extends CI_Controller
         $decrypted_id = $this->encrypt->decode($uid);
         $data['jobInfo'] = $this->Job_Model->deleteJob($decrypted_id);
         $this->session->set_flashdata('error', 'Job has been deleted successfully');
-        redirect('Job/approved_jobs');
+        redirect('Manage_dashboard/jobs?status=all');
     }
 
     public function applicant_details($uid)
@@ -159,7 +159,21 @@ class Job extends CI_Controller
 
     }
 
-    public function update_job()
+    public function edit_job()  {
+        $id =$this->input->get('id');
+        
+        $data['job'] = $this->Job_Model->getJobDetails($id);
+       
+        $data['userInfo'] = null;
+        $data['countryInfo'] = $this->Candidate_Model->getcountry();
+        $data['catInfo'] = $this->Job_Model->getjobcategory();
+        $data['cityInfo'] = $this->Company_Model->getcity();
+        $this->load->view('includes/d-header.php');
+        $this->load->view('edit-job', $data);
+        $this->load->view('includes/d-footer.php');
+    }
+
+    public function post_job()
     {
 
         $title = $this->input->post('title');
@@ -214,16 +228,32 @@ class Job extends CI_Controller
 
     }
 
-    public function editJob()
+    public function updateJob()
     {
+        $j_id = $this->input->post('job_id');
+        $uid = str_replace(array('_'), array('/'), $j_id);
+        $decrypted_id = $this->encrypt->decode($uid);
+        $title = $this->input->post('title');
+        $apply_date = $this->input->post('apply_date');
+        $description = $this->input->post('description');
+        $category = $this->input->post('category');
+        $career = $this->input->post('career');
+        $positions = $this->input->post('positions');
+        $country = $this->input->post('country');
+        $city = $this->input->post('city');
+        $experience = $this->input->post('experience');
+        $address = $this->input->post('address');
+        $type = $this->input->post('type');
+        $job_lat = $this->input->post('job_lat');
+        $job_long = $this->input->post('job_long');
+        $job_price = $this->input->post('job_price');
 
-        $cat_id = $this->input->post('Job_id');
-        $name = filter_var($this->input->post('name'), FILTER_SANITIZE_STRING);
-        $userInfo = array('name' => $name);
-        $result = $this->Job_Model->edit_Job($userInfo, $cat_id);
+
+        $result = $this->Job_Model->update_Job($title, $description, $category, $career, $positions, $country, $experience, $address,$apply_date, $type,$city, $job_lat, $job_long, $job_price,$decrypted_id);
+
         if ($result == true) {
             $this->session->set_flashdata('success', 'Job Updated successfully.');
-            return redirect('Job');
+            return redirect('Manage_dashboard/Home');
         } else {
             $this->session->set_flashdata('error', 'Something went wrong. Please try again with valid format.');
             redirect('Job');
@@ -306,7 +336,6 @@ class Job extends CI_Controller
             redirect('Job');
 
         }
-
     }
     public function shortlistapplicant($uid, $uid1)
     {
@@ -429,6 +458,7 @@ class Job extends CI_Controller
         $distance = $R * $c;
         return $distance; // in km
     }
+    
     
 
 }
