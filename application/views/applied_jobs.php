@@ -55,13 +55,13 @@
                      <ul class="job-tag-list">	
                         <td><li><?php if($row->career==1) {
 							
-							 echo Basic; 
+							 echo "Basic"; 
 						}
 						if($row->career==2){
-							echo Intermediate;
+							echo "Intermediate";
 						}
 						if($row->career==3){
-						   echo Advance;
+						   echo "Advance";
 						}
 						?></li></td>
 						
@@ -71,10 +71,10 @@
                         <li><i class="ri-time-line"></i> 
 						<td><?php if($row->type==1) {
 							
-							 echo PartTime; 
+							 echo "PartTime"; 
 						}
 						if($row->type==2){
-							echo FullTime;
+							echo "FullTime";
 						}
 						
 						?></td></li>
@@ -82,13 +82,13 @@
 					 <ul class="job-tag-list">	
                         <td><li><?php if($row->short_list==0) {
 							
-							 echo Pending; 
+							 echo "Pending"; 
 						}
 						if($row->short_list==1){
-							echo ShortList;
+							echo "ShortList";
 						}
 						if($row->short_list==11){
-							echo Assigned;
+							echo "Assigned";
 						}
 						
 						?></li></td>

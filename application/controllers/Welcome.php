@@ -10,7 +10,8 @@ class Welcome extends CI_Controller {
 		$this->load->model('Candidate_Model');
         $this->load->model('Email_Model');  
 		$this->load->model('Category_Model');
-        
+		$this->load->helper('clear_session');
+        set_no_cache_headers();  
 		
     }
     

@@ -18,6 +18,8 @@ class Candidate extends CI_Controller
         if (!$this->session->userdata['user_id']) {
             redirect('Welcome');
         }
+        $this->load->helper('clear_session');
+        set_no_cache_headers();        
     }
     public function index()
     {

@@ -13,6 +13,8 @@ class Manage_dashboard extends CI_Controller
         $this->load->model('Manage_Dashboard_Model');
 		$this->load->model('Applicant_Model');
         $this->load->library('pagination');
+        $this->load->helper('clear_session');
+        set_no_cache_headers();  
 
     }
     public function Home()

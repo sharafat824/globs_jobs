@@ -2,11 +2,19 @@
     <div class="breadcrumb-area">
         <h1>Welcome!</h1>
         <ol class="breadcrumb">
-            
+
             <li class="item">Dashboard</li>
         </ol>
     </div>
     <div class="dashboard-fun-fact-area">
+        <?php if ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger alert-dismissible" role="alert" id="error-alert">
+                <?php echo $this->session->flashdata('error'); ?>
+                <button onclick="clearFlashError()" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+            </div>
+        <?php endif; ?>
+
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="stats-fun-fact-box">

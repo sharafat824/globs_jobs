@@ -17,7 +17,10 @@ class Job extends CI_Controller
         // Check if the user is not logged in and the current method is not 'job_details'
         if (!$this->session->userdata['user_id'] && $this->router->fetch_method() !== 'job_details') {
             redirect('Welcome');
+
         }
+        $this->load->helper('clear_session');
+        set_no_cache_headers();  
     }
     public function index()
     {
