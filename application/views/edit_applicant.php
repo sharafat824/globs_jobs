@@ -53,9 +53,9 @@ if (isset($userInfo) != NULL) {
                 <!-- <div class="col-lg-5 col-md-12">
                     <div class="candidates-details-sticky">
                         <div class="candidates-details-information"> -->
-                        <div class="my-profile-box">
-                                <h2 class="my-4 text-center ">Edit User Information</h2>
-                                <?= form_open_multipart('user/update_user_info', ['method' => 'POST']) ?>
+                        <div class="my-profile-box ">
+                                <h2 class="all-applicants-h2  px-4 my-3">Edit User Information</h2>
+                         <?= form_open_multipart('Manage_applicant/updateApllicant?id='.$encrypted_id, ['method' => 'POST']) ?>
                                 <div class="card">
                                     <div class="card-body p-4">
                                         <div class="row">

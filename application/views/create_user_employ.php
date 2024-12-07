@@ -28,12 +28,12 @@
             <li class="item">Create Employee</li>
         </ol>
     </div>
-    <div class="my-profile-box">
+    <div class="my-profile-box ">
        
         <?php echo form_open_multipart('Candidate/StoreCandidateAdmin'); ?>
 
-        <div class="my-profile-box">
-            <h3 class="px-3">Create employee</h3>
+        <div class="">
+                <h2 class="px-3 mb-4 all-applicants-h2">Create employee</h2>
             <?php if ($this->session->flashdata('error')): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error-alert">
                     <?php echo $this->session->flashdata('error'); ?>
