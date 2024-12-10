@@ -12,6 +12,9 @@
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         padding: 5px 10px !important;
     }
+    .select2-container {
+    width: 15rem !important; 
+}
 </style>
 
 <?php
@@ -42,25 +45,26 @@ $CI->load->model('Job_Model');
         </div>
         <div class="d-flex justify-content-center">
             <div class="mb-5">
-                <form action="<?php echo base_url(); ?>/Manage_dashboard/jobs" method="GET" class="row g-3">
+                <form action="<?php echo base_url(); ?>/Manage_dashboard/jobs" method="GET" class="">
                     <div class="form-group input-group">
                         <!-- <input type="text" id="date_range" name="date_range" class="form-control"
 								value="<?php echo $this->input->get('date_range'); ?>"
 								required placeholder="Select date range"> -->
                         <input type="hidden" name="status" value="<?php echo $status  ?>">
-                        <div class="d-flex">
-                            <input type="text" style="height: 40px;width:22rem;border:1px solid #ababab;background:transparent" class="form-control" name="search" placeholder="Search...">
-                            <select id="country" name="country" class="form-control">
+                        <div class="d-flex justify-content-center gap-2 flex-column flex-md-row text-center align-items-center ">
+                            <input type="search" style="height: 40px;width:15rem;border:1px solid #ababab;background:transparent" class="form-control mb-2 mb-md-0" name="search" placeholder="Search...">
+                            <div class="d-flex gap-2 flex-column flex-md-row  ">
+                            <select id="country" name="country" class="form-control  ">
                                 <option value="">All Countries</option>
                             </select>
-                            <select id="town" name="city" class="form-control">
+                            <select id="town" name="city" class="form-control ">
                                 <option value="">All Cities</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-warning text-white input-group-text">
-                            <i class="bi bi-search"></i>Search
-                        </button>
+                            </select></div>
+                            <div>
+                                <button type="submit" class="default-btn mb-2 mb-md-0" style=" padding: 8px 54px 8px 20px !important;">
+                                    <i class="bi bi-search"></i>Search
+                                </button></div>
+                            </div>
                     </div>
                 </form>
             </div>

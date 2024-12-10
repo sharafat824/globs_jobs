@@ -16,7 +16,7 @@
         <form action="<?php echo base_url(); ?>/Manage_dashboard/Home" method="GET" class="row g-3">
             <div class="col-md-4">
                 <div class="form-group input-group">
-                    <input type="text" id="date_range" name="date_range" class="form-control"
+                    <input type="search" id="date_range" name="date_range" class="form-control"
                         value="<?php echo $this->input->get('date_range'); ?>"
                         required placeholder="Select date range">
                     <button type="submit" class="btn btn-warning text-white input-group-text">

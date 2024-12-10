@@ -22,20 +22,15 @@
 			<li class="item"><?php echo $status ?> Companies</li>
 		</ol>
 	</div>
-
-	<div class="all-applicants-box">
-		<div class="d-flex justify-content-between align-items-center">
-			<div>
-				<h2>Companies</h2>
-			</div>
-			<div>
+	<div class="d-flex justify-content-center text-center align-items-center">
 				<form action="<?php echo base_url(); ?>/Company/company" method="GET" class="row g-3">
 					<div class="form-group input-group">
 						<!-- <input type="text" id="date_range" name="date_range" class="form-control"
 								value="<?php echo $this->input->get('date_range'); ?>"
 								required placeholder="Select date range"> -->
 						<input type="hidden" name="status" value="<?php echo $status  ?>">
-						<div class="d-flex">
+						<div class="d-flex justify-content-center gap-3 flex-column flex-md-row text-center align-items-center mb-2">
+							<div class="d-flex gap-3 flex-column flex-md-row "> 
 						<select id="country" name="country" class="form-control">
 							<option value="">All Countries</option>
 						</select>
@@ -43,13 +38,21 @@
 							<option value="">All Cities</option>
 						</select>
 						</div>
-						
-						<button type="submit" class="btn btn-warning text-white input-group-text">
+						<div>  
+						<button type="submit" class="default-btn" style=" padding: 8px 54px 8px 20px !important;">
 							<i class="bi bi-search"></i>Search
 						</button>
+						</div>
+					</div>
 					</div>
 				</form>
 			</div>
+	<div class="all-applicants-box">
+		<div class="d-flex justify-content-between align-items-center">
+			<div>
+				<h2>Companies</h2>
+			</div>
+			
 			<div>
 				<a href="<?php echo base_url() . 'Company/CreateCompanyAdmin' ?>" class="default-btn default-btn-0"><i class="bi bi-plus"></i>Add</a>
 			</div>
