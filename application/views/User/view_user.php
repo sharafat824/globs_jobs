@@ -18,19 +18,15 @@
 <div class="all-applicants-box">
 
                 <div class="card">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-
-                            <h4 style="margin-left:30px; margin-top:50px;">Manage User</h4>
-
+                    <div class="row  text-center text-md-start px-4 my-4">
+                        <div class="col-md-10  ">
+                            <h4>Manage User</h4>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-2 mt-2 mt-md-0">
                             <?php //if (authorize($_SESSION["access"]["ADMIN"]["User"]["create"])) { ?>
-
-                                <button class="default-btn pull-right" style="margin-top:50px; border:none; margin-right:30px"; display:block;>
-                                        <a href="<?php echo site_url('User/addNew') ?>" style="color:#fff; text-decoration:none;">Add User</a>
+                                <button class="default-btn pull-right  " >
+                                        <a class="text-white" href="<?php echo site_url('User/addNew') ?>" >Add User</a>
                                 </button>
-
                             <?php //} ?>			
                         </div>
                     </div>
@@ -47,7 +43,7 @@
                                         <th>Sr#</th>
                                         <th>Username</th>
                                         <th>Email</th>
-                                        <th>Action</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

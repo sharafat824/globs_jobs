@@ -180,7 +180,7 @@
 
         <div class="col-md-3 mb-2">
             <div id="example_filter" class="dataTables_filter">
-                <input type="search" class="form-control form-control-sm" placeholder="Search by Name, Email" aria-controls="example">
+                <input type="search" class=" form-control-sm w-100" placeholder="Search by Name, Email" aria-controls="example">
             </div>
         </div>
     </div>

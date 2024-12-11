@@ -18,7 +18,7 @@ if (isset($userInfo) && $userInfo != NULL) {
          <h1>Company Information</h1>
          <ol class="breadcrumb">
             <li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
-            <li class="item"><a href="<?php echo base_url()?>Company/allcompany">All company</a></li>
+            <li class="item"><a href="<?php echo base_url()?>Company/company">All company</a></li>
             <li class="item">Company Information</li>
          </ol>
       </div>

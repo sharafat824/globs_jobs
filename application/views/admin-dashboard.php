@@ -19,7 +19,7 @@
                     <input type="search" id="date_range" name="date_range" class="form-control"
                         value="<?php echo $this->input->get('date_range'); ?>"
                         required placeholder="Select date range">
-                    <button type="submit" class="btn btn-warning text-white input-group-text">
+                    <button type="submit" class="default-btn">
                         <i class="bi bi-search"></i>
                     </button>
                 </div>

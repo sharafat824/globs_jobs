@@ -10,7 +10,7 @@ $CI->load->model('Job_Model');
 		<h1>Approved Jobs</h1>
 		<ol class="breadcrumb">
 			<li class="item"><a href="<?php echo base_url()?>Manage_dashboard/Home">Dashboard</a></li>
-            <li class="item"><a href="<?php echo base_url()?>Company/allcompany">All company</a></li>
+            <li class="item"><a href="<?php echo base_url()?>Company/company">All company</a></li>
 			<li class="item">Approved Jobs</li>
 		</ol>
 	</div>
